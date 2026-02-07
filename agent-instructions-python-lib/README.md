@@ -8,9 +8,12 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-python-l
 ```
 
 ## Quick start
-1) Plan: `plan library for TICKET-ID` → `docs/TICKET-ID-plan.md`
-2) Execute: `execute plan 1 for TICKET-ID`
-3) Verify: `pytest && flake8 && mypy`
+1) Set up your workflow:
+   - Create `agent-config.md` in your project root
+   - Choose: Ticketing integration OR manual `tickets/TICKET-ID.md` files
+2) Plan: `plan library for TICKET-ID` → `docs/TICKET-ID-plan.md`
+3) Execute: `execute plan 1 for TICKET-ID`
+4) Verify: `pytest && flake8 && mypy`
 
 ## License
 GNU GPL v3.0

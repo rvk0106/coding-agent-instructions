@@ -28,9 +28,11 @@ rm -rf /tmp/agent-instructions-springboot
 
 ## Quick start
 1) Install (see above methods)
-2) Connect to your ticketing system:
-   - Set up Linear API token: `export LINEAR_API_TOKEN="your_token"`
-   - Or configure MCP server
+2) Set up your workflow:
+   - Create `agent-config.md` in your project root
+   - Choose your ticket source:
+     - **Option A**: Configure ticketing integration (Linear, Jira, GitHub Issues)
+     - **Option B**: Create `tickets/` folder and add `TICKET-ID.md` files manually
 3) Start planning:
    - Command: `plan architecture for TICKET-ID`
    - Output: `docs/TICKET-ID-plan.md`

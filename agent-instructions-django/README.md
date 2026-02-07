@@ -11,11 +11,16 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-django/m
 ```
 
 ## Quick start
-1) Install and connect to ticketing system
-2) Plan: `plan architecture for TICKET-ID` → saves to `docs/TICKET-ID-plan.md`
-3) Execute: `execute plan 1 for TICKET-ID`
-4) Verify: `python manage.py test && flake8`
-5) Stop and wait for review
+1) Install (see above)
+2) Set up your workflow:
+   - Create `agent-config.md` in your project root
+   - Choose your ticket source:
+     - **Option A**: Configure ticketing integration (Linear, Jira, GitHub Issues)
+     - **Option B**: Create `tickets/` folder and add `TICKET-ID.md` files manually
+3) Plan: `plan architecture for TICKET-ID` → saves to `docs/TICKET-ID-plan.md`
+4) Execute: `execute plan 1 for TICKET-ID`
+5) Verify: `python manage.py test && flake8`
+6) Stop and wait for review
 
 ## Recommended loop
 Connect → Plan → Execute Phase N → Verify → Stop → Repeat

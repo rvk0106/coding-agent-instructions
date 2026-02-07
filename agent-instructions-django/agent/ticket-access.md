@@ -51,7 +51,9 @@ The agent will automatically detect and use the best available method based on y
 
 ## Workflow
 1) **Connect**: Check `agent-config.md` for connection method
-2) **Fetch**: Retrieve ticket data using the configured method
+2) **Fetch**: Retrieve ticket data using the configured method:
+   - **If ticketing system configured**: Use MCP or Direct API
+   - **If manual mode**: Read from `tickets/TICKET-ID.md`
 3) **Normalize**: Convert raw data into a structured digest:
    - Ticket ID / Identifier
    - Title
@@ -63,3 +65,35 @@ The agent will automatically detect and use the best available method based on y
    - Expected API changes (if applicable)
    - Data model impact (if applicable)
 4) **Save**: This normalized ticket will be the input for the planner.
+
+## Manual Ticket Format
+If using the manual `tickets/` folder approach, create files like `tickets/PROJ-123.md`:
+
+```markdown
+# [PROJ-123] Feature Title
+
+## Description
+Detailed description of the feature or bug.
+
+## Acceptance Criteria
+- [ ] Criterion 1
+- [ ] Criterion 2
+- [ ] Criterion 3
+
+## Constraints
+- Performance: Must handle 1000 requests/sec
+- Compatibility: Must work with Rails 7.x
+
+## Non-goals
+- Not implementing feature X
+- Not refactoring module Y
+
+## Technical Notes
+- Database migration required
+- New API endpoint needed
+- Cache invalidation strategy
+
+## Links
+- Design: [Figma link]
+- API Spec: [Swagger link]
+```

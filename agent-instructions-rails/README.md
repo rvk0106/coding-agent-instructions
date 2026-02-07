@@ -46,9 +46,11 @@ cd agent-instructions-rails-main
 
 ## Quick start
 1) Install (see above methods)
-2) Connect to your ticketing system:
-   - Set up Linear API token: `export LINEAR_API_TOKEN="your_token"`
-   - Or configure MCP server
+2) Set up your workflow:
+   - Create `agent-config.md` in your project root
+   - Choose your ticket source:
+     - **Option A**: Configure ticketing integration (Linear, Jira, GitHub Issues)
+     - **Option B**: Create `tickets/` folder and add `TICKET-ID.md` files manually
 3) Start planning:
    - Command: `plan architecture for TICKET-ID`
    - Output: `docs/TICKET-ID-plan.md`
@@ -56,6 +58,51 @@ cd agent-instructions-rails-main
    - Command: `execute plan 1 for TICKET-ID`
    - Agent reads from `docs/TICKET-ID-plan.md`
 5) Verify, review, and approve before continuing.
+
+## Configuration
+
+### agent-config.md Template
+Create this file in your project root:
+
+```markdown
+# Agent Configuration
+
+## Ticketing System
+System: [Linear|Jira|GitHub Issues|Manual]
+API Token Location: [ENV variable or leave empty for manual]
+Project/Team ID: [your-project-id or N/A]
+
+## Connection Method
+Preferred: [MCP|Direct API|Manual]
+Fallback: Manual
+
+## Ticket Source
+- If using API/MCP: Agent will fetch tickets automatically
+- If using Manual: Create tickets/ folder and add TICKET-ID.md files
+```
+
+### Manual Ticket Management
+If you prefer not to integrate with a ticketing system:
+
+1. Create a `tickets/` folder in your project root
+2. For each ticket, create `tickets/TICKET-ID.md` with this format:
+
+```markdown
+# [TICKET-ID] Ticket Title
+
+## Description
+[Detailed description]
+
+## Acceptance Criteria
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+## Constraints
+- Constraint 1
+
+## Technical Notes
+[Any technical details]
+```
 
 ## Repository layout
 ```
