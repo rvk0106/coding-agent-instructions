@@ -3,11 +3,11 @@ set -euo pipefail
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="${1:-}"
-MARKER_START="# >>> agent-instructions-rails"
-MARKER_END="# <<< agent-instructions-rails"
+MARKER_START="# >>> agent-instructions-django"
+MARKER_END="# <<< agent-instructions-django"
 
 if [[ -z "$TARGET_DIR" ]]; then
-  echo "Usage: ./install.sh /path/to/rails/repo"
+  echo "Usage: ./install.sh /path/to/django/project"
   exit 1
 fi
 
@@ -66,9 +66,9 @@ copy_agent_dir
 mkdir -p "$TARGET_DIR/docs"
 echo "Created docs/ directory for plans"
 
-COPILOT_BLOCK="Follow agent/master-instructions.md as the single source of truth. Plan first, execute one phase at a time, verify, then stop for review."
+COPILOT_BLOCK="Follow agent/master-instructions.md as the single source of truth for Django development. Plan first, execute one phase at a time, verify, then stop for review."
 CURSOR_BLOCK="Follow agent/master-instructions.md. Planning and execution are separate; no phase auto-continue."
-CLAUDE_BLOCK="Use agent/master-instructions.md as your system prompt or initial context."
+CLAUDE_BLOCK="Use agent/master-instructions.md as your system prompt or initial context for Django development."
 
 append_block_if_missing "$TARGET_DIR/.github/copilot-instructions.md" "$COPILOT_BLOCK"
 append_block_if_missing "$TARGET_DIR/.cursorrules" "$CURSOR_BLOCK"
@@ -90,7 +90,7 @@ Next steps:
    - Saves to: docs/TICKET-ID-plan.md
 3) Execute: "execute plan 1 for TICKET-ID"
    - Reads from: docs/TICKET-ID-plan.md
-4) Verify: run tests and lint for changed files
+4) Verify: python manage.py test && flake8
 5) Stop: wait for human review before continuing to next phase
 
 EOF
