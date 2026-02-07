@@ -41,15 +41,38 @@ Pick the directory matching your project type from the list above.
 
 ### 2. Install
 From your project root:
+
+#### Backend Frameworks
 ```bash
-# Rails example
+# Rails
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/install.sh | bash -s .
 
-# Spring Boot example
+# Spring Boot
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-springboot/install.sh | bash -s .
 
-# React example
+# Django
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-django/install.sh | bash -s .
+
+# Express.js
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-express/install.sh | bash -s .
+```
+
+#### Frontend Frameworks
+```bash
+# React
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-react/install.sh | bash -s .
+```
+
+#### Libraries/Packages
+```bash
+# Python Library
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-python-lib/install.sh | bash -s .
+
+# Node.js Library
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-node-lib/install.sh | bash -s .
+
+# Ruby Gem
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-ruby-gem/install.sh | bash -s .
 ```
 
 Or clone the entire repository and run install script:
