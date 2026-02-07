@@ -3,42 +3,40 @@
 ## Purpose
 Standardize how ticket data is fetched and normalized for planning.
 
+## Configuration
+All ticket system configuration (API tokens, project IDs, team IDs, etc.) should be defined in your project's `agent-config.md` file.
+
 ## Supported systems
 - Linear (via API token or MCP)
 - Jira (via API token or MCP)
 - GitHub Issues (via API or MCP)
+- Manual paste
 
-## Connection methods
+## Setup
+1. Create `agent-config.md` in your project root
+2. Add your ticketing system configuration (see template below)
+3. Agent will read configuration from that file when fetching tickets
 
-### Method 1: Linear API (Direct)
-```bash
-linear_issue() {
-  local ISSUE_ID="$1"
-  local TOKEN="${LINEAR_API_TOKEN:-$(rails runner "puts ENV['LINEAR_API_TOKEN']")}" 
+## agent-config.md Template
+```markdown
+# Agent Configuration
 
-  if [ -z "$TOKEN" ]; then
-    echo "Error: LINEAR_API_TOKEN not found in environment variables"
-    echo "Please set LINEAR_API_TOKEN in your Rails environment or .env file"
-    return 1
-  fi
+## Ticketing System
+System: [Linear|Jira|GitHub Issues]
+API Token Location: [ENV variable or config file location]
+Project/Team ID: [your-project-id]
+Additional Context: [any project-specific details]
 
-  curl -s https://api.linear.app/graphql \
-    -H "Content-Type: application/json" \
-    -H "Authorization: $TOKEN" \
-    -d @- <<EOF | jq
-{
-  "query": "query { issue(id: \"$ISSUE_ID\") { id identifier title description state { name } assignee { name } createdAt updatedAt } }"
-}
-EOF
-}
+## Connection Method
+Preferred: MCP (if available)
+Fallback: Direct API
 ```
 
-### Method 2: MCP (Model Context Protocol)
-- If MCP server is configured, use MCP tools to fetch ticket data.
-- This is preferred when available for richer context.
-
-### Method 3: Manual paste
-- If neither API nor MCP is available, ask the user to paste ticket details.
+## Connection methods
+The agent will automatically detect and use the best available method based on your `agent-config.md`:
+1. **MCP (Model Context Protocol)**: Preferred when configured
+2. **Direct API**: Using tokens from environment variables or config files
+3. **Manual paste**: When neither MCP nor API is configured
 
 ## Required fields
 - Ticket ID / Identifier
@@ -49,11 +47,11 @@ EOF
 - Non‑goals
 - Links and attachments
 - Owner and priority (if available)
-- Rails-specific scope notes (models, controllers, routes, jobs, migrations)
+- Framework-specific scope notes
 
 ## Workflow
-1) **Connect**: Try MCP first, then API token, then ask for manual paste.
-2) **Fetch**: Retrieve ticket data using the available method.
+1) **Connect**: Check `agent-config.md` for connection method
+2) **Fetch**: Retrieve ticket data using the configured method
 3) **Normalize**: Convert raw data into a structured digest:
    - Ticket ID / Identifier
    - Title
@@ -61,7 +59,7 @@ EOF
    - Acceptance criteria (bullets)
    - Constraints / non‑goals
    - Links / attachments
-   - Expected scope (models, controllers, services, routes, jobs, tests)
-   - Expected API endpoints (if applicable)
+   - Expected scope (components, files, tests)
+   - Expected API changes (if applicable)
    - Data model impact (if applicable)
 4) **Save**: This normalized ticket will be the input for the planner.
