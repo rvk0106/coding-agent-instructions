@@ -28,6 +28,29 @@ A collection of reusable instruction files that enforce:
 
 Works with all major AI coding agents: **Claude Code, GitHub Copilot, Cursor, Windsurf, Cline, OpenAI Codex CLI, and ChatGPT**. See [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md) for the full compatibility matrix.
 
+## 🤖 How to Enable for Each Agent
+
+After you run **Step 2 (Install)** above, the installer creates the right config file for each agent. Here is what each tool uses and what you need to do.
+
+| Agent | Config file (created by install) | What you do to enable |
+|-------|-----------------------------------|------------------------|
+| **Cursor** | `.cursorrules` and `.cursor/rules/agent-instructions.mdc` | Nothing. Open the project in Cursor; it reads these automatically. |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | **VS Code:** Settings → search "instruction file" → enable **Code Generation: Use Instruction Files**. **GitHub.com:** repo instructions are used by default when the repo is attached to Copilot Chat. |
+| **Claude Code** | `CLAUDE.md` | Nothing. Start Claude Code in this project; it loads `CLAUDE.md` from the repo root automatically. |
+| **Windsurf (Codeium)** | `.windsurfrules` | Nothing. Open the project in Windsurf; it reads `.windsurfrules` from the project root automatically. |
+| **Cline** | `.clinerules` | Nothing. Open the project in Cline; it reads `.clinerules` from the project root automatically. |
+| **OpenAI Codex CLI** | `AGENTS.md` | Nothing. Run the Codex CLI in this project; it uses `AGENTS.md` as agent instructions automatically. |
+| **ChatGPT** | _(no file)_ | **Manual:** Copy the contents of `agent/master-instructions.md` and paste into the system prompt or first message. Or tell the agent to follow `AGENTS.md` and the `agent/` folder if you have the project in context. |
+
+### Quick checklist
+
+1. **Run the install** for your framework (see [Quick Start](#-quick-start) above).
+2. **Pick your agent** in the table above — for Cursor, Copilot, Claude Code, Windsurf, Cline, or Codex CLI you don’t need to do anything else; the right file is already there.
+3. **Verify:** In your agent, ask: *“What are your instructions for planning and executing work?”* — it should describe plan-first, phase-by-phase execution and reading from `docs/TICKET-ID-plan.md`.
+4. **ChatGPT only:** Paste `agent/master-instructions.md` (or point to `AGENTS.md` + `agent/`) at the start of the conversation.
+
+For more detail (what gets created, capability matrix, multi-agent teams), see [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md).
+
 ## 🚫 What This Is NOT
 
 - Not an agent framework or library
