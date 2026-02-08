@@ -10,3 +10,4 @@ Standard process for ticket lifecycle: plan → implement → test → update do
 | [implementation.md](implementation.md) | Writing code during a phase |
 | [testing.md](testing.md) | Verifying a phase |
 | [maintenance.md](maintenance.md) | After completing a ticket |
+| [prompts.md](prompts.md) | Pre-built prompts for common tasks |

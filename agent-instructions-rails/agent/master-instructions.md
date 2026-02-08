@@ -33,15 +33,20 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 - `infrastructure/dependencies.md` → gems, external services, APIs
 - `infrastructure/tooling.md` → linters, test commands, CI/CD
 - `infrastructure/deployment.md` → hosting, deploy process
+- `infrastructure/security.md` → auth boundaries, tenant scoping, OWASP rules
 
 ### Architecture (technical design)
 - `architecture/system-design.md` → components, data flows, tenancy
 - `architecture/database.md` → schema, tables, relationships
 - `architecture/api-design.md` → endpoints, response shapes, versioning
 - `architecture/patterns.md` → design patterns, conventions, quality checklist
+- `architecture/error-handling.md` → HTTP codes, error shapes, exception mapping
+- `architecture/data-flow.md` → request lifecycle, middleware, auth/authz pipeline
+- `architecture/glossary.md` → domain terms, roles, statuses
 
 ### Features (how things work)
 - `features/` → one file per feature describing current behavior
+- `features/_CONVENTIONS.md` → serialization, query, and test patterns
 - Read relevant feature docs before modifying existing features
 
 ### Workflow (how we work)
@@ -51,6 +56,7 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 - `workflow/testing.md` → verification commands
 - `workflow/ticket-access.md` → how to fetch tickets
 - `workflow/maintenance.md` → what to update after completing a ticket
+- `workflow/prompts.md` → pre-built prompts for common tasks
 
 ## Maintenance Rule
 After every ticket: update `infrastructure/`, `architecture/`, or `features/` as needed.
