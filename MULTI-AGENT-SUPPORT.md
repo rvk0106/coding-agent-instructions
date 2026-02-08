@@ -7,7 +7,7 @@ This repository supports all major AI coding agents. The `install.sh` script aut
 | Agent | Config File | Auto-Created | How It Works |
 |-------|-------------|:------------:|--------------|
 | **Claude Code** | `CLAUDE.md` | Yes | Read automatically from project root |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | Yes | Read automatically in Copilot Chat |
+| **GitHub Copilot** | `.github/copilot-instructions.md` + `.vscode/settings.json` | Yes | Install enables instruction files for this workspace in VS Code; read automatically in Copilot Chat |
 | **Cursor** | `.cursorrules` | Yes | Read automatically on every interaction |
 | **Windsurf (Codeium)** | `.windsurfrules` | Yes | Read automatically from project root |
 | **Cline** | `.clinerules` | Yes | Read automatically from project root |
@@ -40,9 +40,13 @@ your-project/
 ├── .cursorrules                        # Cursor
 ├── .windsurfrules                      # Windsurf
 ├── .clinerules                         # Cline
+├── .vscode/
+│   └── settings.json                   # Enables Copilot instruction files for this workspace (VS Code)
 └── .github/
     └── copilot-instructions.md         # GitHub Copilot
 ```
+
+**GitHub Copilot (VS Code):** The installer creates or updates `.vscode/settings.json` with `github.copilot.chat.codeGeneration.useInstructionFiles: true` and `chat.useAgentsMdFile: true`, so you don’t need to enable “Use Instruction Files” in Settings manually for this project.
 
 ## How It Works
 

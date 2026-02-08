@@ -300,6 +300,50 @@ append_block_if_missing "$TARGET_DIR/.windsurfrules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/.clinerules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/AGENTS.md" "$AGENT_INSTRUCTIONS"
 
+# Enable Copilot instruction files for this workspace (so users don't need to enable in VS Code Settings)
+ensure_vscode_copilot_settings() {
+  local vsdir="$TARGET_DIR/.vscode"
+  local settings="$vsdir/settings.json"
+  mkdir -p "$vsdir"
+  local copilot_use='true'
+  local use_agents_md='true'
+  if [[ -f "$settings" ]]; then
+    if grep -q '"github.copilot.chat.codeGeneration.useInstructionFiles"' "$settings" 2>/dev/null; then
+      echo "Skip existing: .vscode/settings.json (Copilot instruction settings already present)"
+      return 0
+    fi
+    # Merge: add our keys without removing existing ones (requires Python or jq)
+    if command -v python3 &>/dev/null; then
+      python3 <<PY
+import json, os
+path = os.path.join("$TARGET_DIR", ".vscode", "settings.json")
+with open(path) as f:
+    data = json.load(f)
+data["github.copilot.chat.codeGeneration.useInstructionFiles"] = True
+data["chat.useAgentsMdFile"] = True
+with open(path, "w") as f:
+    json.dump(data, f, indent=2)
+PY
+      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+    elif command -v jq &>/dev/null; then
+      jq '. + {"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' "$settings" > "${settings}.tmp" && mv "${settings}.tmp" "$settings"
+      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+    else
+      echo "Note: .vscode/settings.json exists but python3/jq not found; add manually: github.copilot.chat.codeGeneration.useInstructionFiles = true"
+      return 0
+    fi
+  else
+    cat > "$settings" <<'VSCODE'
+{
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "chat.useAgentsMdFile": true
+}
+VSCODE
+    echo "Created .vscode/settings.json: Copilot instruction files enabled for this workspace"
+  fi
+}
+ensure_vscode_copilot_settings
+
 cat <<EOF
 
 Installation complete! ✅

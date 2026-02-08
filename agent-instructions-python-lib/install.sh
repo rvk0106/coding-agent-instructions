@@ -300,6 +300,40 @@ append_block_if_missing "$TARGET_DIR/.windsurfrules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/.clinerules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/AGENTS.md" "$AGENT_INSTRUCTIONS"
 
+# Enable Copilot instruction files for this workspace (VS Code)
+ensure_vscode_copilot_settings() {
+  local vsdir="$TARGET_DIR/.vscode"
+  local settings="$vsdir/settings.json"
+  mkdir -p "$vsdir"
+  if [[ -f "$settings" ]]; then
+    if grep -q '"github.copilot.chat.codeGeneration.useInstructionFiles"' "$settings" 2>/dev/null; then
+      echo "Skip existing: .vscode/settings.json (Copilot instruction settings already present)"
+      return 0
+    fi
+    if command -v python3 &>/dev/null; then
+      python3 -c "
+import json, os
+path = os.path.join('$TARGET_DIR', '.vscode', 'settings.json')
+with open(path) as f: data = json.load(f)
+data['github.copilot.chat.codeGeneration.useInstructionFiles'] = True
+data['chat.useAgentsMdFile'] = True
+with open(path, 'w') as f: json.dump(data, f, indent=2)
+"
+      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+    elif command -v jq &>/dev/null; then
+      jq '. + {"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' "$settings" > "${settings}.tmp" && mv "${settings}.tmp" "$settings"
+      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+    else
+      echo "Note: add to .vscode/settings.json: github.copilot.chat.codeGeneration.useInstructionFiles = true"
+      return 0
+    fi
+  else
+    echo '{"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' | python3 -m json.tool > "$settings" 2>/dev/null || printf '%s\n' '{"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' > "$settings"
+    echo "Created .vscode/settings.json: Copilot instruction files enabled for this workspace"
+  fi
+}
+ensure_vscode_copilot_settings
+
 cat <<EOF
 
 Installation complete! ✅

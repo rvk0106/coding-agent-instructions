@@ -35,7 +35,7 @@ After you run **Step 2 (Install)** above, the installer creates the right config
 | Agent | Config file (created by install) | What you do to enable |
 |-------|-----------------------------------|------------------------|
 | **Cursor** | `.cursorrules` and `.cursor/rules/agent-instructions.mdc` | Nothing. Open the project in Cursor; it reads these automatically. |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | **VS Code:** Settings → search "instruction file" → enable **Code Generation: Use Instruction Files**. **GitHub.com:** repo instructions are used by default when the repo is attached to Copilot Chat. |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | **Nothing.** The installer adds `.vscode/settings.json` so **Code Generation: Use Instruction Files** is enabled for this workspace in VS Code. On GitHub.com, repo instructions are used by default when the repo is attached to Copilot Chat. |
 | **Claude Code** | `CLAUDE.md` | Nothing. Start Claude Code in this project; it loads `CLAUDE.md` from the repo root automatically. |
 | **Windsurf (Codeium)** | `.windsurfrules` | Nothing. Open the project in Windsurf; it reads `.windsurfrules` from the project root automatically. |
 | **Cline** | `.clinerules` | Nothing. Open the project in Cline; it reads `.clinerules` from the project root automatically. |
