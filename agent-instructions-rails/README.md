@@ -4,7 +4,7 @@ A drop-in, tool-agnostic instruction system for using coding agents safely with 
 
 ## What this is
 - A set of reusable instruction files that enforce plan-first execution, phase isolation, and human review.
-- Works with Claude, ChatGPT, Cursor, Copilot, and other tools.
+- Works with Claude Code, GitHub Copilot, Cursor, Windsurf, Cline, Codex CLI, and ChatGPT.
 
 ## What this is not
 - Not an agent framework or library.
@@ -109,23 +109,45 @@ If you prefer not to integrate with a ticketing system:
 agent-instructions-rails/
 ├── README.md
 ├── install.sh
+├── LICENSE
 ├── agent/
-│   ├── master-instructions.md
-│   ├── principles-and-standards.md
-│   ├── ticket-access.md
-│   ├── planner-instructions.md
-│   ├── execution-contract.md
-│   ├── implementer-instructions.md
-│   ├── testing-instructions.md
+│   ├── master-instructions.md          # Entry point -- references everything below
+│   ├── infrastructure/                 # Environment & setup knowledge
+│   │   ├── environment.md             # Runtime, versions, DB, env vars
+│   │   ├── dependencies.md            # Gems, external services, APIs
+│   │   ├── tooling.md                 # Linters, test commands, CI/CD
+│   │   └── deployment.md             # Hosting, deploy process
+│   ├── workflow/                       # How we work
+│   │   ├── planning.md               # How to create phased plans
+│   │   ├── execution.md              # How to execute a single phase
+│   │   ├── implementation.md         # Coding conventions, file locations
+│   │   ├── testing.md                # Verification commands
+│   │   ├── ticket-access.md          # How to fetch tickets
+│   │   └── maintenance.md            # What to update after tickets
+│   ├── architecture/                   # Technical design
+│   │   ├── system-design.md          # Components, data flows, tenancy
+│   │   ├── database.md               # Schema, tables, relationships
+│   │   ├── api-design.md             # Endpoints, response shapes
+│   │   └── patterns.md               # Design patterns, conventions
+│   ├── features/                       # How features work
+│   │   ├── _TEMPLATE.md              # Copy for new features
+│   │   └── (one file per feature)
 │   └── examples/
 │       └── sample-ticket-plan.md
-├── tool-adapters/
-│   ├── claude.md
-│   ├── cursor.md
-│   ├── copilot.md
-│   └── chatgpt.md
-└── LICENSE
+└── tool-adapters/
+    ├── claude.md, copilot.md, cursor.md
+    ├── windsurf.md, cline.md, codex.md
+    └── chatgpt.md
 ```
+
+## Instruction Categories
+
+| Category | Purpose | Update Trigger |
+|----------|---------|----------------|
+| **infrastructure/** | Environment, deps, tooling, deploy | Infra changes (tag with ticket ID) |
+| **workflow/** | Planning, execution, testing process | Process changes |
+| **architecture/** | System design, DB, API, patterns | Design changes (tag with ticket ID) |
+| **features/** | How each feature works now | Feature behavior changes (no ticket IDs) |
 
 ## Recommended loop
 1) **Connect** → to ticketing system (Linear/Jira via MCP or API token)
@@ -145,7 +167,8 @@ rm -rf agent/
 # Manually edit these files and remove blocks between:
 # >>> agent-instructions-rails
 # <<< agent-instructions-rails
-# Files: .github/copilot-instructions.md, .cursorrules, CLAUDE.md
+# Files: .github/copilot-instructions.md, .cursorrules, CLAUDE.md,
+# .windsurfrules, .clinerules, AGENTS.md
 ```
 
 ## Contributing
