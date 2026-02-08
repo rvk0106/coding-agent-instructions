@@ -3,16 +3,18 @@
 > Scope: How to get ticket data before planning
 
 ## Fetch Order
-1. Check `agent-config.md` for configured system
-2. If API configured → use `agent/fetch-ticket.sh`
-3. If manual → read `tickets/TICKET-ID.md`
-4. If neither → ask user to paste ticket
+1. **MCP** — If an MCP server for Linear/Jira/GitHub is configured, use it to fetch the ticket.
+2. **API (no MCP)** — Check `agent-config.md`; if a ticketing system is configured, use **`agent/fetch-ticket.sh`** or the shell helpers in **[ticketing-systems.md](ticketing-systems.md)** (curl + jq).
+3. **Manual** — Read `tickets/TICKET-ID.md` if the file exists.
+4. **Fallback** — Ask the user to paste the ticket or provide a link.
+
+For curl-based fetching when MCP is not configured (token sources, Linear/Jira/GitHub examples, markdown output), see **[ticketing-systems.md](ticketing-systems.md)**.
 
 ## Supported Systems
-- Linear: `LINEAR_API_TOKEN` env var
-- Jira: `JIRA_API_TOKEN` + `JIRA_URL` env vars
-- GitHub Issues: `GITHUB_TOKEN` + `GITHUB_REPO` env vars
-- Manual: `tickets/TICKET-ID.md` files
+- **Linear:** `LINEAR_API_TOKEN` (env or `agent-config.md`) — see [ticketing-systems.md](ticketing-systems.md#linear)
+- **Jira:** `JIRA_API_TOKEN` + `JIRA_URL` — see [ticketing-systems.md](ticketing-systems.md#jira)
+- **GitHub Issues:** `GITHUB_TOKEN` + `GITHUB_REPO` — see [ticketing-systems.md](ticketing-systems.md#github-issues)
+- **Manual:** `tickets/TICKET-ID.md` files
 
 ## Required Fields to Extract
 - Ticket ID
