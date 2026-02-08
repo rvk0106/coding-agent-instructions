@@ -16,7 +16,7 @@ The installer creates `.cursorrules` in your project root. Cursor reads this fil
 # In Cursor chat or Composer:
 
 # Step 1: Plan
-"plan architecture for TICKET-ID"
+"plan gem for TICKET-ID"
 
 # Step 2: Review docs/TICKET-ID-plan.md
 

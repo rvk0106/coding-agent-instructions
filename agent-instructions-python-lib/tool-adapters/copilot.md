@@ -16,7 +16,7 @@ The installer creates `.github/copilot-instructions.md` in your project. GitHub 
 # In Copilot Chat (VS Code, JetBrains, or GitHub.com):
 
 # Step 1: Plan
-"plan architecture for TICKET-ID"
+"plan library for TICKET-ID"
 
 # Step 2: Review docs/TICKET-ID-plan.md
 
@@ -24,7 +24,7 @@ The installer creates `.github/copilot-instructions.md` in your project. GitHub 
 "execute plan 1 for TICKET-ID"
 
 # Step 4: Run verification in terminal
-bundle exec rspec && bundle exec rubocop
+pytest && flake8 && mypy
 
 # Step 5: Continue after approval
 "execute plan 2 for TICKET-ID"

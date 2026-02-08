@@ -20,10 +20,15 @@ your-project/
 ├── tickets/ ✨ NEW
 │   └── _TEMPLATE.md ✨ NEW - Copy this for new tickets
 ├── agent-config.md ✨ NEW - Configuration file
-├── .github/
-│   └── copilot-instructions.md (updated)
-├── .cursorrules (updated)
-└── CLAUDE.md (updated)
+│
+│ # Agent-specific config files (all auto-created):
+├── CLAUDE.md                           # Claude Code
+├── AGENTS.md                           # OpenAI Codex CLI
+├── .cursorrules                        # Cursor
+├── .windsurfrules                      # Windsurf (Codeium)
+├── .clinerules                         # Cline
+└── .github/
+    └── copilot-instructions.md         # GitHub Copilot
 ```
 
 ## New Post-Installation Message
@@ -162,7 +167,12 @@ You should see:
 - ✅ agent-config.md created
 - ✅ tickets/ folder with _TEMPLATE.md
 - ✅ agent/fetch-ticket.sh executable
-- ✅ Updated post-install message with clear options
+- ✅ CLAUDE.md created (Claude Code)
+- ✅ AGENTS.md created (OpenAI Codex CLI)
+- ✅ .cursorrules created (Cursor)
+- ✅ .windsurfrules created (Windsurf)
+- ✅ .clinerules created (Cline)
+- ✅ .github/copilot-instructions.md created (GitHub Copilot)
 
 ## No More Required Steps
 

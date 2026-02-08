@@ -24,7 +24,7 @@ The installer creates `.cursorrules` in your project root. Cursor reads this fil
 "execute plan 1 for TICKET-ID"
 
 # Step 4: Run verification in terminal
-bundle exec rspec && bundle exec rubocop
+npm test && npm run lint
 
 # Step 5: Continue after approval
 "execute plan 2 for TICKET-ID"

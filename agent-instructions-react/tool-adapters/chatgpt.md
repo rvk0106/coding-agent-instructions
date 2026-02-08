@@ -17,7 +17,7 @@ ChatGPT does not read project files automatically. You need to provide context m
 "Here is the ticket: [paste ticket content or tickets/TICKET-ID.md]"
 
 # Step 3: Plan
-"plan architecture for TICKET-ID"
+"plan frontend for TICKET-ID"
 
 # Step 4: Review the plan output
 
@@ -25,7 +25,7 @@ ChatGPT does not read project files automatically. You need to provide context m
 "execute plan 1 for TICKET-ID"
 
 # Step 6: Copy code to your project, run verification
-bundle exec rspec && bundle exec rubocop
+npm test && npm run lint && npm run build
 
 # Step 7: Report results back
 "Tests pass. Continue to phase 2."

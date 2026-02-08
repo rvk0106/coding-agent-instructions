@@ -24,7 +24,7 @@ The installer creates `.github/copilot-instructions.md` in your project. GitHub 
 "execute plan 1 for TICKET-ID"
 
 # Step 4: Run verification in terminal
-bundle exec rspec && bundle exec rubocop
+npm test && npm run lint
 
 # Step 5: Continue after approval
 "execute plan 2 for TICKET-ID"

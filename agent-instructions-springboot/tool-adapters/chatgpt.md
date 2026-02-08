@@ -25,7 +25,7 @@ ChatGPT does not read project files automatically. You need to provide context m
 "execute plan 1 for TICKET-ID"
 
 # Step 6: Copy code to your project, run verification
-bundle exec rspec && bundle exec rubocop
+./mvnw test && ./mvnw checkstyle:check
 
 # Step 7: Report results back
 "Tests pass. Continue to phase 2."

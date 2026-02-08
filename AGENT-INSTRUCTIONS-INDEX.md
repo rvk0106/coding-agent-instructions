@@ -26,7 +26,7 @@ A collection of reusable instruction files that enforce:
 - **Human review** - Hard stop after each phase for approval
 - **Verification** - Tests/lint/build checks are mandatory
 
-Works with Claude, ChatGPT, Cursor, Copilot, and other AI coding tools.
+Works with all major AI coding agents: **Claude Code, GitHub Copilot, Cursor, Windsurf, Cline, OpenAI Codex CLI, and ChatGPT**. See [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md) for the full compatibility matrix.
 
 ## 🚫 What This Is NOT
 
@@ -93,16 +93,24 @@ agent-instructions-{framework}/
 ├── install.sh                   # Installation script
 ├── quick-install.sh            # One-command install
 ├── LICENSE                      # GNU GPL v3.0
-└── agent/
-    ├── master-instructions.md        # Main entry point
-    ├── principles-and-standards.md   # Framework conventions
-    ├── ticket-access.md              # How to fetch tickets
-    ├── planner-instructions.md       # Planning workflow
-    ├── execution-contract.md         # Execution rules
-    ├── implementer-instructions.md   # Coding conventions
-    ├── testing-instructions.md       # Verification steps
-    └── examples/
-        └── sample-ticket-plan.md     # Example plan
+├── agent/
+│   ├── master-instructions.md        # Main entry point
+│   ├── principles-and-standards.md   # Framework conventions
+│   ├── ticket-access.md              # How to fetch tickets
+│   ├── planner-instructions.md       # Planning workflow
+│   ├── execution-contract.md         # Execution rules
+│   ├── implementer-instructions.md   # Coding conventions
+│   ├── testing-instructions.md       # Verification steps
+│   └── examples/
+│       └── sample-ticket-plan.md     # Example plan
+└── tool-adapters/
+    ├── claude.md                     # Claude Code setup
+    ├── copilot.md                    # GitHub Copilot setup
+    ├── cursor.md                     # Cursor setup
+    ├── windsurf.md                   # Windsurf setup
+    ├── cline.md                      # Cline setup
+    ├── codex.md                      # OpenAI Codex CLI setup
+    └── chatgpt.md                    # ChatGPT setup
 ```
 
 ## 🌟 Key Principles

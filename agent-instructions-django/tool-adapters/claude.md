@@ -16,20 +16,14 @@ If using Claude Code CLI or Claude on the web:
 ```
 # Step 1: Plan
 "plan architecture for TICKET-ID"
-→ Agent reads ticket, analyzes codebase, creates docs/TICKET-ID-plan.md
-→ Agent STOPS for your review
 
-# Step 2: Review the plan
-Open docs/TICKET-ID-plan.md and approve or request changes
+# Step 2: Review docs/TICKET-ID-plan.md
 
 # Step 3: Execute phase by phase
 "execute plan 1 for TICKET-ID"
-→ Agent implements Phase 1 only
-→ Agent runs verification commands
-→ Agent STOPS for your review
 
 # Step 4: Verify and continue
-bundle exec rspec && bundle exec rubocop
+python manage.py test && flake8
 "execute plan 2 for TICKET-ID"
 ```
 

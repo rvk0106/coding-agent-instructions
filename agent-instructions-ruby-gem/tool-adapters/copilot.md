@@ -16,7 +16,7 @@ The installer creates `.github/copilot-instructions.md` in your project. GitHub 
 # In Copilot Chat (VS Code, JetBrains, or GitHub.com):
 
 # Step 1: Plan
-"plan architecture for TICKET-ID"
+"plan gem for TICKET-ID"
 
 # Step 2: Review docs/TICKET-ID-plan.md
 

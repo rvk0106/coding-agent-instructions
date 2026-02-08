@@ -25,7 +25,7 @@ ChatGPT does not read project files automatically. You need to provide context m
 "execute plan 1 for TICKET-ID"
 
 # Step 6: Copy code to your project, run verification
-bundle exec rspec && bundle exec rubocop
+npm test && npm run lint
 
 # Step 7: Report results back
 "Tests pass. Continue to phase 2."

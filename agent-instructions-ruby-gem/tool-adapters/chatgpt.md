@@ -17,7 +17,7 @@ ChatGPT does not read project files automatically. You need to provide context m
 "Here is the ticket: [paste ticket content or tickets/TICKET-ID.md]"
 
 # Step 3: Plan
-"plan architecture for TICKET-ID"
+"plan gem for TICKET-ID"
 
 # Step 4: Review the plan output
 
