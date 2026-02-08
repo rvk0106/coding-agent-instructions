@@ -7,7 +7,7 @@ MARKER_START="# >>> agent-instructions-rails"
 MARKER_END="# <<< agent-instructions-rails"
 
 if [[ -z "$TARGET_DIR" ]]; then
-  echo "Usage: ./install.sh /path/to/ruby-gem"
+  echo "Usage: ./install.sh /path/to/your-project"
   exit 1
 fi
 
@@ -270,13 +270,35 @@ else
   echo "Skip existing: tickets/_TEMPLATE.md"
 fi
 
-COPILOT_BLOCK="Follow agent/master-instructions.md as the single source of truth for Ruby gem development. Plan first, execute one phase at a time, verify, then stop for review."
-CURSOR_BLOCK="Follow agent/master-instructions.md. Planning and execution are separate; no phase auto-continue."
-CLAUDE_BLOCK="Use agent/master-instructions.md as your system prompt or initial context for Ruby gem development."
+AGENT_INSTRUCTIONS="Read and follow agent/master-instructions.md as the primary instruction set for Rails API development.
 
-append_block_if_missing "$TARGET_DIR/.github/copilot-instructions.md" "$COPILOT_BLOCK"
-append_block_if_missing "$TARGET_DIR/.cursorrules" "$CURSOR_BLOCK"
-append_block_if_missing "$TARGET_DIR/CLAUDE.md" "$CLAUDE_BLOCK"
+## Workflow
+- Plan first: 'plan architecture for TICKET-ID'
+- Execute one phase at a time: 'execute plan N for TICKET-ID'
+- Verify after each phase, then stop for human review
+- Never auto-continue to the next phase without explicit approval
+
+## Rules
+- Planning and execution are separate phases - never write code during planning
+- Read agent/principles-and-standards.md for coding conventions
+- Read agent/testing-instructions.md for verification commands
+- Save plans to docs/TICKET-ID-plan.md
+- Read tickets from tickets/TICKET-ID.md or fetch via agent/fetch-ticket.sh
+
+## Key Files
+- agent/master-instructions.md - Main instructions and workflow
+- agent/principles-and-standards.md - Rails coding standards
+- agent/planner-instructions.md - Planning rules
+- agent/execution-contract.md - Execution discipline
+- agent/implementer-instructions.md - Implementation patterns
+- agent/testing-instructions.md - Verification commands"
+
+append_block_if_missing "$TARGET_DIR/.github/copilot-instructions.md" "$AGENT_INSTRUCTIONS"
+append_block_if_missing "$TARGET_DIR/.cursorrules" "$AGENT_INSTRUCTIONS"
+append_block_if_missing "$TARGET_DIR/CLAUDE.md" "$AGENT_INSTRUCTIONS"
+append_block_if_missing "$TARGET_DIR/.windsurfrules" "$AGENT_INSTRUCTIONS"
+append_block_if_missing "$TARGET_DIR/.clinerules" "$AGENT_INSTRUCTIONS"
+append_block_if_missing "$TARGET_DIR/AGENTS.md" "$AGENT_INSTRUCTIONS"
 
 cat <<EOF
 

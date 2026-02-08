@@ -23,6 +23,15 @@
 - Reviewed `spec/`: no programs specs exist
 - Checked `.rubocop.yml`: standard Rails cops enabled
 
+## Context Loaded
+- `workflow/context-router.md` → task type: New API Endpoint
+- `architecture/system-design.md` → component map, tenancy model
+- `architecture/database.md` → programs table schema
+- `architecture/api-design.md` → endpoint naming, response shape
+- `architecture/patterns.md` → controller/model/service conventions
+- `architecture/error-handling.md` → validation error shape
+- `infrastructure/security.md` → tenant scoping rules
+
 ## Architecture decisions
 - Add hierarchy validation in model layer.
 - Use a service for create/update to enforce business rules.
@@ -32,6 +41,7 @@
 
 ## Phase 1
 **Goal**: Add model validations and hierarchy checks.
+**Context needed**: `architecture/patterns.md` (model conventions), `workflow/testing.md` (model spec patterns)
 **Tasks**:
 - Add parent association and validation.
 - Add cycle detection method.
@@ -50,6 +60,7 @@
 
 ## Phase 2
 **Goal**: Add admin write endpoints with service object.
+**Context needed**: `architecture/api-design.md` (response shape), `architecture/error-handling.md` (validation errors), `infrastructure/security.md` (admin auth), `workflow/implementation.md` (coding conventions)
 **Tasks**:
 - Add service object for create/update.
 - Add admin controller actions.
@@ -70,6 +81,7 @@
 
 ## Phase 3
 **Goal**: Add public read endpoints.
+**Context needed**: `architecture/api-design.md` (public endpoint conventions), `architecture/data-flow.md` (read request pipeline), `workflow/implementation.md` (coding conventions)
 **Tasks**:
 - Add read-only controller actions.
 - Add routes.
