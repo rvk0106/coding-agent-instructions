@@ -4,6 +4,7 @@ Standard process for ticket lifecycle: plan → implement → test → update do
 
 | File | When to Use |
 |------|-------------|
+| [context-router.md](context-router.md) | **READ FIRST**: maps task type → required files |
 | [ticket-access.md](ticket-access.md) | Fetching/reading ticket data |
 | [planning.md](planning.md) | `plan architecture for TICKET-ID` |
 | [execution.md](execution.md) | `execute plan N for TICKET-ID` |

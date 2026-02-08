@@ -26,16 +26,25 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 - Multi-tenant data isolation
 - Background jobs affecting data integrity
 
-## Knowledge Base -- READ BEFORE PLANNING
+## Context Loading -- DO NOT READ EVERYTHING
 
-### Infrastructure (environment & setup)
+**Read `workflow/context-router.md` FIRST** -- it tells you exactly which files to load
+based on your current task type and workflow state.
+
+DO NOT read all files below. The context router maps:
+- Task type (new endpoint, bug fix, model change...) → which files to load
+- Workflow state (planning, execution, testing, maintenance) → which files to load
+
+### Available Knowledge Files (load via context-router only)
+
+**Infrastructure** (environment & setup)
 - `infrastructure/environment.md` → runtime, versions, DB, env vars
 - `infrastructure/dependencies.md` → gems, external services, APIs
 - `infrastructure/tooling.md` → linters, test commands, CI/CD
 - `infrastructure/deployment.md` → hosting, deploy process
 - `infrastructure/security.md` → auth boundaries, tenant scoping, OWASP rules
 
-### Architecture (technical design)
+**Architecture** (technical design)
 - `architecture/system-design.md` → components, data flows, tenancy
 - `architecture/database.md` → schema, tables, relationships
 - `architecture/api-design.md` → endpoints, response shapes, versioning
@@ -44,12 +53,12 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 - `architecture/data-flow.md` → request lifecycle, middleware, auth/authz pipeline
 - `architecture/glossary.md` → domain terms, roles, statuses
 
-### Features (how things work)
+**Features** (how things work)
 - `features/` → one file per feature describing current behavior
 - `features/_CONVENTIONS.md` → serialization, query, and test patterns
-- Read relevant feature docs before modifying existing features
 
-### Workflow (how we work)
+**Workflow** (how we work)
+- `workflow/context-router.md` → READ FIRST: maps task type → required files
 - `workflow/planning.md` → how to create phased plans
 - `workflow/execution.md` → how to execute a single phase
 - `workflow/implementation.md` → coding conventions, file locations
@@ -57,6 +66,24 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 - `workflow/ticket-access.md` → how to fetch tickets
 - `workflow/maintenance.md` → what to update after completing a ticket
 - `workflow/prompts.md` → pre-built prompts for common tasks
+
+## Context Flow Across States
+```
+PLANNING:
+  Read: context-router.md → load task-specific files → output "Context Loaded" in plan
+
+EXECUTION:
+  Read: plan's "Context Loaded" + phase's "Context needed" + implementation.md
+  (don't re-discover -- the plan already tells you what's relevant)
+
+TESTING:
+  Read: testing.md + plan's phase verification commands
+  (minimal context -- just run the commands)
+
+MAINTENANCE:
+  Read: maintenance.md → update only the files that changed
+  (targeted updates, not a full scan)
+```
 
 ## Maintenance Rule
 After every ticket: update `infrastructure/`, `architecture/`, or `features/` as needed.
