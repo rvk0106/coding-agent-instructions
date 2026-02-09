@@ -84,8 +84,9 @@ DO NOT read all files below. Either:
 - **Retrieval path:** Query vector store / reduced index → get relevant chunks → use those as context; or
 - **File path:** Context router maps task type + workflow state → which files to load → load only those
 
-### Available Knowledge Files (load via context-router only)
+### Available Knowledge Files
 
+Use these via retrieval when available, or via `workflow/context-router.md` when using the file-based path.
 **Infrastructure** (environment & setup)
 - `infrastructure/environment.md` → runtime, versions, DB, env vars
 - `infrastructure/dependencies.md` → gems, external services, APIs
