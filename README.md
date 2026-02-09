@@ -26,30 +26,19 @@ A collection of reusable instruction files that enforce:
 - **Human review** - Hard stop after each phase for approval
 - **Verification** - Tests/lint/build checks are mandatory
 
-Works with all major AI coding agents: **Claude Code, GitHub Copilot, Cursor, Windsurf, Cline, OpenAI Codex CLI, and ChatGPT**. See [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md) for the full compatibility matrix.
+Works with **all 7 major AI coding agents** — one install command creates config files for all of them:
 
-## 🤖 How to Enable for Each Agent
+| Agent | Config File | Auto-Read |
+|-------|-------------|:---------:|
+| Claude Code | `CLAUDE.md` | Yes |
+| GitHub Copilot | `.github/copilot-instructions.md` | Yes |
+| Cursor | `.cursorrules` | Yes |
+| Windsurf | `.windsurfrules` | Yes |
+| Cline | `.clinerules` | Yes |
+| OpenAI Codex CLI | `AGENTS.md` | Yes |
+| ChatGPT | _(manual paste)_ | No |
 
-After you run **Step 2 (Install)** above, the installer creates the right config file for each agent. Here is what each tool uses and what you need to do.
-
-| Agent | Config file (created by install) | What you do to enable |
-|-------|-----------------------------------|------------------------|
-| **Cursor** | `.cursorrules` and `.cursor/rules/agent-instructions.mdc` | Nothing. Open the project in Cursor; it reads these automatically. |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | **Nothing.** The installer adds `.vscode/settings.json` so **Code Generation: Use Instruction Files** is enabled for this workspace in VS Code. On GitHub.com, repo instructions are used by default when the repo is attached to Copilot Chat. |
-| **Claude Code** | `CLAUDE.md` | Nothing. Start Claude Code in this project; it loads `CLAUDE.md` from the repo root automatically. |
-| **Windsurf (Codeium)** | `.windsurfrules` | Nothing. Open the project in Windsurf; it reads `.windsurfrules` from the project root automatically. |
-| **Cline** | `.clinerules` | Nothing. Open the project in Cline; it reads `.clinerules` from the project root automatically. |
-| **OpenAI Codex CLI** | `AGENTS.md` | Nothing. Run the Codex CLI in this project; it uses `AGENTS.md` as agent instructions automatically. |
-| **ChatGPT** | _(no file)_ | **Manual:** Copy the contents of `agent/master-instructions.md` and paste into the system prompt or first message. Or tell the agent to follow `AGENTS.md` and the `agent/` folder if you have the project in context. |
-
-### Quick checklist
-
-1. **Run the install** for your framework (see [Quick Start](#-quick-start) above).
-2. **Pick your agent** in the table above — for Cursor, Copilot, Claude Code, Windsurf, Cline, or Codex CLI you don’t need to do anything else; the right file is already there.
-3. **Verify:** In your agent, ask: *“What are your instructions for planning and executing work?”* — it should describe plan-first, phase-by-phase execution and reading from `docs/TICKET-ID-plan.md`.
-4. **ChatGPT only:** Paste `agent/master-instructions.md` (or point to `AGENTS.md` + `agent/`) at the start of the conversation.
-
-For more detail (what gets created, capability matrix, multi-agent teams), see [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md).
+See [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md) for the full compatibility and capability matrix.
 
 ## 🚫 What This Is NOT
 
@@ -63,9 +52,9 @@ For more detail (what gets created, capability matrix, multi-agent teams), see [
 Pick the directory matching your project type from the list above.
 
 ### 2. Install
-From your project root:
 
-#### Backend Frameworks
+**One command** from your project root — creates `agent/` instructions + config files for all 7 supported agents:
+
 ```bash
 # Rails
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/install.sh | bash -s .
@@ -78,16 +67,10 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 
 # Express.js
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-express/install.sh | bash -s .
-```
 
-#### Frontend Frameworks
-```bash
 # React
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-react/install.sh | bash -s .
-```
 
-#### Libraries/Packages
-```bash
 # Python Library
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-python-lib/install.sh | bash -s .
 
@@ -98,33 +81,60 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-ruby-gem/install.sh | bash -s .
 ```
 
-Or clone the entire repository and run install script:
+Or clone and run locally:
 ```bash
 git clone https://github.com/rvk0106/coding-agent-instructions.git
 cd coding-agent-instructions/agent-instructions-rails  # or your framework
 ./install.sh /path/to/your/project
 ```
 
-### 3. Connect to Ticketing
+### 3. Enable Your Agent
+
+The install script auto-creates config files for all 7 agents. Most need **zero extra setup**:
+
+| Agent | Config file (created by install) | What you do |
+|-------|----------------------------------|-------------|
+| **Claude Code** | `CLAUDE.md` | Nothing. Run `claude` in your project — it reads `CLAUDE.md` automatically. |
+| **GitHub Copilot** | `.github/copilot-instructions.md` + `.vscode/settings.json` | **Nothing.** The installer enables **Use Instruction Files** for this workspace via `.vscode/settings.json`. On GitHub.com, repo instructions are used by default. |
+| **Cursor** | `.cursorrules` | Nothing. Open the project in Cursor — it reads `.cursorrules` automatically. |
+| **Windsurf** | `.windsurfrules` | Nothing. Open the project in Windsurf — it reads `.windsurfrules` automatically. |
+| **Cline** | `.clinerules` | Nothing. Open the project with the Cline extension — it reads `.clinerules` automatically. |
+| **Codex CLI** | `AGENTS.md` | Nothing. Run `codex` in your project — it reads `AGENTS.md` automatically. |
+| **ChatGPT** | _(no file)_ | **Manual:** Paste `agent/master-instructions.md` into your conversation or Custom Instructions. |
+
+**Verify it works:** Ask your agent *"What are your instructions for planning and executing work?"* — it should describe plan-first, phase-by-phase execution.
+
+> **Multiple agents, same project**: All config files are created together, so different team members can use different agents on the same codebase. Everyone gets the same instructions.
+
+For the full capability matrix and uninstall steps, see [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md) and [docs/AGENT-COMPATIBILITY.md](docs/AGENT-COMPATIBILITY.md).
+
+### 4. Connect to Ticketing (optional)
+
 ```bash
-export LINEAR_API_TOKEN="your_token"
-# Or configure MCP server
+# Option A: Ticketing integration (Linear, Jira, GitHub Issues)
+# Edit agent-config.md and configure your system
+
+# Option B: Manual tickets (works offline, no setup)
+# Create ticket files in tickets/TICKET-ID.md
+# Use the template: tickets/_TEMPLATE.md
 ```
 
-### 4. Start Working
+See [WORKFLOW-GUIDE.md](WORKFLOW-GUIDE.md) for detailed setup of both options.
+
+### 5. Start Working
 ```bash
 # Plan
 "plan architecture for TICKET-ID"
-# Output: docs/TICKET-ID-plan.md
+# Output: docs/TICKET-ID-plan.md → review and approve
 
-# Execute one phase
+# Execute one phase at a time
 "execute plan 1 for TICKET-ID"
 
 # Verify
 Run the verification commands specified in the plan
 
-# Review and approve
-Wait for human review before continuing to next phase
+# Review and approve, then continue
+"execute plan 2 for TICKET-ID"
 ```
 
 ## 📋 Workflow
@@ -139,31 +149,45 @@ All frameworks follow the same workflow:
 
 ## 🧩 Repository Structure
 
-Each framework directory contains:
+### Standard Structure (7 frameworks)
+Used by: Spring Boot, Django, Express, React, Python-Lib, Node-Lib, Ruby-Gem
 ```
 agent-instructions-{framework}/
-├── README.md                    # Framework-specific documentation
-├── install.sh                   # Installation script
-├── LICENSE                      # GNU GPL v3.0
+├── README.md, install.sh, LICENSE
 ├── agent/
 │   ├── master-instructions.md        # Main entry point
-│   ├── principles-and-standards.md   # Framework conventions
-│   ├── ticket-access.md              # How to fetch tickets
-│   ├── planner-instructions.md       # Planning workflow
-│   ├── execution-contract.md         # Execution rules
-│   ├── implementer-instructions.md   # Coding conventions
-│   ├── testing-instructions.md       # Verification steps
-│   └── examples/
-│       └── sample-ticket-plan.md     # Example plan
-└── tool-adapters/
-    ├── claude.md                     # Claude Code setup
-    ├── copilot.md                    # GitHub Copilot setup
-    ├── cursor.md                     # Cursor setup
-    ├── windsurf.md                   # Windsurf setup
-    ├── cline.md                      # Cline setup
-    ├── codex.md                      # OpenAI Codex CLI setup
-    └── chatgpt.md                    # ChatGPT setup
+│   ├── principles-and-standards.md   # Coding conventions
+│   ├── planner-instructions.md       # Planning rules
+│   ├── execution-contract.md         # Execution discipline
+│   ├── implementer-instructions.md   # Implementation patterns
+│   ├── testing-instructions.md       # Verification commands
+│   ├── ticket-access.md              # Ticket fetching
+│   └── examples/sample-ticket-plan.md
+└── tool-adapters/                    # Per-agent setup guides
+    ├── claude.md, copilot.md, cursor.md, windsurf.md
+    ├── cline.md, codex.md, chatgpt.md
 ```
+
+### Advanced Structure (Rails — target for all frameworks)
+Organized into 4 knowledge categories for minimal token usage:
+```
+agent-instructions-rails/
+├── README.md, install.sh, LICENSE
+├── agent/
+│   ├── master-instructions.md        # Compact index + context router
+│   ├── architecture/                 # System design, DB, API, patterns,
+│   │                                   error handling, data flow, glossary
+│   ├── infrastructure/               # Environment, dependencies, tooling,
+│   │                                   deployment, security
+│   ├── workflow/                     # Context router, planning, execution,
+│   │                                   implementation, testing, maintenance,
+│   │                                   ticket access, pre-built prompts
+│   ├── features/                     # Template, conventions, per-feature docs
+│   └── examples/sample-ticket-plan.md
+└── tool-adapters/                    # Per-agent setup guides (same 7 files)
+```
+
+> See [MIGRATION-TEMPLATE.md](MIGRATION-TEMPLATE.md) for how to migrate any framework from Standard to Advanced structure.
 
 ## 🌟 Key Principles
 
