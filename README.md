@@ -53,7 +53,7 @@ Pick the directory matching your project type from the list above.
 
 ### 2. Install
 
-**One command** from your project root — creates `agent/` instructions + config files for all 7 supported agents:
+**One command** from your project root — creates `agent/` instructions + config files for 6 agents (ChatGPT requires manual setup):
 
 ```bash
 # Rails
@@ -90,7 +90,7 @@ cd coding-agent-instructions/agent-instructions-rails  # or your framework
 
 ### 3. Enable Your Agent
 
-The install script auto-creates config files for all 7 agents. Most need **zero extra setup**:
+The install script auto-creates config files for 6 agents (ChatGPT requires manual setup). Most need **zero extra setup**:
 
 | Agent | Config file (created by install) | What you do |
 |-------|----------------------------------|-------------|
