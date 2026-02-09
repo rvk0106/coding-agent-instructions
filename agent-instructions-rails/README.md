@@ -118,16 +118,14 @@ agent-instructions-rails/
 │   │   ├── api-design.md             # Endpoints, response shapes, versioning
 │   │   ├── patterns.md               # Design patterns, conventions, standards
 │   │   ├── error-handling.md          # HTTP codes, error shapes, exception mapping
-│   │   ├── data-flow.md              # Request lifecycle, middleware, auth pipeline
-│   │   ├── caching.md                # Cache layers, invalidation, patterns
+│   │   ├── data-flow.md              # Request lifecycle, middleware, transactions
 │   │   └── glossary.md               # Domain terms, roles, statuses
 │   ├── infrastructure/                 # Environment & setup knowledge
 │   │   ├── environment.md             # Runtime, versions, DB, env vars
 │   │   ├── dependencies.md            # Gems, external services, APIs
 │   │   ├── tooling.md                 # Linters, test commands, CI/CD
 │   │   ├── deployment.md              # Hosting, deploy process
-│   │   ├── security.md                # Auth, tenant scoping, OWASP, headers
-│   │   └── logging.md                 # Structured logging, error tracking
+│   │   └── security.md               # Auth, tenant scoping, headers, rate limiting
 │   ├── workflow/                       # How we work
 │   │   ├── context-router.md          # READ FIRST: task type → required files
 │   │   ├── planning.md               # How to create phased plans

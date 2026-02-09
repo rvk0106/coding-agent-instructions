@@ -42,8 +42,7 @@ DO NOT read all files below. The context router maps:
 - `infrastructure/dependencies.md` → gems, external services, APIs
 - `infrastructure/tooling.md` → linters, test commands, CI/CD
 - `infrastructure/deployment.md` → hosting, deploy process
-- `infrastructure/security.md` → auth boundaries, tenant scoping, headers, rate limiting
-- `infrastructure/logging.md` → structured logging, error tracking, query logging
+- `infrastructure/security.md` → auth, tenant scoping, headers, CSRF, rate limiting
 
 **Architecture** (technical design)
 - `architecture/system-design.md` → components, data flows, tenancy
@@ -52,7 +51,6 @@ DO NOT read all files below. The context router maps:
 - `architecture/patterns.md` → design patterns, conventions, quality checklist
 - `architecture/error-handling.md` → HTTP codes, error shapes, exception mapping
 - `architecture/data-flow.md` → request lifecycle, middleware, transactions
-- `architecture/caching.md` → cache layers, invalidation, Redis patterns
 - `architecture/glossary.md` → domain terms, roles, statuses
 
 **Features** (how things work)

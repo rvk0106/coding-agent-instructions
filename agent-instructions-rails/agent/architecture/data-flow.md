@@ -61,31 +61,11 @@ Controller → enqueue job (Sidekiq) → return 202/200 to client
   → If failure → retry (max N times) → dead letter queue
 ```
 
-## Transaction Management
-```ruby
-# Multi-step operations -- wrap in transaction
-ActiveRecord::Base.transaction do
-  order = Order.create!(order_params)
-  order.line_items.create!(items_params)
-  PaymentService.charge!(order)       # raises on failure → rolls back
-end
-# If any step raises → entire transaction rolls back
-
-# Gotchas:
-# - after_commit callbacks run OUTSIDE the transaction
-# - Sidekiq jobs enqueued inside a transaction may fire before commit
-# - Nested transactions use savepoints (rescue inner without rolling outer)
-```
+## Transaction Rules
 - ALWAYS wrap multi-model writes in `ActiveRecord::Base.transaction`
-- NEVER call external services inside a transaction (network failures hold DB lock)
-- Pattern: write to DB in transaction → call external service after commit
-  ```ruby
-  ActiveRecord::Base.transaction do
-    record = Record.create!(params)
-  end
-  # External call AFTER successful commit
-  ExternalService.notify(record)
-  ```
+- NEVER call external services inside a transaction (holds DB lock on network failure)
+- Pattern: DB writes in transaction → external calls after commit
+- Gotchas: `after_commit` runs outside transaction; Sidekiq jobs may fire before commit
 
 ## Serialization Pipeline
 - Serializer: [e.g. ActiveModelSerializers / JBuilder / Blueprinter / manual]
