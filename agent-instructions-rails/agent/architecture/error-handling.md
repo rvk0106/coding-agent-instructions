@@ -15,7 +15,9 @@
 | Not Found | 404 | Resource doesn't exist |
 | Unprocessable | 422 | Validation failure (model errors) |
 | Conflict | 409 | Duplicate / state conflict |
+| Too Many Requests | 429 | Rate limit exceeded |
 | Server Error | 500 | Unhandled exception |
+| Service Unavailable | 503 | Downstream service down / maintenance |
 
 ## Error Response Shape
 ```ruby

@@ -31,6 +31,28 @@ rails db:rollback STEP=1                  # verify rollback works
 rails db:migrate                          # re-apply
 ```
 
+## Database Isolation
+- Strategy: [e.g. transactional tests (default) / DatabaseCleaner]
+- `use_transactional_tests = true` — each test runs in a rolled-back transaction
+- If test needs committed data (e.g. testing after_commit): use `DatabaseCleaner.strategy = :truncation`
+- Shared state risk: never rely on DB state from a previous test
+
+## Parallel Tests (if enabled)
+- Gem: [e.g. `parallel_tests`]
+- Each process uses its own DB: `test_0`, `test_1`, etc.
+- Setup: `rake parallel:setup`
+- Run: `rake parallel:spec`
+- Gotchas: avoid hardcoded ports, shared file paths, or global state
+
+## CI Commands
+```bash
+# Full CI pipeline
+bundle exec rspec --format progress     # tests
+bundle exec rubocop --parallel           # lint
+bundle exec rake swagger:generate_modular  # API docs (if applicable)
+bundle exec brakeman -q                  # security scan (if installed)
+```
+
 ## Reporting Format
 ```
 Commands run:

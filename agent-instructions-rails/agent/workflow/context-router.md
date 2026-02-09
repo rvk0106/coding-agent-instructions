@@ -108,6 +108,33 @@ SKIP:
   - Everything else
 ```
 
+### Performance Optimization
+```
+LOAD:
+  - architecture/database.md           → indexes, query patterns
+  - architecture/data-flow.md          → request pipeline bottlenecks
+  - architecture/caching.md            → cache layers, invalidation
+  - features/[affected-feature].md     → current behavior (must not change)
+LOAD IF N+1 queries:
+  - features/_CONVENTIONS.md           → eager loading patterns
+LOAD IF API response time:
+  - architecture/api-design.md         → pagination, response shape
+SKIP:
+  - infrastructure/deployment.md, environment.md
+```
+
+### Dependency Upgrade
+```
+LOAD:
+  - infrastructure/dependencies.md     → current versions, known constraints
+  - infrastructure/tooling.md          → CI/CD impact, test commands
+LOAD IF major version bump:
+  - architecture/patterns.md           → check for deprecated patterns
+SKIP:
+  - architecture/database.md, api-design.md (unless gem affects them)
+  - features/* (behavior should not change)
+```
+
 ---
 
 ## EXECUTION STATE

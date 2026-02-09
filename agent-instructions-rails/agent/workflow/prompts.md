@@ -1,6 +1,7 @@
 # Pre-Built Agent Prompts
 > Tags: prompts, templates, commands, shortcuts
 > Scope: Copy-paste prompts for common tasks -- saves agents from re-discovering patterns
+> Last updated: [TICKET-ID or date]
 
 ## Quick Reference
 | Task | Prompt |

@@ -65,6 +65,42 @@ User.where("email = '#{params[:email]}'")
   end
   ```
 
+## Secure Headers
+- Set via middleware (e.g. `secure_headers` gem or Rack middleware)
+- Required headers:
+  ```
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'
+  Referrer-Policy: strict-origin-when-cross-origin
+  ```
+- Verify: check response headers in request specs or curl
+
+## Session / Cookie Security
+- `secure: true` on all cookies in production (HTTPS only)
+- `httponly: true` on auth cookies (prevents JS access)
+- `SameSite: Lax` or `Strict` to prevent CSRF
+- Prefer httpOnly cookies over localStorage for token storage
+
+## CSRF Protection
+- API-only apps: CSRF disabled OK if using Bearer token auth
+- Apps with session auth: `protect_from_forgery` must be enabled
+- If disabling CSRF, document WHY in this file
+
+## Rate Limiting
+- Gem: [e.g. `rack-attack`]
+- Auth endpoints: [e.g. 5 req/min per IP]
+- API endpoints: [e.g. 100 req/min per user]
+- Return 429 with `Retry-After` header
+- Example:
+  ```ruby
+  # config/initializers/rack_attack.rb
+  Rack::Attack.throttle("login", limit: 5, period: 60) do |req|
+    req.ip if req.path == "/api/v1/auth/login" && req.post?
+  end
+  ```
+
 ## Secrets Management
 - Location: [e.g. Rails credentials / ENV vars]
 - Never commit `.env` files with real secrets

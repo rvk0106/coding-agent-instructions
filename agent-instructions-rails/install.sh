@@ -280,18 +280,19 @@ AGENT_INSTRUCTIONS="Read and follow agent/master-instructions.md as the primary 
 
 ## Rules
 - Planning and execution are separate phases - never write code during planning
-- Read agent/principles-and-standards.md for coding conventions
-- Read agent/testing-instructions.md for verification commands
+- Read agent/workflow/context-router.md FIRST to load only relevant files
 - Save plans to docs/TICKET-ID-plan.md
 - Read tickets from tickets/TICKET-ID.md or fetch via agent/fetch-ticket.sh
 
 ## Key Files
 - agent/master-instructions.md - Main instructions and workflow
-- agent/principles-and-standards.md - Rails coding standards
-- agent/planner-instructions.md - Planning rules
-- agent/execution-contract.md - Execution discipline
-- agent/implementer-instructions.md - Implementation patterns
-- agent/testing-instructions.md - Verification commands"
+- agent/workflow/context-router.md - Task type → required files mapping
+- agent/workflow/planning.md - Planning rules
+- agent/workflow/execution.md - Execution discipline
+- agent/workflow/implementation.md - Rails coding conventions
+- agent/workflow/testing.md - Verification commands
+- agent/architecture/patterns.md - Design patterns and standards
+- agent/infrastructure/security.md - Security rules"
 
 append_block_if_missing "$TARGET_DIR/.github/copilot-instructions.md" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/.cursorrules" "$AGENT_INSTRUCTIONS"
