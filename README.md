@@ -26,7 +26,7 @@ A collection of reusable instruction files that enforce:
 - **Human review** - Hard stop after each phase for approval
 - **Verification** - Tests/lint/build checks are mandatory
 
-Works with **all 7 major AI coding agents** — one install command creates config files for all of them:
+Works with **all 7 major AI coding agents** — one install command creates config files for the 6 auto-read agents, plus a manual-paste option for ChatGPT:
 
 | Agent | Config File | Auto-Read |
 |-------|-------------|:---------:|
@@ -53,7 +53,7 @@ Pick the directory matching your project type from the list above.
 
 ### 2. Install
 
-**One command** from your project root — creates `agent/` instructions + config files for all 7 supported agents:
+**One command** from your project root — creates `agent/` instructions + config files for the 6 auto-read agents:
 
 ```bash
 # Rails
@@ -90,7 +90,7 @@ cd coding-agent-instructions/agent-instructions-rails  # or your framework
 
 ### 3. Enable Your Agent
 
-The install script auto-creates config files for all 7 agents. Most need **zero extra setup**:
+The install script auto-creates config files for the 6 auto-read agents. Most need **zero extra setup**:
 
 | Agent | Config file (created by install) | What you do |
 |-------|----------------------------------|-------------|
