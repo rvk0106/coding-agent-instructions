@@ -4,7 +4,8 @@ Standard process for ticket lifecycle: plan → implement → test → update do
 
 | File | When to Use |
 |------|-------------|
-| [context-router.md](context-router.md) | **READ FIRST**: maps task type → required files |
+| [context-retrieval.md](context-retrieval.md) | **READ FIRST when retrieval configured:** token-efficient context via vector DB or reduced index → retrieve only relevant chunks |
+| [context-router.md](context-router.md) | **Otherwise READ FIRST:** maps task type → required files |
 | [ticket-access.md](ticket-access.md) | Fetching/reading ticket data (order: config → fetch-ticket.sh → manual) |
 | [ticketing-systems.md](ticketing-systems.md) | **When MCP not configured:** curl/jq shell snippets for Linear, Jira, GitHub Issues |
 | [planning.md](planning.md) | `plan architecture for TICKET-ID` |
