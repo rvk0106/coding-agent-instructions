@@ -39,14 +39,14 @@ When the project has a **vector store** or a **reduced context index**, use that
 ### Typical setup (implementation-agnostic)
 - **Embeddings:** Any embedding API or model (OpenAI, Cohere, local model, etc.).
 - **Vector store:** Chroma, Pinecone, pgvector, LanceDB, or similar (local or hosted).
-- **Location:** Index can live under `.agent/vector_store/` (e.g. Chroma DB on disk), or in a separate service; document the query interface in `agent-config.md` or README.
+- **Location:** Index can live under `agent/vector_store/` (e.g. Chroma DB on disk), or in a separate service; document the query interface in `agent-config.md` or README.
 
 ---
 
 ## Option B: Reduced structure (compact index)
 
 ### How it works
-1. **Index file:** Maintain a single compact file (e.g. `.agent/context-index.yaml` or `.agent/context-index.json`) that lists every knowledge unit with:
+1. **Index file:** Maintain a single compact file (e.g. `agent/context-index.yaml` or `agent/context-index.json`) that lists every knowledge unit with:
    - **id** (e.g. `architecture.api-design.endpoints`)
    - **summary** (1–3 sentences)
    - **file** + **section** or **line range**
