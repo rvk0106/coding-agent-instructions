@@ -11,7 +11,9 @@ Root docs:
   MULTI-AGENT-SUPPORT.md       — agent compatibility matrix + config files
   WORKFLOW-GUIDE.md            — ticketing integration vs manual tickets
   INSTALLATION-REFERENCE.md    — what install.sh creates, verify commands
-  instructions.md              — (empty placeholder)
+  MIGRATION-TEMPLATE.md        — guide to replicate Rails structure to other frameworks
+  docs/AGENT-COMPATIBILITY.md  — per-agent setup details + uninstall steps
+  tool-adapters/               — root-level generic adapter docs (5 files)
 
 8 Framework dirs (identical structure except Rails):
   agent-instructions-rails/       ← ADVANCED: 4-category subfolder structure
@@ -56,7 +58,7 @@ agent-instructions-rails/
 │   │                                    deployment, security
 │   ├── workflow/                      — context-router, planning, execution,
 │   │                                    implementation, testing, maintenance,
-│   │                                    ticket-access, prompts
+│   │                                    ticket-access, ticketing-systems, prompts
 │   ├── features/                      — _TEMPLATE, _CONVENTIONS, per-feature docs
 │   └── examples/sample-ticket-plan.md
 └── tool-adapters/ (same 7 files)
@@ -66,7 +68,7 @@ agent-instructions-rails/
 | Agent | Config File | Notes |
 |-------|-------------|-------|
 | Claude Code | `CLAUDE.md` | Auto-read from root |
-| GitHub Copilot | `.github/copilot-instructions.md` | Auto-read |
+| GitHub Copilot | `.github/copilot-instructions.md` + `.vscode/settings.json` | Auto-read; install enables Use Instruction Files |
 | Cursor | `.cursorrules` | Auto-read |
 | Windsurf | `.windsurfrules` | Auto-read |
 | Cline | `.clinerules` | Auto-read |
@@ -79,7 +81,8 @@ Each install.sh:
 2. Creates `docs/`, `tickets/`, `agent-config.md`
 3. Writes unified AGENT_INSTRUCTIONS block to all 6 config files
 4. Uses `append_block_if_missing()` to avoid duplicates
-5. Shows post-install message with next steps
+5. Runs `ensure_vscode_copilot_settings()` → creates `.vscode/settings.json`
+6. Shows post-install message with next steps
 
 Key variable: `AGENT_INSTRUCTIONS` — single block written to all config files.
 
