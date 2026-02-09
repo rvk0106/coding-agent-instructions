@@ -5,12 +5,13 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 
 ## Default Loop
 1. Fetch ticket → `workflow/ticket-access.md`
-2. **If first planning or knowledge files empty** → do [Project onboarding](#project-onboarding-first-planning) below, then continue
+2. **If first planning or knowledge files empty** → run `workflow/initialise.md` (full steps) or follow [Project onboarding](#project-onboarding-first-planning) below, then continue
 3. Plan → `workflow/planning.md` → save to `docs/TICKET-ID-plan.md` → STOP
 4. Execute Phase N → `workflow/execution.md` → STOP
 5. Verify → `workflow/testing.md`
-6. Wait for human approval → repeat for Phase N+1
-7. After ticket complete → `workflow/maintenance.md`
+6. **Optional:** Run `workflow/reviewer.md` for a structured review (checklist, Approve/Request changes) before human sign-off
+7. Wait for human approval → repeat for Phase N+1
+8. After ticket complete → `workflow/maintenance.md`
 
 ---
 
@@ -110,10 +111,12 @@ Use these via retrieval when available, or via `workflow/context-router.md` when
 **Workflow** (how we work)
 - `workflow/context-retrieval.md` → **Use first when available:** vector DB or reduced index for token-efficient context
 - `workflow/context-router.md` → When not using retrieval: maps task type → required files
+- `workflow/initialise.md` → scan project and fill knowledge files (run first or when empty)
 - `workflow/planning.md` → how to create phased plans
 - `workflow/execution.md` → how to execute a single phase
 - `workflow/implementation.md` → coding conventions, file locations
 - `workflow/testing.md` → verification commands
+- `workflow/reviewer.md` → structured code review post-implementation (Approve/Request changes)
 - `workflow/ticket-access.md` → how to fetch tickets
 - `workflow/maintenance.md` → what to update after completing a ticket
 - `workflow/prompts.md` → pre-built prompts for common tasks
