@@ -127,19 +127,31 @@ else
   echo "Skip existing: agent-config.md"
 fi
 
-# Create ticket fetching utility script
+# Create ticket fetching utility script (skip if user has customized it)
 FETCH_SCRIPT="$TARGET_DIR/agent/fetch-ticket.sh"
 mkdir -p "$(dirname "$FETCH_SCRIPT")"
+if [[ -f "$FETCH_SCRIPT" ]]; then
+  echo "Skip existing: agent/fetch-ticket.sh (remove it first to regenerate)"
+else
 cat > "$FETCH_SCRIPT" <<'FETCHSCRIPT'
 #!/usr/bin/env bash
 # Ticket Fetching Utility
 # Sources configuration from agent-config.md and fetches tickets from various systems
 
-# Load configuration from agent-config.md
+# Load configuration from agent-config.md (safe parsing, no eval)
 load_config() {
   if [[ -f "agent-config.md" ]]; then
-    # Extract uncommented environment variables
-    eval "$(grep -E '^[A-Z_]+=' agent-config.md)"
+    while IFS='=' read -r key value; do
+      # Only export valid uppercase env var names with safe values
+      if [[ "$key" =~ ^[A-Z_]+$ ]] && [[ -n "$value" ]]; then
+        # Strip surrounding quotes if present
+        value="${value%\"}"
+        value="${value#\"}"
+        value="${value%\'}"
+        value="${value#\'}"
+        export "$key=$value"
+      fi
+    done < <(grep -E '^[A-Z_]+=.+' agent-config.md)
   fi
 }
 
@@ -230,6 +242,7 @@ export -f fetch_ticket
 FETCHSCRIPT
 chmod +x "$FETCH_SCRIPT"
 echo "Created agent/fetch-ticket.sh utility"
+fi
 
 # Create example ticket template
 TICKET_TEMPLATE="$TARGET_DIR/tickets/_TEMPLATE.md"
@@ -382,6 +395,6 @@ Next steps:
    - Verify: bundle exec rspec && bundle exec rubocop
    - Stop and review before Phase 2
 
-See WORKFLOW-GUIDE.md for detailed examples.
+Documentation: https://github.com/rvk0106/coding-agent-instructions
 
 EOF

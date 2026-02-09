@@ -20,17 +20,11 @@
 | Service Unavailable | 503 | Downstream service down / maintenance |
 
 ## Error Response Shape
-```ruby
-# All errors must use this shape:
-{
-  success: false,
-  message: "Human-readable summary",
-  errors: [
-    { field: "email", message: "has already been taken" }
-  ],
-  meta: {}
-}
-```
+Use the standard shape defined in `architecture/api-design.md`. Errors must include:
+- `success: false`
+- `message:` human-readable summary
+- `errors:` array of `{ field:, message: }` objects
+- `meta:` empty object or pagination/debug info
 
 ## Exception → HTTP Mapping
 ```ruby

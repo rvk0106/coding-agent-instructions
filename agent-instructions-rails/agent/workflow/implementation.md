@@ -33,13 +33,7 @@ spec/services/       → service specs
 ```
 
 ## API Response Shape
-```ruby
-# Success
-{ success: true, message: "...", data: {}, meta: {} }
-
-# Error
-{ success: false, message: "...", errors: [], meta: {} }
-```
+See `architecture/api-design.md` for the canonical success/error response shapes. All endpoints must use them consistently.
 
 ## Danger Zones
 - Multi-tenant boundary crossings → ask first

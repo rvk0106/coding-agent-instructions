@@ -64,6 +64,7 @@ DO NOT read all files below. The context router maps:
 - `workflow/implementation.md` → coding conventions, file locations
 - `workflow/testing.md` → verification commands
 - `workflow/ticket-access.md` → how to fetch tickets
+- `workflow/ticketing-systems.md` → curl/jq helpers for Linear/Jira/GitHub (when MCP not configured)
 - `workflow/maintenance.md` → what to update after completing a ticket
 - `workflow/prompts.md` → pre-built prompts for common tasks
 
