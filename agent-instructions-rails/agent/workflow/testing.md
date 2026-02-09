@@ -31,6 +31,13 @@ rails db:rollback STEP=1                  # verify rollback works
 rails db:migrate                          # re-apply
 ```
 
+## CI Commands
+```bash
+bundle exec rspec --format progress     # tests
+bundle exec rubocop --parallel           # lint
+bundle exec brakeman -q                  # security scan (if installed)
+```
+
 ## Reporting Format
 ```
 Commands run:

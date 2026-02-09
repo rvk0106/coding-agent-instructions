@@ -65,6 +65,23 @@ User.where("email = '#{params[:email]}'")
   end
   ```
 
+## Secure Headers
+- Use `secure_headers` gem or Rack middleware
+- Must set: X-Frame-Options, X-Content-Type-Options, HSTS, CSP, Referrer-Policy
+
+## Session / Cookie Security
+- `secure: true`, `httponly: true`, `SameSite: Lax` on all auth cookies
+- Prefer httpOnly cookies over localStorage for tokens
+
+## CSRF Protection
+- API-only (Bearer token): CSRF disabled OK
+- Session auth: `protect_from_forgery` required
+
+## Rate Limiting
+- Use `rack-attack` or similar
+- Auth endpoints: limit per IP; API endpoints: limit per user
+- Return 429 with `Retry-After` header
+
 ## Secrets Management
 - Location: [e.g. Rails credentials / ENV vars]
 - Never commit `.env` files with real secrets

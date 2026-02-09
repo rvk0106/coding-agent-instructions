@@ -6,7 +6,7 @@ ChatGPT does not read project files automatically. You need to provide context m
 
 1. Start a new conversation.
 2. Paste the contents of `agent/master-instructions.md` as the first message.
-3. Optionally paste `agent/principles-and-standards.md` for framework-specific standards.
+3. Optionally paste `agent/architecture/patterns.md` for Rails coding standards.
 
 ## Recommended Workflow
 

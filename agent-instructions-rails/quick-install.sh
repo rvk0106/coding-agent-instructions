@@ -23,11 +23,15 @@ fi
 # Check if it looks like a Rails project
 if [[ ! -f "$TARGET_DIR/Gemfile" ]] && [[ ! -f "$TARGET_DIR/config/application.rb" ]]; then
   echo "⚠️  Warning: This doesn't look like a Rails project."
-  read -p "Continue anyway? (y/N): " -n 1 -r
-  echo
-  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Installation cancelled."
-    exit 0
+  if [[ -t 0 ]]; then
+    read -p "Continue anyway? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+      echo "Installation cancelled."
+      exit 0
+    fi
+  else
+    echo "Non-interactive mode (piped install). Continuing anyway..."
   fi
 fi
 
@@ -57,7 +61,11 @@ echo "📚 Documentation: $REPO_URL"
 echo "🐛 Issues: $REPO_URL/issues"
 echo ""
 echo "Next steps:"
-echo "1. Set up Linear API: export LINEAR_API_TOKEN=\"your_token\""
+echo "1. Configure ticketing (pick one):"
+echo "   - Linear:  export LINEAR_API_TOKEN=\"your_token\""
+echo "   - Jira:    export JIRA_API_TOKEN=\"your_token\" JIRA_URL=\"https://your-domain.atlassian.net\""
+echo "   - GitHub:  export GITHUB_TOKEN=\"your_token\" GITHUB_REPO=\"owner/repo\""
+echo "   - Manual:  create tickets in tickets/TICKET-ID.md (no setup needed)"
 echo "2. Plan a ticket: plan architecture for TICKET-ID"
 echo "3. Execute: execute plan 1 for TICKET-ID"
 echo ""

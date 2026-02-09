@@ -25,12 +25,14 @@
 
 ## Context Loaded
 - `workflow/context-router.md` → task type: New API Endpoint
-- `architecture/system-design.md` → component map, tenancy model
-- `architecture/database.md` → programs table schema
 - `architecture/api-design.md` → endpoint naming, response shape
-- `architecture/patterns.md` → controller/model/service conventions
 - `architecture/error-handling.md` → validation error shape
+- `architecture/data-flow.md` → request lifecycle, auth pipeline
+- `architecture/patterns.md` → controller/model/service conventions
+- `architecture/glossary.md` → domain terms
+- `features/_CONVENTIONS.md` → serialization, query patterns
 - `infrastructure/security.md` → tenant scoping rules
+- `architecture/database.md` → tenant schema (admin endpoint)
 
 ## Architecture decisions
 - Add hierarchy validation in model layer.
@@ -41,7 +43,7 @@
 
 ## Phase 1
 **Goal**: Add model validations and hierarchy checks.
-**Context needed**: `architecture/patterns.md` (model conventions), `workflow/testing.md` (model spec patterns)
+**Context needed**: `architecture/patterns.md` (model conventions), `features/_CONVENTIONS.md` (model spec patterns)
 **Tasks**:
 - Add parent association and validation.
 - Add cycle detection method.

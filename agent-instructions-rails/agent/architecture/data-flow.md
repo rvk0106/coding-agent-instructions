@@ -61,6 +61,12 @@ Controller → enqueue job (Sidekiq) → return 202/200 to client
   → If failure → retry (max N times) → dead letter queue
 ```
 
+## Transaction Rules
+- ALWAYS wrap multi-model writes in `ActiveRecord::Base.transaction`
+- NEVER call external services inside a transaction (holds DB lock on network failure)
+- Pattern: DB writes in transaction → external calls after commit
+- Gotchas: `after_commit` runs outside transaction; Sidekiq jobs may fire before commit
+
 ## Serialization Pipeline
 - Serializer: [e.g. ActiveModelSerializers / JBuilder / Blueprinter / manual]
 - Format: JSON

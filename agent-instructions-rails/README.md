@@ -108,29 +108,37 @@ If you prefer not to integrate with a ticketing system:
 ```
 agent-instructions-rails/
 ├── README.md
-├── install.sh
+├── install.sh, quick-install.sh
 ├── LICENSE
 ├── agent/
-│   ├── master-instructions.md          # Entry point -- references everything below
+│   ├── master-instructions.md          # Entry point — routes via context-router
+│   ├── architecture/                   # Technical design (pre-indexed)
+│   │   ├── system-design.md           # Components, data flows, tenancy
+│   │   ├── database.md               # Schema, tables, relationships
+│   │   ├── api-design.md             # Endpoints, response shapes, versioning
+│   │   ├── patterns.md               # Design patterns, conventions, standards
+│   │   ├── error-handling.md          # HTTP codes, error shapes, exception mapping
+│   │   ├── data-flow.md              # Request lifecycle, middleware, transactions
+│   │   └── glossary.md               # Domain terms, roles, statuses
 │   ├── infrastructure/                 # Environment & setup knowledge
 │   │   ├── environment.md             # Runtime, versions, DB, env vars
 │   │   ├── dependencies.md            # Gems, external services, APIs
 │   │   ├── tooling.md                 # Linters, test commands, CI/CD
-│   │   └── deployment.md             # Hosting, deploy process
+│   │   ├── deployment.md              # Hosting, deploy process
+│   │   └── security.md               # Auth, tenant scoping, headers, rate limiting
 │   ├── workflow/                       # How we work
+│   │   ├── context-router.md          # READ FIRST: task type → required files
 │   │   ├── planning.md               # How to create phased plans
 │   │   ├── execution.md              # How to execute a single phase
 │   │   ├── implementation.md         # Coding conventions, file locations
 │   │   ├── testing.md                # Verification commands
 │   │   ├── ticket-access.md          # How to fetch tickets
-│   │   └── maintenance.md            # What to update after tickets
-│   ├── architecture/                   # Technical design
-│   │   ├── system-design.md          # Components, data flows, tenancy
-│   │   ├── database.md               # Schema, tables, relationships
-│   │   ├── api-design.md             # Endpoints, response shapes
-│   │   └── patterns.md               # Design patterns, conventions
+│   │   ├── ticketing-systems.md      # curl/jq helpers for Linear/Jira/GitHub
+│   │   ├── maintenance.md            # What to update after tickets
+│   │   └── prompts.md                # Pre-built prompts for common tasks
 │   ├── features/                       # How features work
 │   │   ├── _TEMPLATE.md              # Copy for new features
+│   │   ├── _CONVENTIONS.md           # Serialization, query, test patterns
 │   │   └── (one file per feature)
 │   └── examples/
 │       └── sample-ticket-plan.md

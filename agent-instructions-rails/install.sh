@@ -127,19 +127,31 @@ else
   echo "Skip existing: agent-config.md"
 fi
 
-# Create ticket fetching utility script
+# Create ticket fetching utility script (skip if user has customized it)
 FETCH_SCRIPT="$TARGET_DIR/agent/fetch-ticket.sh"
 mkdir -p "$(dirname "$FETCH_SCRIPT")"
+if [[ -f "$FETCH_SCRIPT" ]]; then
+  echo "Skip existing: agent/fetch-ticket.sh (remove it first to regenerate)"
+else
 cat > "$FETCH_SCRIPT" <<'FETCHSCRIPT'
 #!/usr/bin/env bash
 # Ticket Fetching Utility
 # Sources configuration from agent-config.md and fetches tickets from various systems
 
-# Load configuration from agent-config.md
+# Load configuration from agent-config.md (safe parsing, no eval)
 load_config() {
   if [[ -f "agent-config.md" ]]; then
-    # Extract uncommented environment variables
-    eval "$(grep -E '^[A-Z_]+=' agent-config.md)"
+    while IFS='=' read -r key value; do
+      # Only export valid uppercase env var names with safe values
+      if [[ "$key" =~ ^[A-Z_]+$ ]] && [[ -n "$value" ]]; then
+        # Strip surrounding quotes if present
+        value="${value%\"}"
+        value="${value#\"}"
+        value="${value%\'}"
+        value="${value#\'}"
+        export "$key=$value"
+      fi
+    done < <(grep -E '^[A-Z_]+=.+' agent-config.md)
   fi
 }
 
@@ -230,6 +242,7 @@ export -f fetch_ticket
 FETCHSCRIPT
 chmod +x "$FETCH_SCRIPT"
 echo "Created agent/fetch-ticket.sh utility"
+fi
 
 # Create example ticket template
 TICKET_TEMPLATE="$TARGET_DIR/tickets/_TEMPLATE.md"
@@ -280,18 +293,19 @@ AGENT_INSTRUCTIONS="Read and follow agent/master-instructions.md as the primary 
 
 ## Rules
 - Planning and execution are separate phases - never write code during planning
-- Read agent/principles-and-standards.md for coding conventions
-- Read agent/testing-instructions.md for verification commands
+- Read agent/workflow/context-router.md FIRST to load only relevant files
 - Save plans to docs/TICKET-ID-plan.md
 - Read tickets from tickets/TICKET-ID.md or fetch via agent/fetch-ticket.sh
 
 ## Key Files
 - agent/master-instructions.md - Main instructions and workflow
-- agent/principles-and-standards.md - Rails coding standards
-- agent/planner-instructions.md - Planning rules
-- agent/execution-contract.md - Execution discipline
-- agent/implementer-instructions.md - Implementation patterns
-- agent/testing-instructions.md - Verification commands"
+- agent/workflow/context-router.md - Task type → required files mapping
+- agent/workflow/planning.md - Planning rules
+- agent/workflow/execution.md - Execution discipline
+- agent/workflow/implementation.md - Rails coding conventions
+- agent/workflow/testing.md - Verification commands
+- agent/architecture/patterns.md - Design patterns and standards
+- agent/infrastructure/security.md - Security rules"
 
 append_block_if_missing "$TARGET_DIR/.github/copilot-instructions.md" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/.cursorrules" "$AGENT_INSTRUCTIONS"
@@ -381,6 +395,6 @@ Next steps:
    - Verify: bundle exec rspec && bundle exec rubocop
    - Stop and review before Phase 2
 
-See WORKFLOW-GUIDE.md for detailed examples.
+Documentation: https://github.com/rvk0106/coding-agent-instructions
 
 EOF

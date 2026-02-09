@@ -93,7 +93,7 @@ Use these via retrieval when available, or via `workflow/context-router.md` when
 - `infrastructure/dependencies.md` → gems, external services, APIs
 - `infrastructure/tooling.md` → linters, test commands, CI/CD
 - `infrastructure/deployment.md` → hosting, deploy process
-- `infrastructure/security.md` → auth boundaries, tenant scoping, OWASP rules
+- `infrastructure/security.md` → auth, tenant scoping, headers, CSRF, rate limiting
 
 **Architecture** (technical design)
 - `architecture/system-design.md` → components, data flows, tenancy
@@ -101,7 +101,7 @@ Use these via retrieval when available, or via `workflow/context-router.md` when
 - `architecture/api-design.md` → endpoints, response shapes, versioning
 - `architecture/patterns.md` → design patterns, conventions, quality checklist
 - `architecture/error-handling.md` → HTTP codes, error shapes, exception mapping
-- `architecture/data-flow.md` → request lifecycle, middleware, auth/authz pipeline
+- `architecture/data-flow.md` → request lifecycle, middleware, transactions
 - `architecture/glossary.md` → domain terms, roles, statuses
 
 **Features** (how things work)
@@ -118,6 +118,7 @@ Use these via retrieval when available, or via `workflow/context-router.md` when
 - `workflow/testing.md` → verification commands
 - `workflow/reviewer.md` → structured code review post-implementation (Approve/Request changes)
 - `workflow/ticket-access.md` → how to fetch tickets
+- `workflow/ticketing-systems.md` → curl/jq helpers for Linear/Jira/GitHub (when MCP not configured)
 - `workflow/maintenance.md` → what to update after completing a ticket
 - `workflow/prompts.md` → pre-built prompts for common tasks
 
