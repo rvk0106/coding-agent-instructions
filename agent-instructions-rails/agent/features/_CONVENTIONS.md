@@ -12,18 +12,17 @@
 
 ### Example Serializer
 ```ruby
-# app/serializers/program_serializer.rb (adapt to your library)
-class ProgramSerializer < ActiveModel::Serializer
+# app/serializers/resource_serializer.rb (adapt to your library)
+class ResourceSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :created_at
-  belongs_to :organization
-  has_many :enrollments
+  belongs_to :user
 end
 ```
 
 ## Query Patterns
 ```ruby
 # Eager loading -- prevent N+1
-Program.includes(:organization, :enrollments).where(active: true)
+Resource.includes(:user, :tags).where(active: true)
 
 # When to use each:
 # includes  → preloads associations (separate queries)
@@ -31,11 +30,12 @@ Program.includes(:organization, :enrollments).where(active: true)
 # joins      → INNER JOIN (use for filtering only, not loading data)
 # preload    → always separate queries (use for has_many with limit)
 
-# Pagination
-@programs = Program.page(params[:page]).per(params[:per_page] || 25)
+# Pagination (adapt to your pagination gem — Kaminari, will_paginate, Pagy, etc.)
+@resources = Resource.page(params[:page]).per(params[:per_page] || 25)
 
-# Scoping (always scope to tenant/user)
-current_tenant.programs.where(active: true)
+# Scoping -- always scope to current user
+current_user.resources.where(active: true)
+# If multi-tenant: current_tenant.resources.where(active: true)
 ```
 
 ## Test Data (FactoryBot)
@@ -43,13 +43,13 @@ current_tenant.programs.where(active: true)
 # Factory location: spec/factories/
 
 # Build (in memory, no DB hit -- use for unit tests)
-build(:program)
+build(:resource)
 
 # Create (persists to DB -- use for integration tests)
-create(:program, name: "Test Program")
+create(:resource, name: "Test Resource")
 
 # Traits for common variants
-create(:program, :archived)
+create(:resource, :archived)
 create(:user, :admin)
 
 # Sequences for unique values
@@ -58,28 +58,28 @@ sequence(:email) { |n| "user#{n}@example.com" }
 
 ## Request Spec Pattern
 ```ruby
-# spec/requests/api/v1/programs_spec.rb
-RSpec.describe "Programs API", type: :request do
+# spec/requests/api/v1/resources_spec.rb
+RSpec.describe "Resources API", type: :request do
   let(:user) { create(:user) }
   let(:headers) { auth_headers_for(user) }
 
-  describe "GET /api/v1/programs" do
-    it "returns paginated programs" do
-      create_list(:program, 3)
-      get "/api/v1/programs", headers: headers
+  describe "GET /api/v1/resources" do
+    it "returns paginated resources" do
+      create_list(:resource, 3)
+      get "/api/v1/resources", headers: headers
       expect(response).to have_http_status(:ok)
       expect(json_body[:data].size).to eq(3)
     end
   end
 
-  describe "POST /api/v1/programs" do
-    it "creates a program" do
-      post "/api/v1/programs", params: { program: valid_attrs }, headers: headers
+  describe "POST /api/v1/resources" do
+    it "creates a resource" do
+      post "/api/v1/resources", params: { resource: valid_attrs }, headers: headers
       expect(response).to have_http_status(:created)
     end
 
     it "returns 422 for invalid params" do
-      post "/api/v1/programs", params: { program: invalid_attrs }, headers: headers
+      post "/api/v1/resources", params: { resource: invalid_attrs }, headers: headers
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
@@ -88,11 +88,10 @@ end
 
 ## Model Spec Pattern
 ```ruby
-# spec/models/program_spec.rb
-RSpec.describe Program, type: :model do
+# spec/models/resource_spec.rb
+RSpec.describe Resource, type: :model do
   describe "associations" do
-    it { is_expected.to belong_to(:organization) }
-    it { is_expected.to have_many(:enrollments) }
+    it { is_expected.to belong_to(:user) }
   end
 
   describe "validations" do
@@ -108,9 +107,18 @@ end
 ## Helper Methods
 ```ruby
 # spec/support/auth_helpers.rb
+# Adapt to your auth method (JWT, session, API key)
 def auth_headers_for(user)
-  token = generate_jwt_for(user)
-  { "Authorization" => "Bearer #{token}" }
+  # JWT example:
+  # token = generate_jwt_for(user)
+  # { "Authorization" => "Bearer #{token}" }
+  #
+  # Session example:
+  # sign_in(user)  # Devise test helper
+  # {}
+  #
+  # API key example:
+  # { "X-API-Key" => user.api_key }
 end
 
 def json_body

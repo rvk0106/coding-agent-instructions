@@ -20,11 +20,7 @@
 | Service Unavailable | 503 | Downstream service down / maintenance |
 
 ## Error Response Shape
-Use the standard shape defined in `architecture/api-design.md`. Errors must include:
-- `success: false`
-- `message:` human-readable summary
-- `errors:` array of `{ field:, message: }` objects
-- `meta:` empty object or pagination/debug info
+Use the standard shape defined in `architecture/api-design.md`. All error responses must follow the project's chosen format consistently.
 
 ## Exception → HTTP Mapping
 ```ruby
@@ -32,21 +28,19 @@ Use the standard shape defined in `architecture/api-design.md`. Errors must incl
 rescue_from ActiveRecord::RecordNotFound,    with: :not_found        # → 404
 rescue_from ActiveRecord::RecordInvalid,     with: :unprocessable    # → 422
 rescue_from ActionController::ParameterMissing, with: :bad_request   # → 400
-rescue_from Pundit::NotAuthorizedError,      with: :forbidden        # → 403
+# Authorization error (adapt to your library):
+# rescue_from Pundit::NotAuthorizedError,  with: :forbidden        # → 403 (Pundit)
+# rescue_from CanCan::AccessDenied,        with: :forbidden        # → 403 (CanCanCan)
 # [Add project-specific rescues here]
 ```
 
 ## Validation Error Pattern
 ```ruby
-# In controller:
+# In controller (adapt response shape to match api-design.md):
 if record.save
-  render json: { success: true, data: record }, status: :created
+  render json: success_response(record), status: :created
 else
-  render json: {
-    success: false,
-    message: "Validation failed",
-    errors: record.errors.map { |e| { field: e.attribute, message: e.message } }
-  }, status: :unprocessable_entity
+  render json: error_response("Validation failed", record.errors), status: :unprocessable_entity
 end
 ```
 
@@ -55,9 +49,9 @@ end
 # Services return result objects, not raise exceptions:
 result = MyService.call(params)
 if result.success?
-  render json: { success: true, data: result.data }
+  render json: success_response(result.data)
 else
-  render json: { success: false, message: result.error }, status: result.status
+  render json: error_response(result.error), status: result.status
 end
 ```
 
@@ -69,7 +63,7 @@ end
 
 ## Rules for Agents
 - NEVER return raw exception messages to clients
-- ALWAYS use the standard error response shape
+- ALWAYS use the project's standard response shape (see `api-design.md`)
 - ALWAYS map exceptions to appropriate HTTP codes
 - Check the rescue_from chain in base controller before adding new rescues
 

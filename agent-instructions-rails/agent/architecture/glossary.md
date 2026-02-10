@@ -12,10 +12,9 @@ to avoid misinterpreting requirements.
 
 | Term | Definition | Used In |
 |------|-----------|---------|
-| [e.g. Organization] | [Top-level tenant account] | [models, controllers, policies] |
-| [e.g. Program] | [A structured learning path] | [models, services] |
-| [e.g. Enrollment] | [User's registration in a program] | [models, API] |
-| [e.g. Cohort] | [A group of users in a program] | [models, services] |
+| [e.g. Account] | [Top-level entity — org, workspace, or user account] | [models, controllers, policies] |
+| [e.g. Resource] | [Primary domain object your API manages] | [models, services, API] |
+| [e.g. Membership] | [Relationship between user and account/group] | [models, services] |
 
 ## Role Definitions
 | Role | Can Do | Cannot Do |
@@ -29,14 +28,14 @@ to avoid misinterpreting requirements.
 <!-- If your models have status fields, define them here -->
 | Model | Statuses | Transitions |
 |-------|----------|-------------|
-| [e.g. Program] | draft, active, archived | draft→active→archived |
+| [e.g. Order] | draft, confirmed, shipped, completed | draft→confirmed→shipped→completed |
 | [e.g. User] | pending, active, suspended | pending→active↔suspended |
 
 ## Abbreviations
 | Abbr | Meaning |
 |------|---------|
-| [e.g. LMS] | Learning Management System |
 | [e.g. SSO] | Single Sign-On |
+| [e.g. RBAC] | Role-Based Access Control |
 
 ## Changelog
-<!-- [PROJ-123] Added "Cohort" term for new grouping feature -->
+<!-- [PROJ-123] Added "Resource" term for new feature -->
