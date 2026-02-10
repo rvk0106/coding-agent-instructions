@@ -77,7 +77,6 @@ After onboarding, say “Context loaded: project onboarded; architecture, infras
 
 ## Context Loading -- DO NOT READ EVERYTHING
 
-<<<<<<< HEAD
 **Before loading context:** If this is the first planning run or if `architecture/`, `infrastructure/`, or `features/` files are missing or empty, do [Project onboarding](#project-onboarding-first-planning) first so those files exist and reflect the project.
 
 **Prefer retrieval when available:** If the project has a **vector DB** or a **reduced context index** (see `workflow/context-retrieval.md`), use it to get only relevant chunks/sections instead of loading full files. That gives more and better context without sending more tokens. Query by task type + ticket; use returned chunks as “Context loaded”; cite source and section. If retrieval is not set up, use the file-based flow below.
