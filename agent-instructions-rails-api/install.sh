@@ -300,10 +300,13 @@ AGENT_INSTRUCTIONS="Read and follow agent/master-instructions.md as the primary 
 ## Key Files
 - agent/master-instructions.md - Main instructions and workflow
 - agent/workflow/context-router.md - Task type → required files mapping
+- agent/workflow/initialise.md - Project onboarding (first-time setup)
 - agent/workflow/planning.md - Planning rules
 - agent/workflow/execution.md - Execution discipline
 - agent/workflow/implementation.md - Rails coding conventions
 - agent/workflow/testing.md - Verification commands
+- agent/workflow/reviewer.md - Structured code review checklist
+- agent/workflow/ticketing-systems.md - Ticket fetching helpers (Linear/Jira/GitHub)
 - agent/architecture/patterns.md - Design patterns and standards
 - agent/infrastructure/security.md - Security rules"
 
@@ -319,8 +322,6 @@ ensure_vscode_copilot_settings() {
   local vsdir="$TARGET_DIR/.vscode"
   local settings="$vsdir/settings.json"
   mkdir -p "$vsdir"
-  local copilot_use='true'
-  local use_agents_md='true'
   if [[ -f "$settings" ]]; then
     if grep -q '"github.copilot.chat.codeGeneration.useInstructionFiles"' "$settings" 2>/dev/null; then
       echo "Skip existing: .vscode/settings.json (Copilot instruction settings already present)"

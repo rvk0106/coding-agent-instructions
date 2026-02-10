@@ -128,10 +128,13 @@ agent-instructions-rails-api/
 │   │   └── security.md               # Auth, tenant scoping, headers, rate limiting
 │   ├── workflow/                       # How we work
 │   │   ├── context-router.md          # READ FIRST: task type → required files
+│   │   ├── context-retrieval.md       # Vector DB / reduced index guidance
+│   │   ├── initialise.md             # Project onboarding (first-time setup)
 │   │   ├── planning.md               # How to create phased plans
 │   │   ├── execution.md              # How to execute a single phase
 │   │   ├── implementation.md         # Coding conventions, file locations
 │   │   ├── testing.md                # Verification commands
+│   │   ├── reviewer.md               # Structured code review checklist
 │   │   ├── ticket-access.md          # How to fetch tickets
 │   │   ├── ticketing-systems.md      # curl/jq helpers for Linear/Jira/GitHub
 │   │   ├── maintenance.md            # What to update after tickets

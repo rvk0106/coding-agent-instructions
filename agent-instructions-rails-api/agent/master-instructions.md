@@ -16,49 +16,11 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 
 ---
 
-## Project onboarding (first planning)
+## Project Onboarding (first planning)
 
-**When:** Before creating the first plan, or when `architecture/`, `infrastructure/`, or `features/` files are missing or clearly empty (e.g. placeholders only).
+**When:** Before first plan, or when `architecture/`, `infrastructure/`, or `features/` files are missing or clearly empty.
 
-**Goal:** Understand the project and fill the knowledge files so planning and execution have accurate context. Do not guess — discover from the codebase, then write.
-
-### 1. Discover the project
-- **Structure:** App layout (`app/`, `config/`, routes, engines)
-- **Stack:** Gemfile, Ruby/Rails versions, key gems (API, auth, DB, background jobs)
-- **Data:** Schema, models, main tables, relationships (from `db/schema.rb` or migrations)
-- **API:** Controllers, routes, response shapes, error handling (from `config/routes`, controllers, serializers)
-- **Conventions:** How controllers/services/serializers are used; tenant/scope patterns; security (auth, CORS)
-- **Ops:** Env vars, test/lint commands, CI/config (from README, Rakefile, config files)
-
-### 2. Fill the knowledge files (from discovery)
-Populate only what exists; leave sections as “TBD” or “Not used” where the project doesn’t use something.
-
-| Folder / file | What to fill from |
-|---------------|-------------------|
-| **architecture/system-design.md** | Components, high-level data flow, tenancy from app structure and config |
-| **architecture/database.md** | Schema, tables, key relations, migration conventions from `db/schema.rb` and models |
-| **architecture/api-design.md** | Endpoints, request/response shapes, versioning from routes and controllers |
-| **architecture/patterns.md** | Controller/service/serializer conventions, design patterns from code |
-| **architecture/error-handling.md** | HTTP codes, error payloads, exception handling from controllers and rescues |
-| **architecture/data-flow.md** | Request lifecycle, middleware, auth pipeline from `application_controller`, middleware |
-| **architecture/glossary.md** | Domain terms, roles, statuses from models and business logic |
-| **infrastructure/environment.md** | Ruby/Rails versions, DB, env vars from Gemfile and config |
-| **infrastructure/dependencies.md** | Gems, external services, APIs from Gemfile and config |
-| **infrastructure/tooling.md** | Linters, test commands, CI from config and README |
-| **infrastructure/deployment.md** | Hosting, deploy process if present in repo or config |
-| **infrastructure/security.md** | Auth boundaries, tenant scoping, OWASP-relevant rules from code |
-| **features/** | One file per major feature per `features/_TEMPLATE.md`; describe current behavior |
-
-**Workflow files** (`workflow/*.md`) are usually provided by install; if a file is present but empty, enrich it from project discovery only where it clearly applies (e.g. add project-specific verification commands to `workflow/testing.md`).
-
-### 3. (Optional) Build context retrieval
-If the project uses a **vector DB** or **reduced context index** (see `workflow/context-retrieval.md`), index the knowledge files now so the agent can retrieve only relevant chunks and avoid sending full files every time. Re-index after any future change to those files (maintenance).
-
-### 4. Then proceed with planning
-After onboarding, say “Context loaded: project onboarded; architecture, infrastructure, and features updated from codebase.” Then run the normal planning flow from `workflow/planning.md` and produce `docs/TICKET-ID-plan.md`.
-
-**Do not** re-onboard on every ticket. Only run onboarding when knowledge files are missing or empty; afterward rely on `workflow/maintenance.md` to keep them updated.
-
+Run `workflow/initialise.md` — it walks through scanning the project, extracting from the codebase, and filling knowledge files. Do not re-onboard on every ticket; afterward rely on `workflow/maintenance.md` to keep files updated.
 
 ## Non-negotiables
 - Planning and execution are SEPARATE -- no code during planning
@@ -75,28 +37,13 @@ After onboarding, say “Context loaded: project onboarded; architecture, infras
 - Data scoping / user isolation boundaries
 - Background jobs affecting data integrity
 
-## Context Loading -- DO NOT READ EVERYTHING
+## Context Loading — DO NOT READ EVERYTHING
 
-**Before loading context:** If this is the first planning run or if `architecture/`, `infrastructure/`, or `features/` files are missing or empty, do [Project onboarding](#project-onboarding-first-planning) first so those files exist and reflect the project.
+**First-time setup:** If knowledge files are empty, do [Project onboarding](#project-onboarding-first-planning) first.
 
-**Prefer retrieval when available:** If the project has a **vector DB** or a **reduced context index** (see `workflow/context-retrieval.md`), use it to get only relevant chunks/sections instead of loading full files. That gives more and better context without sending more tokens. Query by task type + ticket; use returned chunks as “Context loaded”; cite source and section. If retrieval is not set up, use the file-based flow below.
+**Prefer retrieval when available:** If the project has a vector DB or reduced context index (see `workflow/context-retrieval.md`), query by task type + ticket to get only relevant chunks. If retrieval is not set up, use the file-based flow below.
 
-**Otherwise read `workflow/context-router.md`** -- it tells you exactly which files to load based on your current task type and workflow state. Load only those files, not everything.
-
-DO NOT read all files below. Either:
-- **Retrieval path:** Query vector store / reduced index → get relevant chunks → use those as context; or
-- **File path:** Context router maps task type + workflow state → which files to load → load only those
-
-### Available Knowledge Files
-
-Use these via retrieval when available, or via `workflow/context-router.md` when using the file-based path.
-
-**Read `workflow/context-router.md` FIRST** -- it tells you exactly which files to load
-based on your current task type and workflow state.
-
-DO NOT read all files below. The context router maps:
-- Task type (new endpoint, bug fix, model change...) → which files to load
-- Workflow state (planning, execution, testing, maintenance) → which files to load
+**File-based flow:** Read `workflow/context-router.md` — it maps your task type + workflow state to exactly which files to load. Load only those files.
 
 ### Available Knowledge Files (load via context-router only)
 
@@ -123,10 +70,9 @@ DO NOT read all files below. The context router maps:
 
 **Workflow** (how we work)
 
-- `workflow/context-retrieval.md` → **Use first when available:** vector DB or reduced index for token-efficient context
-- `workflow/context-router.md` → When not using retrieval: maps task type → required files
-- `workflow/initialise.md` → scan project and fill knowledge files (run first or when empty)
+- `workflow/context-retrieval.md` → vector DB or reduced index for token-efficient context (use first when available)
 - `workflow/context-router.md` → READ FIRST: maps task type → required files
+- `workflow/initialise.md` → scan project and fill knowledge files (run first or when empty)
 - `workflow/planning.md` → how to create phased plans
 - `workflow/execution.md` → how to execute a single phase
 - `workflow/implementation.md` → coding conventions, file locations
@@ -144,10 +90,7 @@ PLANNING:
   Else: read context-router.md → load task-specific files
   → output "Context Loaded" in plan
 
-  Use plan's "Context Loaded" + phase's "Context needed" + implementation.md
-  (don't re-discover; if retrieval, query again only if phase needs extra scope)
-  Read: context-router.md → load task-specific files → output "Context Loaded" in plan
-
+EXECUTION:
   Read: plan's "Context Loaded" + phase's "Context needed" + implementation.md
   (don't re-discover -- the plan already tells you what's relevant)
 
@@ -157,7 +100,7 @@ TESTING:
 
 MAINTENANCE:
   Read: maintenance.md → update only the files that changed
-  If retrieval: re-index / regenerate reduced index after knowledge file updates
+  If retrieval: re-index after knowledge file updates
   (targeted updates, not a full scan)
 
 ## Maintenance Rule

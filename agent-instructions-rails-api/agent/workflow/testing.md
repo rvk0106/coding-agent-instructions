@@ -6,9 +6,11 @@
 Every phase MUST be verified. No exceptions.
 
 ## Fast Checks (every phase)
+> **Note:** Commands below are defaults. Check `infrastructure/tooling.md` for project-specific test/lint commands.
+
 ```bash
 bundle exec rspec spec/path/to_spec.rb   # specs for touched files
-bundle exec rubocop                       # lint
+bundle exec rubocop                       # lint (if installed)
 ```
 
 ## Full Checks (when required)
