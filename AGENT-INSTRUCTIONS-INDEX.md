@@ -42,7 +42,7 @@ Pick the repository matching your project type from the list above.
 ### 2. Install
 From your project root:
 ```bash
-# Rails example
+# Rails API example
 curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails-api/main/quick-install.sh | bash
 
 # Spring Boot example
@@ -190,7 +190,7 @@ Contributions are welcome! For each repository:
 
 ## 🔗 Links
 
-- [Rails](https://github.com/rvk0106/agent-instructions-rails-api)
+- [Rails API](https://github.com/rvk0106/agent-instructions-rails-api)
 - [Spring Boot](https://github.com/rvk0106/agent-instructions-springboot)
 - [Django](https://github.com/rvk0106/agent-instructions-django)
 - [Express.js](https://github.com/rvk0106/agent-instructions-express)

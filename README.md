@@ -56,7 +56,7 @@ Pick the directory matching your project type from the list above.
 **One command** from your project root — creates `agent/` instructions + config files for 6 agents (ChatGPT requires manual paste):
 
 ```bash
-# Rails
+# Rails API
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/install.sh | bash -s .
 
 # Spring Boot
