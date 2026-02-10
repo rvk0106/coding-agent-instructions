@@ -114,7 +114,7 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 
 ```bash
 # Rails
-curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/install.sh | bash -s .
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/install.sh | bash -s .
 
 # Spring Boot
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-springboot/install.sh | bash -s .
@@ -235,7 +235,7 @@ coding-agent-instructions/
 ├── AGENT-INSTRUCTIONS-INDEX.md        # Master catalog
 ├── LICENSE                            # GNU GPL v3.0
 │
-├── agent-instructions-rails/
+├── agent-instructions-rails-api/
 │   ├── README.md
 │   ├── install.sh
 │   ├── LICENSE
