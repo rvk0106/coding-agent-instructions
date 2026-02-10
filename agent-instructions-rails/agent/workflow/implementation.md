@@ -33,10 +33,10 @@ spec/services/       → service specs
 ```
 
 ## API Response Shape
-See `architecture/api-design.md` for the canonical success/error response shapes. All endpoints must use them consistently.
+See `architecture/api-design.md` for the project's standard response shapes. All endpoints must use them consistently.
 
 ## Danger Zones
-- Multi-tenant boundary crossings → ask first
 - Auth changes → ask first
 - Direct SQL / raw queries → justify
+- Data scoping bypass (accessing other users' data) → ask first
 - Skipping validations → never

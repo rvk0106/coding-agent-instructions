@@ -4,32 +4,31 @@
 > Last updated: [TICKET-ID or date]
 
 ## Engine
-- Type: [e.g. PostgreSQL 15.x]
+- Type: [e.g. PostgreSQL / MySQL / SQLite]
 - Schema file: `db/schema.rb` or `db/structure.sql`
 
 ## Key Tables
 <!-- List the most important tables and their purpose -->
 | Table | Purpose | Key Columns |
 |-------|---------|-------------|
-| `users` | User accounts | email, role, tenant_id |
-| `organizations` | Tenant accounts | name, slug, plan |
+| `users` | User accounts | email, role |
 | [table] | [purpose] | [columns] |
 
 ## Key Relationships
 ```
-organizations has_many :users
-users has_many :posts
-users belongs_to :organization
+users has_many :resources
+resources belongs_to :user
 [add project-specific relationships]
 ```
 
 ## Indexes
 <!-- List important/custom indexes -->
-- `users`: unique on `[email]`, index on `[tenant_id]`
+- `users`: unique on `[email]`
 - [table]: [index description]
 
-## Multi-Tenancy (if applicable)
-- Strategy: [e.g. tenant_id column / schema-based / none]
+## Multi-Tenancy
+<!-- DELETE this section if your app is single-tenant -->
+- Strategy: [e.g. tenant_id column / schema-based]
 - Scoping: [e.g. default_scope / controller before_action]
 - Tables shared across tenants: [list]
 - Tables tenant-scoped: [list]
@@ -41,4 +40,4 @@ users belongs_to :organization
 - Always test rollback: `rails db:rollback STEP=1`
 
 ## Changelog
-<!-- [PROJ-123] Added programs table with parent_id for hierarchy -->
+<!-- [PROJ-123] Added indexes for new table -->

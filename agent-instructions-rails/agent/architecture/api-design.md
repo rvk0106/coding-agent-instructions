@@ -4,52 +4,66 @@
 > Last updated: [TICKET-ID or date]
 
 ## Base URL
-- Pattern: `/api/v1/`
-- Admin: `/api/v1/admin/`
-- Public: `/api/v1/`
+- Pattern: [e.g. `/api/v1/` or `/api/`]
+- Admin: [e.g. `/api/v1/admin/`]
+- Public: [e.g. `/api/v1/`]
 
 ## Versioning
-- Strategy: [e.g. URL path `/api/v1/` / header-based]
-- Current version: v1
+- Strategy: [choose one]
+  - **URL path**: `/api/v1/resources` (most common for Rails)
+  - **Header-based**: `Accept: application/vnd.myapp.v1+json`
+- Current version: [e.g. v1]
 
 ## Response Shape
+<!-- Define YOUR project's standard shape. Example options: -->
 ```ruby
-# Success
-{ success: true, message: "...", data: {}, meta: {} }
+# Option A: Wrapped response (explicit success flag)
+# Success: { success: true, message: "...", data: {}, meta: {} }
+# Error:   { success: false, message: "...", errors: [], meta: {} }
 
-# Error
-{ success: false, message: "...", errors: [], meta: {} }
+# Option B: Bare data (simpler)
+# Success: { "id": 1, "name": "..." }  or  { "data": { ... } }
+# Error:   { "error": "Not found", "details": [...] }
+
+# Option C: JSON:API format
+# Success: { "data": { "type": "resources", "id": "1", "attributes": {} } }
 ```
+**This project uses**: [describe your chosen shape here]
 
 ## Authentication
-- Header: `Authorization: Bearer <token>`
+<!-- Choose your auth pattern -->
+- **Bearer token (JWT)**: `Authorization: Bearer <token>`
+- **Session auth**: cookie-based, server-side session
+- **API key**: `Authorization: ApiKey <key>` or `X-API-Key` header
+- **This project uses**: [describe your auth method]
 - Unauthenticated: 401
 - Unauthorized: 403
 
 ## Pagination
-- Style: [e.g. page-based / cursor-based]
-- Params: `?page=1&per_page=25`
-- Meta: `{ total: N, page: N, per_page: N, total_pages: N }`
+- Style: [choose one]
+  - **Page-based**: `?page=1&per_page=25` → meta: `{ total, page, per_page, total_pages }`
+  - **Cursor-based**: `?after=<cursor>&limit=25` → meta: `{ has_next, next_cursor }`
+- **This project uses**: [describe your pagination style]
 
 ## Key Endpoints
 <!-- List the main API groups -->
 | Group | Base Path | Auth Required |
 |-------|-----------|:------------:|
-| Auth | `/api/v1/auth/` | No |
-| Users | `/api/v1/users/` | Yes |
-| Admin | `/api/v1/admin/` | Yes (admin) |
+| Auth | [e.g. `/api/v1/auth/`] | No |
+| Users | [e.g. `/api/v1/users/`] | Yes |
+| Admin | [e.g. `/api/v1/admin/`] | Yes (admin) |
 | [group] | [path] | [yes/no] |
 
 ## Naming Conventions
-- Resources: plural (`/users`, `/programs`)
+- Resources: plural (`/users`, `/orders`)
 - Actions: RESTful (index, show, create, update, destroy)
 - Custom actions: verb prefix (`/users/:id/activate`)
-- Nested max depth: 2 levels (`/organizations/:id/users`)
+- Nested max depth: 2 levels (`/accounts/:id/users`)
 
 ## API Documentation
-- Tool: [e.g. rswag / swagger-blocks]
-- Generate: `bundle exec rake swagger:generate_modular`
+- Tool: [e.g. rswag / swagger-blocks / none]
+- Generate: [e.g. `bundle exec rake swagger:generate_modular`]
 - Location: [e.g. `/api-docs`]
 
 ## Changelog
-<!-- [PROJ-123] Added /api/v1/programs endpoints -->
+<!-- [PROJ-123] Added new API endpoints -->

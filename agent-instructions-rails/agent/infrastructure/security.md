@@ -11,32 +11,33 @@
 - Never disable CSRF protection
 - Never hardcode secrets in code
 - Never trust client-side data for authorization
-- Never use `find(params[:id])` without scoping to tenant/user
+- Never use `find(params[:id])` without scoping to current user (or tenant if multi-tenant)
 
 ## Always Do These
-- Always scope queries to current user/tenant
+- Always scope queries to current user (or tenant if multi-tenant)
 - Always use strong parameters in every controller
 - Always validate file uploads (type, size, content)
 - Always sanitize user input before rendering
 - Always use HTTPS-only cookies for tokens
 - Always rate-limit authentication endpoints
 
-## Multi-Tenant Boundaries
+## Query Scoping
 ```ruby
-# CORRECT: scoped to tenant
-current_tenant.programs.find(params[:id])
+# CORRECT: scoped to current user
+current_user.resources.find(params[:id])
 
-# WRONG: unscoped -- leaks data across tenants
-Program.find(params[:id])
+# WRONG: unscoped -- may leak other users' data
+Resource.find(params[:id])
 ```
+<!-- If multi-tenant, also scope to tenant: current_tenant.resources.find(params[:id]) -->
 
 ## Parameter Safety
 ```ruby
 # CORRECT: explicit whitelist
-params.require(:program).permit(:name, :description, :parent_id)
+params.require(:resource).permit(:name, :description, :status)
 
 # WRONG: mass assignment vulnerability
-Program.create(params[:program])
+Resource.create(params[:resource])
 ```
 
 ## SQL Injection Prevention
@@ -52,11 +53,11 @@ User.where("email = '#{params[:email]}'")
 ## Authentication Checks
 - Every controller action must authenticate (unless explicitly public)
 - Public endpoints: list them in `architecture/api-design.md`
-- Token expiration: [e.g. 15 min access, 7 day refresh]
+- Token/session expiration: [e.g. 15 min access, 7 day refresh / session timeout]
 
 ## Authorization Checks
 - Every mutating action must authorize
-- Use [Pundit/CanCanCan] policies -- not inline if-checks
+- Use your project's authorization library (Pundit / CanCanCan / custom) consistently
 - Test authorization in request specs:
   ```ruby
   it "returns 403 for unauthorized user" do

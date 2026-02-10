@@ -26,17 +26,19 @@
 - Location: `app/services/`
 - One public method per service (usually `call` or `perform`)
 - Used for: multi-step operations, cross-model logic, external API calls
-- Naming: `VerbNounService` (e.g. `CreateProgramService`)
+- Naming: `VerbNounService` (e.g. `CreateOrderService`)
 
 ### Policies
+<!-- DELETE this section if not using policy-based authorization -->
 - Location: `app/policies/`
-- Library: [e.g. Pundit / CanCanCan]
+- Library: [e.g. Pundit / CanCanCan / custom]
 - One policy per model
 - Check in controller before_action
 
 ### Jobs
+<!-- DELETE this section if not using background jobs -->
 - Location: `app/jobs/`
-- Queue: [e.g. Sidekiq]
+- Queue: [e.g. Sidekiq / GoodJob / SolidQueue / DelayedJob]
 - Naming: `VerbNounJob` (e.g. `SendWelcomeEmailJob`)
 - Idempotent: jobs must be safe to retry
 
@@ -52,7 +54,7 @@
 - [ ] Strong parameters in all controller actions
 - [ ] RSpec tests for all new code
 - [ ] RuboCop passes
-- [ ] Swagger updated (if API changed)
+- [ ] API docs updated (if API changed)
 - [ ] No N+1 queries (use `includes`/`eager_load`)
 - [ ] Error handling with consistent payloads
 - [ ] Rollback plan for migrations

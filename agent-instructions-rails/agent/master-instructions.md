@@ -23,7 +23,7 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 - DB schema or migrations
 - Money/billing/payments
 - Production config/secrets
-- Multi-tenant data isolation
+- Data scoping / user isolation boundaries
 - Background jobs affecting data integrity
 
 ## Context Loading -- DO NOT READ EVERYTHING
@@ -42,10 +42,10 @@ DO NOT read all files below. The context router maps:
 - `infrastructure/dependencies.md` → gems, external services, APIs
 - `infrastructure/tooling.md` → linters, test commands, CI/CD
 - `infrastructure/deployment.md` → hosting, deploy process
-- `infrastructure/security.md` → auth, tenant scoping, headers, CSRF, rate limiting
+- `infrastructure/security.md` → auth, query scoping, headers, CSRF, rate limiting
 
 **Architecture** (technical design)
-- `architecture/system-design.md` → components, data flows, tenancy
+- `architecture/system-design.md` → components, data flows, stack
 - `architecture/database.md` → schema, tables, relationships
 - `architecture/api-design.md` → endpoints, response shapes, versioning
 - `architecture/patterns.md` → design patterns, conventions, quality checklist

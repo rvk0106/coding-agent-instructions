@@ -1,26 +1,25 @@
-# Sample Ticket Plan — Linear Style
+# Sample Ticket Plan
 
-**Location**: `docs/EDU-421-plan.md`
+**Location**: `docs/PROJ-101-plan.md`
 
 ## Ticket metadata
-- Ticket ID: EDU-421
-- Title: Program CRUD with hierarchy support
+- Ticket ID: PROJ-101
+- Title: Resource CRUD with category support
 - Owner: Unassigned
 - Priority: High
 
 ## Requirements & constraints
-- Admins can create, update, and delete programs.
-- Programs may have parent/child relationships.
-- Prevent cycles in hierarchy.
-- Expose read endpoints for non‑admin users.
-- Non‑goals: UI changes, data migration for existing records.
+- Admins can create, update, and delete resources.
+- Resources belong to categories (each resource has one category).
+- Expose read endpoints for non-admin users.
+- Non-goals: UI changes, data migration for existing records.
 
 ## Current state analysis
-- Reviewed `db/schema.rb`: programs table exists with basic fields
-- Checked `app/models/program.rb`: basic validations present
-- Reviewed `app/controllers/api/v1/`: no programs controller exists
-- Analyzed `config/routes.rb`: no programs routes defined
-- Reviewed `spec/`: no programs specs exist
+- Reviewed `db/schema.rb`: resources table exists with basic fields
+- Checked `app/models/resource.rb`: basic validations present
+- Reviewed `app/controllers/api/v1/`: no resources controller exists
+- Analyzed `config/routes.rb`: no resources routes defined
+- Reviewed `spec/`: no resources specs exist
 - Checked `.rubocop.yml`: standard Rails cops enabled
 
 ## Context Loaded
@@ -31,34 +30,32 @@
 - `architecture/patterns.md` → controller/model/service conventions
 - `architecture/glossary.md` → domain terms
 - `features/_CONVENTIONS.md` → serialization, query patterns
-- `infrastructure/security.md` → tenant scoping rules
-- `architecture/database.md` → tenant schema (admin endpoint)
+- `infrastructure/security.md` → query scoping rules
 
 ## Architecture decisions
-- Add hierarchy validation in model layer.
+- Add category association and validation in model layer.
 - Use a service for create/update to enforce business rules.
 - Add admin controller for write operations; public controller for reads.
 - Update routes to separate admin and public endpoints.
-- Ensure responses follow the standard Rails API payload shape.
+- Follow the project's standard API response shape.
 
 ## Phase 1
-**Goal**: Add model validations and hierarchy checks.
+**Goal**: Add model validations and category association.
 **Context needed**: `architecture/patterns.md` (model conventions), `features/_CONVENTIONS.md` (model spec patterns)
 **Tasks**:
-- Add parent association and validation.
-- Add cycle detection method.
+- Add category association and validation.
 - Add model specs.
 **Allowed files**:
-- app/models/program.rb
-- spec/models/program_spec.rb
+- app/models/resource.rb
+- spec/models/resource_spec.rb
 **Forbidden changes**:
 - No controller or route changes.
 - No migrations.
 **Verification**:
-- `bundle exec rspec spec/models/program_spec.rb`
+- `bundle exec rspec spec/models/resource_spec.rb`
 **Acceptance criteria**:
-- Cycle creation is rejected.
-- Parent/child constraints validated.
+- Category association validated.
+- Required fields enforced.
 
 ## Phase 2
 **Goal**: Add admin write endpoints with service object.
@@ -68,15 +65,14 @@
 - Add admin controller actions.
 - Add request specs.
 **Allowed files**:
-- app/services/program_upsert_service.rb
-- app/controllers/api/v1/admin/programs_controller.rb
-- spec/requests/api/v1/admin/programs_spec.rb
+- app/services/resource_upsert_service.rb
+- app/controllers/api/v1/admin/resources_controller.rb
+- spec/requests/api/v1/admin/resources_spec.rb
 **Forbidden changes**:
 - No public read endpoints.
 - No UI changes.
 **Verification**:
-- `bundle exec rspec spec/requests/api/v1/admin/programs_spec.rb`
- - `bundle exec rake swagger:generate_modular`
+- `bundle exec rspec spec/requests/api/v1/admin/resources_spec.rb`
 **Acceptance criteria**:
 - Admin can create/update/delete.
 - Validation errors return consistent API format.
@@ -89,16 +85,15 @@
 - Add routes.
 - Add request specs.
 **Allowed files**:
-- app/controllers/api/v1/programs_controller.rb
+- app/controllers/api/v1/resources_controller.rb
 - config/routes.rb
-- spec/requests/api/v1/programs_spec.rb
+- spec/requests/api/v1/resources_spec.rb
 **Forbidden changes**:
 - No admin write changes.
 **Verification**:
-- `bundle exec rspec spec/requests/api/v1/programs_spec.rb`
- - `bundle exec rake swagger:generate_modular`
+- `bundle exec rspec spec/requests/api/v1/resources_spec.rb`
 **Acceptance criteria**:
-- Non‑admin users can list and show programs.
+- Non-admin users can list and show resources.
 
 ## Next step
-execute plan 1 for EDU-421
+execute plan 1 for PROJ-101
