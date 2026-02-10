@@ -9,9 +9,9 @@ Client Request
   → Rack Middleware (logging, CORS, rate limiting)
     → Rails Router (config/routes.rb)
       → Controller before_actions:
-        1. authenticate_user (JWT/session check → 401 if invalid)
-        2. set_tenant (multi-tenant scoping, if applicable)
-        3. authorize (Pundit/CanCanCan → 403 if denied)
+        1. authenticate (verify credentials → 401 if invalid)
+        2. set_scope (user/tenant scoping, if applicable)
+        3. authorize (check permissions → 403 if denied)
       → Controller action
         → Strong parameters (whitelist input)
         → Service object (business logic)
@@ -25,21 +25,24 @@ Client Response
 ```
 
 ## Authentication Flow
+<!-- Adapt to your auth method (JWT, session, API key) -->
 ```
-Request → Authorization header → decode JWT → find user → set current_user
-  ├── Token valid → proceed to controller
-  ├── Token expired → 401 { message: "Token expired" }
-  └── Token missing → 401 { message: "Authentication required" }
+Request → extract credentials (header/cookie/param) → verify → set current_user
+  ├── Valid → proceed to controller
+  ├── Expired/Invalid → 401
+  └── Missing → 401
 ```
 
 ## Authorization Flow
+<!-- Adapt to your authz library (Pundit, CanCanCan, custom) -->
 ```
-Controller → authorize(resource) → Policy class → check role/permissions
+Controller → check permissions (policy/ability/inline) → allow or deny
   ├── Authorized → proceed
-  └── Denied → 403 { message: "Not authorized" }
+  └── Denied → 403
 ```
 
-## Multi-Tenant Flow (if applicable)
+## Multi-Tenant Flow
+<!-- DELETE this section if your app is single-tenant -->
 ```
 Request → resolve tenant (from subdomain/header/param) → set tenant context
   ├── All queries auto-scoped to tenant
@@ -49,14 +52,15 @@ Request → resolve tenant (from subdomain/header/param) → set tenant context
 
 ## Key before_actions Order
 <!-- Document the actual order from your base controller -->
-1. `authenticate_user` → sets `current_user`
-2. `set_tenant` → sets tenant context (if multi-tenant)
-3. `authorize` → checks permissions
+1. `authenticate` → sets `current_user`
+2. `set_scope` → scopes data to user or tenant (if applicable)
+3. `authorize` → checks permissions (if using policy library)
 4. [Add project-specific before_actions]
 
 ## Background Job Flow
+<!-- DELETE this section if not using background jobs -->
 ```
-Controller → enqueue job (Sidekiq) → return 202/200 to client
+Controller → enqueue job → return 202/200 to client
   → Worker picks up job → execute → update DB
   → If failure → retry (max N times) → dead letter queue
 ```
@@ -65,7 +69,7 @@ Controller → enqueue job (Sidekiq) → return 202/200 to client
 - ALWAYS wrap multi-model writes in `ActiveRecord::Base.transaction`
 - NEVER call external services inside a transaction (holds DB lock on network failure)
 - Pattern: DB writes in transaction → external calls after commit
-- Gotchas: `after_commit` runs outside transaction; Sidekiq jobs may fire before commit
+- Gotchas: `after_commit` runs outside transaction; async jobs may fire before commit
 
 ## Serialization Pipeline
 - Serializer: [e.g. ActiveModelSerializers / JBuilder / Blueprinter / manual]

@@ -63,7 +63,7 @@ Each of these contains a short pointer (or inline summary) so the agent follows 
 
 ## Tool-adapters reference
 
-Some framework packages (e.g. `agent-instructions-rails`) include a `tool-adapters/` folder with one-page notes per agent:
+Some framework packages (e.g. `agent-instructions-rails-api`) include a `tool-adapters/` folder with one-page notes per agent:
 
 - `cursor.md` – Cursor setup and workflow
 - `copilot.md` – Copilot setup and workflow

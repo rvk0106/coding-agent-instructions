@@ -42,7 +42,7 @@ After loading instruction context, check these project files as relevant:
 - DB migrations/schema changes
 - Money/billing/payments
 - Production config/secrets
-- Multi-tenant data isolation
+- Data scoping / user isolation boundaries
 - Background jobs mutating data
 
 ## Plan Output Format

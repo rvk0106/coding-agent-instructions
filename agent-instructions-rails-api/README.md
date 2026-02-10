@@ -15,32 +15,32 @@ A drop-in, tool-agnostic instruction system for using coding agents safely with 
 ### Method 1: Quick install (recommended)
 From your Rails project root:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails/main/quick-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails-api/main/quick-install.sh | bash
 ```
 
 ### Method 2: Specify custom directory
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails/main/quick-install.sh | bash -s /path/to/your/rails/project
+curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails-api/main/quick-install.sh | bash -s /path/to/your/rails/project
 ```
 
 ### Method 3: Clone and install
 ```bash
 # Clone the repository
-git clone https://github.com/rvk0106/agent-instructions-rails.git /tmp/agent-instructions-rails
+git clone https://github.com/rvk0106/agent-instructions-rails-api.git /tmp/agent-instructions-rails-api
 
 # Run installer from your Rails project root
 cd /path/to/your/rails/project
-/tmp/agent-instructions-rails/install.sh .
+/tmp/agent-instructions-rails-api/install.sh .
 
 # Clean up
-rm -rf /tmp/agent-instructions-rails
+rm -rf /tmp/agent-instructions-rails-api
 ```
 
 ### Method 4: Download as archive
 ```bash
-wget https://github.com/rvk0106/agent-instructions-rails/archive/refs/heads/main.tar.gz
+wget https://github.com/rvk0106/agent-instructions-rails-api/archive/refs/heads/main.tar.gz
 tar -xzf main.tar.gz
-cd agent-instructions-rails-main
+cd agent-instructions-rails-api-main
 ./install.sh /path/to/your/rails/project
 ```
 
@@ -106,7 +106,7 @@ If you prefer not to integrate with a ticketing system:
 
 ## Repository layout
 ```
-agent-instructions-rails/
+agent-instructions-rails-api/
 ├── README.md
 ├── install.sh, quick-install.sh
 ├── LICENSE
@@ -173,8 +173,8 @@ rm -rf agent/
 
 # Remove markers from tool config files
 # Manually edit these files and remove blocks between:
-# >>> agent-instructions-rails
-# <<< agent-instructions-rails
+# >>> agent-instructions-rails-api
+# <<< agent-instructions-rails-api
 # Files: .github/copilot-instructions.md, .cursorrules, CLAUDE.md,
 # .windsurfrules, .clinerules, AGENTS.md
 ```
@@ -205,4 +205,4 @@ Under the condition that:
 - Plans are saved to `docs/` folder - commit them to version control for team visibility.
 
 ## Support
-Issues and feature requests: [GitHub Issues](https://github.com/rvk0106/agent-instructions-rails/issues)
+Issues and feature requests: [GitHub Issues](https://github.com/rvk0106/agent-instructions-rails-api/issues)

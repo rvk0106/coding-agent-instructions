@@ -5,13 +5,13 @@
 
 ## Key Gems
 <!-- List gems the agent needs to know about when planning/implementing -->
-- `devise` / `jwt` - authentication ([describe which])
-- `pundit` / `cancancan` - authorization ([describe which])
-- `sidekiq` - background jobs
-- `pg` - PostgreSQL adapter
-- `rspec-rails` - testing
-- `rubocop-rails` - linting
-- `rswag` / `swagger-blocks` - API docs ([describe which])
+- Authentication: [e.g. `devise` / `jwt` / `devise-jwt` / `rodauth` / none]
+- Authorization: [e.g. `pundit` / `cancancan` / custom / none]
+- Background jobs: [e.g. `sidekiq` / `good_job` / `solid_queue` / none]
+- Database adapter: [e.g. `pg` / `mysql2` / `sqlite3`]
+- Testing: `rspec-rails`
+- Linting: `rubocop-rails`
+- API docs: [e.g. `rswag` / `swagger-blocks` / none]
 - [Add project-specific gems]
 
 ## External Services

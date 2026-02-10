@@ -3,8 +3,8 @@ set -euo pipefail
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 TARGET_DIR="${1:-}"
-MARKER_START="# >>> agent-instructions-rails"
-MARKER_END="# <<< agent-instructions-rails"
+MARKER_START="# >>> agent-instructions-rails-api"
+MARKER_END="# <<< agent-instructions-rails-api"
 
 if [[ -z "$TARGET_DIR" ]]; then
   echo "Usage: ./install.sh /path/to/your-project"

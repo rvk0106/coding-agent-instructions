@@ -12,7 +12,7 @@ Implemented a complete framework-agnostic instruction system for using coding ag
 Created complete instruction sets for:
 
 1. **Backend Frameworks**
-   - Rails (Ruby on Rails)
+   - Rails-Api (Ruby on Rails)
    - Spring Boot (Java)
    - Django (Python)
    - Express (Node.js)
@@ -113,8 +113,8 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 ### Backend Frameworks
 
 ```bash
-# Rails
-curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/install.sh | bash -s .
+# Rails-API
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/install.sh | bash -s .
 
 # Spring Boot
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-springboot/install.sh | bash -s .
@@ -235,7 +235,7 @@ coding-agent-instructions/
 ├── AGENT-INSTRUCTIONS-INDEX.md        # Master catalog
 ├── LICENSE                            # GNU GPL v3.0
 │
-├── agent-instructions-rails/
+├── agent-instructions-rails-api/
 │   ├── README.md
 │   ├── install.sh
 │   ├── LICENSE

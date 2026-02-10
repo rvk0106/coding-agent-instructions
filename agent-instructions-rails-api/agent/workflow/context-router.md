@@ -22,9 +22,9 @@ LOAD:
   - architecture/patterns.md           → controller/service conventions
   - architecture/glossary.md           → domain terms
   - features/_CONVENTIONS.md           → serialization, query patterns
-  - infrastructure/security.md         → auth boundaries, tenant scoping
+  - infrastructure/security.md         → auth boundaries, query scoping
 LOAD IF admin endpoint:
-  - architecture/database.md           → tenant schema if multi-tenant
+  - architecture/database.md           → schema context
 SKIP:
   - infrastructure/environment.md, deployment.md, tooling.md
   - workflow/* (you already know the planning workflow)
@@ -36,7 +36,7 @@ LOAD:
   - architecture/database.md           → schema, tables, relationships, migration rules
   - architecture/patterns.md           → model conventions
   - architecture/glossary.md           → domain terms, status definitions
-  - infrastructure/security.md         → tenant scoping rules
+  - infrastructure/security.md         → query scoping rules
 LOAD IF model has API:
   - architecture/api-design.md         → endpoint conventions
   - architecture/error-handling.md     → validation error patterns
@@ -70,7 +70,7 @@ LOAD IF job touches external service:
   - infrastructure/dependencies.md     → service integration details
 LOAD IF job modifies data:
   - architecture/database.md           → schema context
-  - infrastructure/security.md         → tenant scoping
+  - infrastructure/security.md         → query scoping
 SKIP:
   - architecture/api-design.md (jobs don't serve API)
   - infrastructure/deployment.md
@@ -103,7 +103,7 @@ SKIP:
 ```
 LOAD:
   - architecture/database.md           → schema conventions, migration rules
-  - infrastructure/security.md         → tenant scoping (if applicable)
+  - infrastructure/security.md         → query scoping (if applicable)
 SKIP:
   - Everything else
 ```

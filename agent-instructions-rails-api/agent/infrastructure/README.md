@@ -8,6 +8,6 @@ Pre-indexed project environment knowledge. Update these files when infrastructur
 | [dependencies.md](dependencies.md) | Gems, external services, APIs |
 | [tooling.md](tooling.md) | Linters, test runners, CI/CD |
 | [deployment.md](deployment.md) | Hosting, deploy process, envs |
-| [security.md](security.md) | Auth, tenant scoping, headers, CSRF, rate limiting |
+| [security.md](security.md) | Auth, query scoping, headers, CSRF, rate limiting |
 
 > Update rule: Tag changes with ticket ID (e.g. `[PROJ-123] Added Redis 7.x`)

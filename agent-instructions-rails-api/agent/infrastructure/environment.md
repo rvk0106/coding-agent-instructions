@@ -9,10 +9,11 @@
 - Bundler: [e.g. 2.x]
 - Node: [e.g. 18.x] (if asset pipeline or JS needed)
 
-## Database
-- Primary: [e.g. PostgreSQL 15.x]
-- Cache: [e.g. Redis 7.x]
-- Search: [e.g. Elasticsearch 8.x / none]
+## Database & Services
+- Primary DB: [e.g. PostgreSQL / MySQL / SQLite]
+- Cache: [e.g. Redis / Memcached / none]
+- Search: [e.g. Elasticsearch / none]
+- Job backend: [e.g. Redis (for Sidekiq) / PostgreSQL (for GoodJob) / none]
 
 ## OS / Container
 - Dev: [e.g. macOS / Docker / devcontainer]
@@ -29,7 +30,7 @@ rails s
 
 ## Environment Variables
 - `DATABASE_URL` - primary DB connection
-- `REDIS_URL` - cache/sidekiq broker
+- `REDIS_URL` - cache/job broker (if using Redis)
 - `SECRET_KEY_BASE` - Rails credentials
 - [Add project-specific vars here]
 

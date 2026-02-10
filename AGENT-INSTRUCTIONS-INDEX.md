@@ -5,7 +5,7 @@ Drop-in, tool-agnostic instruction systems for using coding agents safely across
 ## 📦 Available Frameworks
 
 ### Backend Frameworks
-- **[agent-instructions-rails](agent-instructions-rails/)** - Ruby on Rails API development
+- **[agent-instructions-rails-api](agent-instructions-rails-api/)** - Ruby on Rails API development
 - **[agent-instructions-springboot](agent-instructions-springboot/)** - Spring Boot Java applications
 - **[agent-instructions-django](agent-instructions-django/)** - Django Python web framework
 - **[agent-instructions-express](agent-instructions-express/)** - Express.js Node.js applications
@@ -42,8 +42,8 @@ Pick the repository matching your project type from the list above.
 ### 2. Install
 From your project root:
 ```bash
-# Rails example
-curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails/main/quick-install.sh | bash
+# Rails API example
+curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails-api/main/quick-install.sh | bash
 
 # Spring Boot example
 curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-springboot/main/quick-install.sh | bash
@@ -190,7 +190,7 @@ Contributions are welcome! For each repository:
 
 ## 🔗 Links
 
-- [Rails](https://github.com/rvk0106/agent-instructions-rails)
+- [Rails API](https://github.com/rvk0106/agent-instructions-rails-api)
 - [Spring Boot](https://github.com/rvk0106/agent-instructions-springboot)
 - [Django](https://github.com/rvk0106/agent-instructions-django)
 - [Express.js](https://github.com/rvk0106/agent-instructions-express)

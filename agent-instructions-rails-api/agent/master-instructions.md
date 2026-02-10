@@ -5,6 +5,7 @@ You are a collaborator, not an autonomous engineer. Propose plans, execute small
 
 ## Default Loop
 1. Fetch ticket → `workflow/ticket-access.md`
+
 2. **If first planning or knowledge files empty** → run `workflow/initialise.md` (full steps) or follow [Project onboarding](#project-onboarding-first-planning) below, then continue
 3. Plan → `workflow/planning.md` → save to `docs/TICKET-ID-plan.md` → STOP
 4. Execute Phase N → `workflow/execution.md` → STOP
@@ -58,6 +59,7 @@ After onboarding, say “Context loaded: project onboarded; architecture, infras
 
 **Do not** re-onboard on every ticket. Only run onboarding when knowledge files are missing or empty; afterward rely on `workflow/maintenance.md` to keep them updated.
 
+
 ## Non-negotiables
 - Planning and execution are SEPARATE -- no code during planning
 - Execute ONLY one phase at a time
@@ -70,7 +72,7 @@ After onboarding, say “Context loaded: project onboarded; architecture, infras
 - DB schema or migrations
 - Money/billing/payments
 - Production config/secrets
-- Multi-tenant data isolation
+- Data scoping / user isolation boundaries
 - Background jobs affecting data integrity
 
 ## Context Loading -- DO NOT READ EVERYTHING
@@ -88,15 +90,26 @@ DO NOT read all files below. Either:
 ### Available Knowledge Files
 
 Use these via retrieval when available, or via `workflow/context-router.md` when using the file-based path.
+
+**Read `workflow/context-router.md` FIRST** -- it tells you exactly which files to load
+based on your current task type and workflow state.
+
+DO NOT read all files below. The context router maps:
+- Task type (new endpoint, bug fix, model change...) → which files to load
+- Workflow state (planning, execution, testing, maintenance) → which files to load
+
+### Available Knowledge Files (load via context-router only)
+
+
 **Infrastructure** (environment & setup)
 - `infrastructure/environment.md` → runtime, versions, DB, env vars
 - `infrastructure/dependencies.md` → gems, external services, APIs
 - `infrastructure/tooling.md` → linters, test commands, CI/CD
 - `infrastructure/deployment.md` → hosting, deploy process
-- `infrastructure/security.md` → auth, tenant scoping, headers, CSRF, rate limiting
+- `infrastructure/security.md` → auth, query scoping, headers, CSRF, rate limiting
 
 **Architecture** (technical design)
-- `architecture/system-design.md` → components, data flows, tenancy
+- `architecture/system-design.md` → components, data flows, stack
 - `architecture/database.md` → schema, tables, relationships
 - `architecture/api-design.md` → endpoints, response shapes, versioning
 - `architecture/patterns.md` → design patterns, conventions, quality checklist
@@ -109,9 +122,11 @@ Use these via retrieval when available, or via `workflow/context-router.md` when
 - `features/_CONVENTIONS.md` → serialization, query, and test patterns
 
 **Workflow** (how we work)
+
 - `workflow/context-retrieval.md` → **Use first when available:** vector DB or reduced index for token-efficient context
 - `workflow/context-router.md` → When not using retrieval: maps task type → required files
 - `workflow/initialise.md` → scan project and fill knowledge files (run first or when empty)
+- `workflow/context-router.md` → READ FIRST: maps task type → required files
 - `workflow/planning.md` → how to create phased plans
 - `workflow/execution.md` → how to execute a single phase
 - `workflow/implementation.md` → coding conventions, file locations
@@ -129,9 +144,12 @@ PLANNING:
   Else: read context-router.md → load task-specific files
   → output "Context Loaded" in plan
 
-EXECUTION:
   Use plan's "Context Loaded" + phase's "Context needed" + implementation.md
   (don't re-discover; if retrieval, query again only if phase needs extra scope)
+  Read: context-router.md → load task-specific files → output "Context Loaded" in plan
+
+  Read: plan's "Context Loaded" + phase's "Context needed" + implementation.md
+  (don't re-discover -- the plan already tells you what's relevant)
 
 TESTING:
   Read: testing.md + plan's phase verification commands
@@ -141,7 +159,6 @@ MAINTENANCE:
   Read: maintenance.md → update only the files that changed
   If retrieval: re-index / regenerate reduced index after knowledge file updates
   (targeted updates, not a full scan)
-```
 
 ## Maintenance Rule
 After every ticket: update `infrastructure/`, `architecture/`, or `features/` as needed.

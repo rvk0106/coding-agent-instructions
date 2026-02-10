@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Quick install script for agent-instructions-rails
-# Usage: curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails/main/quick-install.sh | bash
+# Quick install script for agent-instructions-rails-api
+# Usage: curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails-api/main/quick-install.sh | bash
 # Or with custom directory: curl ... | bash -s /path/to/rails/project
 
 set -euo pipefail
 
-REPO_URL="https://github.com/rvk0106/agent-instructions-rails"
+REPO_URL="https://github.com/rvk0106/agent-instructions-rails-api"
 BRANCH="main"
 TEMP_DIR=$(mktemp -d)
 TARGET_DIR="${1:-.}"
 
-echo "🚀 Installing agent-instructions-rails..."
+echo "🚀 Installing agent-instructions-rails-api..."
 echo "📂 Target directory: $(cd "$TARGET_DIR" && pwd)"
 echo ""
 
