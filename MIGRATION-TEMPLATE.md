@@ -1,5 +1,5 @@
 # Migration Template: Flat → 4-Category Structure
-> Reference: `agent-instructions-rails/agent/` is the working example.
+> Reference: `agent-instructions-rails-api/agent/` is the working example.
 > Use this to migrate any framework from flat files to the organized structure.
 
 ## File Mapping (old → new)

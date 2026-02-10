@@ -5,7 +5,7 @@ Drop-in, tool-agnostic instruction systems for using coding agents safely across
 ## 📦 Available Frameworks
 
 ### Backend Frameworks
-- **[agent-instructions-rails](agent-instructions-rails/)** - Ruby on Rails API development
+- **[agent-instructions-rails-api](agent-instructions-rails-api/)** - Ruby on Rails API development
 - **[agent-instructions-springboot](agent-instructions-springboot/)** - Spring Boot Java applications
 - **[agent-instructions-django](agent-instructions-django/)** - Django Python web framework
 - **[agent-instructions-express](agent-instructions-express/)** - Express.js Node.js applications
@@ -57,7 +57,7 @@ Pick the directory matching your project type from the list above.
 
 ```bash
 # Rails
-curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/install.sh | bash -s .
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/install.sh | bash -s .
 
 # Spring Boot
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-springboot/install.sh | bash -s .
@@ -84,7 +84,7 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 Or clone and run locally:
 ```bash
 git clone https://github.com/rvk0106/coding-agent-instructions.git
-cd coding-agent-instructions/agent-instructions-rails  # or your framework
+cd coding-agent-instructions/agent-instructions-rails-api  # or your framework
 ./install.sh /path/to/your/project
 ```
 
@@ -168,10 +168,10 @@ agent-instructions-{framework}/
     ├── cline.md, codex.md, chatgpt.md
 ```
 
-### Advanced Structure (Rails — target for all frameworks)
+### Advanced Structure (Rails API — target for all frameworks)
 Organized into 4 knowledge categories for minimal token usage:
 ```
-agent-instructions-rails/
+agent-instructions-rails-api/
 ├── README.md, install.sh, LICENSE
 ├── agent/
 │   ├── master-instructions.md        # Compact index + context router
@@ -265,7 +265,7 @@ Contributions are welcome!
 
 ## 🔗 Direct Links to Frameworks
 
-- [Rails](./agent-instructions-rails/)
+- [Rails API](./agent-instructions-rails-api/)
 - [Spring Boot](./agent-instructions-springboot/)
 - [Django](./agent-instructions-django/)
 - [Express.js](./agent-instructions-express/)

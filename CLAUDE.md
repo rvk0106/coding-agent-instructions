@@ -16,7 +16,7 @@ Root docs:
   tool-adapters/               — root-level generic adapter docs (5 files)
 
 8 Framework dirs (identical structure except Rails):
-  agent-instructions-rails/       ← ADVANCED: 4-category subfolder structure
+  agent-instructions-rails-api/    ← ADVANCED: 4-category subfolder structure
   agent-instructions-springboot/  ← STANDARD: flat agent/ files
   agent-instructions-django/      ← STANDARD
   agent-instructions-express/     ← STANDARD
@@ -46,9 +46,9 @@ agent-instructions-{fw}/
     ├── cline.md, codex.md, chatgpt.md
 ```
 
-### ADVANCED (Rails only — target structure for all frameworks)
+### ADVANCED (Rails API only — target structure for all frameworks)
 ```
-agent-instructions-rails/
+agent-instructions-rails-api/
 ├── README.md, LICENSE, install.sh, quick-install.sh
 ├── agent/
 │   ├── master-instructions.md         — compact index + context flow
@@ -114,7 +114,7 @@ UPDATE: AGENT-INSTRUCTIONS-INDEX.md — add file index
 
 ### Update install.sh across all frameworks
 ```
-READ: Any one install.sh fully (e.g. agent-instructions-rails/install.sh)
+READ: Any one install.sh fully (e.g. agent-instructions-rails-api/install.sh)
 PATTERN: All 8 install.sh follow identical structure
 CHANGE: Apply same edit to all 8 files
 VERIFY: Check AGENT_INSTRUCTIONS var, append_block_if_missing calls
@@ -131,7 +131,7 @@ UPDATE: MULTI-AGENT-SUPPORT.md — add to matrix
 
 ### Replicate Rails advanced structure to another framework
 ```
-READ: agent-instructions-rails/agent/ — full 4-category structure
+READ: agent-instructions-rails-api/agent/ — full 4-category structure
 READ: agent-instructions-{target}/agent/ — current flat structure
 MAP: flat files → category folders:
   principles-and-standards.md  → architecture/patterns.md
