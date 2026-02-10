@@ -6,17 +6,17 @@
 ## Quick Reference
 | Task | Prompt |
 |------|--------|
-| New API Endpoint | `plan architecture for TICKET-ID` then use "New Endpoint" below |
+| New API Endpoint | `plan architecture for TICKET-ID` then use "New API Endpoint" below |
 | Bug Fix | `plan architecture for TICKET-ID` then use "Bug Fix" below |
-| New Model / DB Change | Use "New Model" prompt below |
-| Background Job | Use "New Background Job" prompt below |
+| New Model / DB Change | Use "New Model / DB Change" prompt below |
+| Background Job | Use "Background Job" prompt below |
 | Auth / Permissions Change | Use "Auth / Permissions Change" prompt below |
 | Refactor | Use "Refactor" prompt below |
-| Migration Only | Use "Database Migration" prompt below |
+| Migration Only | Use "Migration Only" prompt below |
 
 ---
 
-## New Endpoint
+## New API Endpoint
 ```
 Add a new REST endpoint:
 - Resource: [name]
@@ -31,7 +31,7 @@ Create: controller, strong params, service (if business logic), request specs, r
 Verify: bundle exec rspec spec/requests/... && bundle exec rubocop
 ```
 
-## New Model
+## New Model / DB Change
 ```
 Add a new model:
 - Model: [name]
@@ -60,7 +60,7 @@ Steps: reproduce → identify root cause → fix → add regression test.
 Verify: bundle exec rspec [relevant specs] && bundle exec rubocop
 ```
 
-## New Background Job
+## Background Job
 ```
 Add a background job:
 - Job: [name]
@@ -101,7 +101,7 @@ Steps: ensure test coverage → refactor → verify tests still pass.
 Verify: bundle exec rspec && bundle exec rubocop
 ```
 
-## Database Migration
+## Migration Only
 ```
 Add migration:
 - Change: [add column/table/index/rename/remove]

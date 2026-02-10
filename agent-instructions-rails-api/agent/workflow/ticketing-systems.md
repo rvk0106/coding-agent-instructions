@@ -67,7 +67,7 @@ linear_issue_md() {
 
 ## Jira
 
-Fetch an issue by **issue key** (e.g. `PROJ-123`). Requires `JIRA_URL` (e.g. `https://your-domain.atlassian.net`) and `JIRA_API_TOKEN`.
+Fetch an issue by **issue key** (e.g. `PROJ-123` — the alphanumeric project key, not the numeric ID). Requires `JIRA_URL` (e.g. `https://your-domain.atlassian.net`) and `JIRA_API_TOKEN`.
 
 ```bash
 jira_issue() {
