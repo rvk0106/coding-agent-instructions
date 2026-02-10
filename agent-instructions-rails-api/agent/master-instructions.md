@@ -91,7 +91,7 @@ DO NOT read all files below. Either:
 ### Available Knowledge Files
 
 Use these via retrieval when available, or via `workflow/context-router.md` when using the file-based path.
-=======
+
 **Read `workflow/context-router.md` FIRST** -- it tells you exactly which files to load
 based on your current task type and workflow state.
 
@@ -101,7 +101,7 @@ DO NOT read all files below. The context router maps:
 
 ### Available Knowledge Files (load via context-router only)
 
->>>>>>> 845176eca347ba0ce3b034b858d9515e0821b5d7
+
 **Infrastructure** (environment & setup)
 - `infrastructure/environment.md` → runtime, versions, DB, env vars
 - `infrastructure/dependencies.md` → gems, external services, APIs
@@ -123,21 +123,16 @@ DO NOT read all files below. The context router maps:
 - `features/_CONVENTIONS.md` → serialization, query, and test patterns
 
 **Workflow** (how we work)
-<<<<<<< HEAD
+
 - `workflow/context-retrieval.md` → **Use first when available:** vector DB or reduced index for token-efficient context
 - `workflow/context-router.md` → When not using retrieval: maps task type → required files
 - `workflow/initialise.md` → scan project and fill knowledge files (run first or when empty)
-=======
 - `workflow/context-router.md` → READ FIRST: maps task type → required files
->>>>>>> 845176eca347ba0ce3b034b858d9515e0821b5d7
 - `workflow/planning.md` → how to create phased plans
 - `workflow/execution.md` → how to execute a single phase
 - `workflow/implementation.md` → coding conventions, file locations
 - `workflow/testing.md` → verification commands
-<<<<<<< HEAD
 - `workflow/reviewer.md` → structured code review post-implementation (Approve/Request changes)
-=======
->>>>>>> 845176eca347ba0ce3b034b858d9515e0821b5d7
 - `workflow/ticket-access.md` → how to fetch tickets
 - `workflow/ticketing-systems.md` → curl/jq helpers for Linear/Jira/GitHub (when MCP not configured)
 - `workflow/maintenance.md` → what to update after completing a ticket
@@ -146,21 +141,16 @@ DO NOT read all files below. The context router maps:
 ## Context Flow Across States
 ```
 PLANNING:
-<<<<<<< HEAD
   If retrieval: query vector/index with task type + ticket → use chunks as context
   Else: read context-router.md → load task-specific files
   → output "Context Loaded" in plan
 
-EXECUTION:
   Use plan's "Context Loaded" + phase's "Context needed" + implementation.md
   (don't re-discover; if retrieval, query again only if phase needs extra scope)
-=======
   Read: context-router.md → load task-specific files → output "Context Loaded" in plan
 
-EXECUTION:
   Read: plan's "Context Loaded" + phase's "Context needed" + implementation.md
   (don't re-discover -- the plan already tells you what's relevant)
->>>>>>> 845176eca347ba0ce3b034b858d9515e0821b5d7
 
 TESTING:
   Read: testing.md + plan's phase verification commands
@@ -168,12 +158,8 @@ TESTING:
 
 MAINTENANCE:
   Read: maintenance.md → update only the files that changed
-<<<<<<< HEAD
   If retrieval: re-index / regenerate reduced index after knowledge file updates
-=======
->>>>>>> 845176eca347ba0ce3b034b858d9515e0821b5d7
   (targeted updates, not a full scan)
-```
 
 ## Maintenance Rule
 After every ticket: update `infrastructure/`, `architecture/`, or `features/` as needed.
