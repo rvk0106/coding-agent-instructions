@@ -10,8 +10,9 @@
 
 ## Versioning
 - Strategy: [choose one]
-  - **URL path**: `/api/v1/resources` (most common for Rails)
-  - **Header-based**: `Accept: application/vnd.myapp.v1+json`
+  - **URL path**: `/api/v1/resources` — Rails convention; simpler routing, easier debugging
+  - **Header-based**: `Accept: application/vnd.myapp.v1+json` — cleaner URLs, more complex routing
+- **Recommendation:** URL path is the Rails standard (used by ~90% of Rails APIs)
 - Current version: [e.g. v1]
 
 ## Response Shape

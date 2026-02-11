@@ -61,6 +61,15 @@ end
 - Set timeouts: [e.g. 5s connect, 10s read]
 - Retry: [e.g. 1 retry for transient errors]
 
+```ruby
+# Timeout errors to rescue:
+rescue Net::OpenTimeout, Net::ReadTimeout, Timeout::Error => e
+  Rails.logger.error("External service timeout: #{e.class} — #{e.message}")
+  # Return 503 or 504 depending on context
+  render json: error_response("Service temporarily unavailable"), status: :service_unavailable
+end
+```
+
 ## Rules for Agents
 - NEVER return raw exception messages to clients
 - ALWAYS use the project's standard response shape (see `api-design.md`)

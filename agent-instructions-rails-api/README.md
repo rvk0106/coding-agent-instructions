@@ -15,32 +15,32 @@ A drop-in, tool-agnostic instruction system for using coding agents safely with 
 ### Method 1: Quick install (recommended)
 From your Rails project root:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails-api/main/quick-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/quick-install.sh | bash
 ```
 
 ### Method 2: Specify custom directory
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rvk0106/agent-instructions-rails-api/main/quick-install.sh | bash -s /path/to/your/rails/project
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/quick-install.sh | bash -s /path/to/your/rails/project
 ```
 
 ### Method 3: Clone and install
 ```bash
 # Clone the repository
-git clone https://github.com/rvk0106/agent-instructions-rails-api.git /tmp/agent-instructions-rails-api
+git clone https://github.com/rvk0106/coding-agent-instructions.git /tmp/coding-agent-instructions
 
 # Run installer from your Rails project root
 cd /path/to/your/rails/project
-/tmp/agent-instructions-rails-api/install.sh .
+/tmp/coding-agent-instructions/agent-instructions-rails-api/install.sh .
 
 # Clean up
-rm -rf /tmp/agent-instructions-rails-api
+rm -rf /tmp/coding-agent-instructions
 ```
 
 ### Method 4: Download as archive
 ```bash
-wget https://github.com/rvk0106/agent-instructions-rails-api/archive/refs/heads/main.tar.gz
+wget https://github.com/rvk0106/coding-agent-instructions/archive/refs/heads/main.tar.gz
 tar -xzf main.tar.gz
-cd agent-instructions-rails-api-main
+cd coding-agent-instructions-main/agent-instructions-rails-api
 ./install.sh /path/to/your/rails/project
 ```
 
@@ -208,4 +208,4 @@ Under the condition that:
 - Plans are saved to `docs/` folder - commit them to version control for team visibility.
 
 ## Support
-Issues and feature requests: [GitHub Issues](https://github.com/rvk0106/agent-instructions-rails-api/issues)
+Issues and feature requests: [GitHub Issues](https://github.com/rvk0106/coding-agent-instructions/issues)
