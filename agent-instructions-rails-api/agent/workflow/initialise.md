@@ -31,6 +31,7 @@ Gather facts (do not invent):
 | **API** | config/routes.rb, app/controllers, serializers | Endpoints, HTTP methods, response shapes, error handling |
 | **Conventions** | app/controllers, app/services, app/models | Controller thin? Services where? Serializer patterns? |
 | **Auth / tenant** | application_controller, policies, scopes | Auth mechanism, tenant/scope patterns, CORS |
+| **Testing** | spec/spec_helper.rb, spec/rails_helper.rb, Gemfile | RSpec version, matchers (shoulda-matchers), factories (FactoryBot), coverage (SimpleCov), fixtures vs factories |
 | **Ops** | README, Rakefile, config, .github | Test command, lint command, CI, deploy hints |
 
 ### 3. Fill knowledge files
@@ -47,7 +48,7 @@ Populate from discovery. Create or update only these; leave workflow files as pr
 | **architecture/glossary.md** | Domain terms, roles, statuses from models and business logic |
 | **infrastructure/environment.md** | Ruby/Rails versions, DB, env vars from Gemfile and config |
 | **infrastructure/dependencies.md** | Gems, external services from Gemfile and config |
-| **infrastructure/tooling.md** | Linters, test commands, CI from config and README |
+| **infrastructure/tooling.md** | Linters, test commands, CI from config, README, and spec helpers |
 | **infrastructure/deployment.md** | Hosting, deploy process if present |
 | **infrastructure/security.md** | Auth boundaries, tenant scoping from code |
 | **features/** | One file per major feature per `features/_TEMPLATE.md`; describe current behavior |

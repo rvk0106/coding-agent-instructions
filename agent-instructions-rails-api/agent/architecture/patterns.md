@@ -18,9 +18,28 @@
 
 ### Models
 - Validations and associations only
-- Extract shared behavior into concerns
+- Extract shared behavior into concerns (see example below)
 - No business logic -- delegate to services
 - Scopes for common queries
+
+### Concerns
+- Location: `app/models/concerns/` (models) or `app/controllers/concerns/` (controllers)
+- Use for shared behavior across multiple models or controllers
+```ruby
+# app/models/concerns/archivable.rb
+module Archivable
+  extend ActiveSupport::Concern
+
+  included do
+    scope :active, -> { where(archived_at: nil) }
+    scope :archived, -> { where.not(archived_at: nil) }
+  end
+
+  def archive!
+    update!(archived_at: Time.current)
+  end
+end
+```
 
 ### Services
 - Location: `app/services/`

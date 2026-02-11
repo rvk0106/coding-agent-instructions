@@ -19,8 +19,9 @@ bundle exec rspec                         # full suite
 bundle exec rubocop --parallel            # full lint
 ```
 
-## API Changes (if endpoints added/modified)
+## API Changes (if endpoints added/modified and API docs tool installed)
 ```bash
+# Only if using rswag or swagger-blocks (check infrastructure/dependencies.md):
 bundle exec rake swagger:generate_modular
 curl http://localhost:3000/api-docs/v1/swagger.json
 ```

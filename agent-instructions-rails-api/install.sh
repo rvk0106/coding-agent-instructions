@@ -335,13 +335,12 @@ path = os.path.join("$TARGET_DIR", ".vscode", "settings.json")
 with open(path) as f:
     data = json.load(f)
 data["github.copilot.chat.codeGeneration.useInstructionFiles"] = True
-data["chat.useAgentsMdFile"] = True
 with open(path, "w") as f:
     json.dump(data, f, indent=2)
 PY
       echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
     elif command -v jq &>/dev/null; then
-      jq '. + {"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' "$settings" > "${settings}.tmp" && mv "${settings}.tmp" "$settings"
+      jq '. + {"github.copilot.chat.codeGeneration.useInstructionFiles": true}' "$settings" > "${settings}.tmp" && mv "${settings}.tmp" "$settings"
       echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
     else
       echo "Note: .vscode/settings.json exists but python3/jq not found; add manually: github.copilot.chat.codeGeneration.useInstructionFiles = true"
@@ -350,8 +349,7 @@ PY
   else
     cat > "$settings" <<'VSCODE'
 {
-  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-  "chat.useAgentsMdFile": true
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true
 }
 VSCODE
     echo "Created .vscode/settings.json: Copilot instruction files enabled for this workspace"
