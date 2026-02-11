@@ -21,25 +21,41 @@ copy_if_missing() {
   local dest="$2"
 
   if [[ -e "$dest" ]]; then
-    echo "Skip existing: $dest"
+    echo "  ⊘ Skip existing: $dest"
     return 0
   fi
 
   mkdir -p "$(dirname "$dest")"
   cp -p "$src" "$dest"
-  echo "Copied: $dest"
+  echo "  ✓ Copied: $dest"
 }
 
 copy_agent_dir() {
   local src_root="$SOURCE_DIR/agent"
   local dest_root="$TARGET_DIR/agent"
 
-  mkdir -p "$dest_root"
+  if [[ ! -d "$src_root" ]]; then
+    echo "ERROR: Source agent directory not found: $src_root"
+    echo "Make sure you're running the script from the correct location."
+    exit 1
+  fi
 
+  mkdir -p "$dest_root"
+  
+  echo "Copying agent directory structure from $src_root to $dest_root..."
+
+  local file_count=0
   while IFS= read -r -d '' file; do
     local rel="${file#$src_root/}"
     copy_if_missing "$file" "$dest_root/$rel"
+    ((file_count++))
   done < <(find "$src_root" -type f -print0)
+  
+  if [[ $file_count -eq 0 ]]; then
+    echo "WARNING: No files found in $src_root"
+  else
+    echo "Processed $file_count files from agent directory"
+  fi
 }
 
 append_block_if_missing() {
@@ -48,7 +64,7 @@ append_block_if_missing() {
 
   mkdir -p "$(dirname "$file_path")"
   if [[ -f "$file_path" ]] && grep -q "$MARKER_START" "$file_path"; then
-    echo "Markers already present: $file_path"
+    echo "  ⊘ Markers already present: $file_path"
     return 0
   fi
 
@@ -58,17 +74,22 @@ append_block_if_missing() {
     echo "$MARKER_END"
   } >> "$file_path"
 
-  echo "Appended markers to: $file_path"
+  echo "  ✓ Appended markers to: $file_path"
 }
 
+echo "=== Step 1: Copying agent instruction files ==="
 copy_agent_dir
 
+echo ""
+echo "=== Step 2: Creating project directories ==="
 mkdir -p "$TARGET_DIR/docs"
-echo "Created docs/ directory for plans"
+echo "✓ Created docs/ directory for plans"
 
 mkdir -p "$TARGET_DIR/tickets"
-echo "Created tickets/ directory for manual ticket files"
+echo "✓ Created tickets/ directory for manual ticket files"
 
+echo ""
+echo "=== Step 3: Creating configuration files ==="
 # Create agent-config.md template if it doesn't exist
 AGENT_CONFIG="$TARGET_DIR/agent-config.md"
 if [[ ! -f "$AGENT_CONFIG" ]]; then
@@ -122,16 +143,18 @@ Choose one of the following:
 # GITHUB_TOKEN=your_token_here
 # GITHUB_REPO=owner/repo
 AGENTCONFIG
-  echo "Created agent-config.md template"
+  echo "✓ Created agent-config.md template"
 else
-  echo "Skip existing: agent-config.md"
+  echo "⊘ Skip existing: agent-config.md"
 fi
 
+echo ""
+echo "=== Step 4: Creating utility scripts ==="
 # Create ticket fetching utility script (skip if user has customized it)
 FETCH_SCRIPT="$TARGET_DIR/agent/fetch-ticket.sh"
 mkdir -p "$(dirname "$FETCH_SCRIPT")"
 if [[ -f "$FETCH_SCRIPT" ]]; then
-  echo "Skip existing: agent/fetch-ticket.sh (remove it first to regenerate)"
+  echo "⊘ Skip existing: agent/fetch-ticket.sh (remove it first to regenerate)"
 else
 cat > "$FETCH_SCRIPT" <<'FETCHSCRIPT'
 #!/usr/bin/env bash
@@ -241,9 +264,11 @@ fetch_ticket() {
 export -f fetch_ticket
 FETCHSCRIPT
 chmod +x "$FETCH_SCRIPT"
-echo "Created agent/fetch-ticket.sh utility"
+echo "✓ Created agent/fetch-ticket.sh utility"
 fi
 
+echo ""
+echo "=== Step 5: Creating ticket template ==="
 # Create example ticket template
 TICKET_TEMPLATE="$TARGET_DIR/tickets/_TEMPLATE.md"
 if [[ ! -f "$TICKET_TEMPLATE" ]]; then
@@ -278,11 +303,13 @@ Detailed description of what needs to be done.
 - Spec: [link]
 - Related tickets: [links]
 TICKETTEMPLATE
-  echo "Created tickets/_TEMPLATE.md"
+  echo "✓ Created tickets/_TEMPLATE.md"
 else
-  echo "Skip existing: tickets/_TEMPLATE.md"
+  echo "⊘ Skip existing: tickets/_TEMPLATE.md"
 fi
 
+echo ""
+echo "=== Step 6: Configuring agent instruction files ==="
 AGENT_INSTRUCTIONS="Read and follow agent/master-instructions.md as the primary instruction set for Rails API development.
 
 ## Workflow
@@ -317,6 +344,8 @@ append_block_if_missing "$TARGET_DIR/.windsurfrules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/.clinerules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/AGENTS.md" "$AGENT_INSTRUCTIONS"
 
+echo ""
+echo "=== Step 7: Enabling VS Code Copilot instructions ==="
 # Enable Copilot instruction files for this workspace (so users don't need to enable in VS Code Settings)
 ensure_vscode_copilot_settings() {
   local vsdir="$TARGET_DIR/.vscode"
@@ -324,7 +353,7 @@ ensure_vscode_copilot_settings() {
   mkdir -p "$vsdir"
   if [[ -f "$settings" ]]; then
     if grep -q '"github.copilot.chat.codeGeneration.useInstructionFiles"' "$settings" 2>/dev/null; then
-      echo "Skip existing: .vscode/settings.json (Copilot instruction settings already present)"
+      echo "⊘ Skip existing: .vscode/settings.json (Copilot instruction settings already present)"
       return 0
     fi
     # Merge: add our keys without removing existing ones (requires Python or jq)
@@ -338,12 +367,12 @@ data["github.copilot.chat.codeGeneration.useInstructionFiles"] = True
 with open(path, "w") as f:
     json.dump(data, f, indent=2)
 PY
-      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+      echo "✓ Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
     elif command -v jq &>/dev/null; then
       jq '. + {"github.copilot.chat.codeGeneration.useInstructionFiles": true}' "$settings" > "${settings}.tmp" && mv "${settings}.tmp" "$settings"
-      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+      echo "✓ Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
     else
-      echo "Note: .vscode/settings.json exists but python3/jq not found; add manually: github.copilot.chat.codeGeneration.useInstructionFiles = true"
+      echo "⚠ Note: .vscode/settings.json exists but python3/jq not found; add manually: github.copilot.chat.codeGeneration.useInstructionFiles = true"
       return 0
     fi
   else
@@ -352,7 +381,7 @@ PY
   "github.copilot.chat.codeGeneration.useInstructionFiles": true
 }
 VSCODE
-    echo "Created .vscode/settings.json: Copilot instruction files enabled for this workspace"
+    echo "✓ Created .vscode/settings.json: Copilot instruction files enabled for this workspace"
   fi
 }
 ensure_vscode_copilot_settings
@@ -397,3 +426,53 @@ Next steps:
 Documentation: https://github.com/rvk0106/coding-agent-instructions
 
 EOF
+
+# Verify installation
+echo ""
+echo "=== Verifying installation ==="
+echo ""
+if [[ -d "$TARGET_DIR/agent" ]]; then
+  agent_file_count=$(find "$TARGET_DIR/agent" -type f 2>/dev/null | wc -l | tr -d ' ')
+  echo "✓ agent/ directory created with $agent_file_count files"
+  
+  if [[ -d "$TARGET_DIR/agent/workflow" ]]; then
+    echo "  ✓ agent/workflow/ exists"
+  fi
+  if [[ -d "$TARGET_DIR/agent/architecture" ]]; then
+    echo "  ✓ agent/architecture/ exists"
+  fi
+  if [[ -d "$TARGET_DIR/agent/features" ]]; then
+    echo "  ✓ agent/features/ exists"
+  fi
+  if [[ -d "$TARGET_DIR/agent/infrastructure" ]]; then
+    echo "  ✓ agent/infrastructure/ exists"
+  fi
+  if [[ -d "$TARGET_DIR/agent/examples" ]]; then
+    echo "  ✓ agent/examples/ exists"
+  fi
+else
+  echo "✗ ERROR: agent/ directory was not created!"
+  exit 1
+fi
+
+if [[ -d "$TARGET_DIR/docs" ]]; then
+  echo "✓ docs/ directory exists"
+else
+  echo "✗ ERROR: docs/ directory was not created!"
+fi
+
+if [[ -d "$TARGET_DIR/tickets" ]]; then
+  echo "✓ tickets/ directory exists"
+else
+  echo "✗ ERROR: tickets/ directory was not created!"
+fi
+
+if [[ -f "$TARGET_DIR/agent-config.md" ]]; then
+  echo "✓ agent-config.md exists"
+else
+  echo "✗ WARNING: agent-config.md was not created"
+fi
+
+echo ""
+echo "Installation verification complete!"
+echo ""

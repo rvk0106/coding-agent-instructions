@@ -34,12 +34,28 @@ copy_agent_dir() {
   local src_root="$SOURCE_DIR/agent"
   local dest_root="$TARGET_DIR/agent"
 
-  mkdir -p "$dest_root"
+  if [[ ! -d "$src_root" ]]; then
+    echo "ERROR: Source agent directory not found: $src_root"
+    echo "Make sure you're running the script from the correct location."
+    exit 1
+  fi
 
+  mkdir -p "$dest_root"
+  
+  echo "Copying agent directory structure from $src_root to $dest_root..."
+
+  local file_count=0
   while IFS= read -r -d '' file; do
     local rel="${file#$src_root/}"
     copy_if_missing "$file" "$dest_root/$rel"
+    ((file_count++))
   done < <(find "$src_root" -type f -print0)
+  
+  if [[ $file_count -eq 0 ]]; then
+    echo "WARNING: No files found in $src_root"
+  else
+    echo "Processed $file_count files from agent directory"
+  fi
 }
 
 append_block_if_missing() {
