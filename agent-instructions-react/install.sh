@@ -16,18 +16,28 @@ if [[ ! -d "$TARGET_DIR" ]]; then
   exit 1
 fi
 
+# Convert TARGET_DIR to absolute path
+TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
+
 copy_if_missing() {
   local src="$1"
   local dest="$2"
 
-  if [[ -e "$dest" ]]; then
-    echo "Skip existing: $dest"
-    return 0
-  fi
-
   mkdir -p "$(dirname "$dest")"
-  cp -p "$src" "$dest"
-  echo "Copied: $dest"
+  
+  if [[ -e "$dest" ]]; then
+    # Compare files and only copy if different
+    if cmp -s "$src" "$dest"; then
+      echo "  ⊘ Skip (unchanged): $dest"
+      return 0
+    else
+      cp -p "$src" "$dest"
+      echo "  ↻ Updated: $dest"
+    fi
+  else
+    cp -p "$src" "$dest"
+    echo "  ✓ Copied: $dest"
+  fi
 }
 
 copy_agent_dir() {

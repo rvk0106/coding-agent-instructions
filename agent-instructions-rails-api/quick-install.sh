@@ -11,8 +11,11 @@ BRANCH="main"
 TEMP_DIR=$(mktemp -d)
 TARGET_DIR="${1:-.}"
 
+# Convert TARGET_DIR to absolute path
+TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
+
 echo "🚀 Installing agent-instructions-rails-api..."
-echo "📂 Target directory: $(cd "$TARGET_DIR" && pwd)"
+echo "📂 Target directory: $TARGET_DIR"
 echo ""
 
 # Check if target is a directory
