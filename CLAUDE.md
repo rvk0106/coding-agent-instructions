@@ -15,20 +15,20 @@ Root docs:
   docs/AGENT-COMPATIBILITY.md  — per-agent setup details + uninstall steps
   tool-adapters/               — root-level generic adapter docs (5 files)
 
-8 Framework dirs (identical structure except Rails and Ruby Gem):
+8 Framework dirs (identical structure except Rails, Ruby Gem, and React):
   agent-instructions-rails-api/    ← ADVANCED: 4-category subfolder structure
   agent-instructions-ruby-gem/    ← ADVANCED: 4-category subfolder structure
+  agent-instructions-react/       ← ADVANCED: 4-category subfolder structure (UI-oriented)
   agent-instructions-springboot/  ← STANDARD: flat agent/ files
   agent-instructions-django/      ← STANDARD
   agent-instructions-express/     ← STANDARD
-  agent-instructions-react/       ← STANDARD
   agent-instructions-python-lib/  ← STANDARD
   agent-instructions-node-lib/    ← STANDARD
 ```
 
 ## Framework Directory Structures
 
-### STANDARD (6 frameworks — springboot, django, express, react, python-lib, node-lib)
+### STANDARD (5 frameworks — springboot, django, express, python-lib, node-lib)
 ```
 agent-instructions-{fw}/
 ├── README.md, LICENSE, install.sh
@@ -46,7 +46,7 @@ agent-instructions-{fw}/
     ├── cline.md, codex.md, chatgpt.md
 ```
 
-### ADVANCED (Rails API and Ruby Gem — target structure for all frameworks)
+### ADVANCED (Rails API, Ruby Gem, and React — target structure for all frameworks)
 ```
 agent-instructions-rails-api/
 ├── README.md, LICENSE, install.sh, quick-install.sh
@@ -71,6 +71,22 @@ agent-instructions-ruby-gem/
 │   │                                    error-handling, data-flow, glossary
 │   ├── infrastructure/                — environment, dependencies, tooling,
 │   │                                    publishing, security
+│   ├── workflow/                      — context-router, planning, execution,
+│   │                                    implementation, testing, maintenance,
+│   │                                    ticket-access, ticketing-systems, prompts
+│   ├── features/                      — _TEMPLATE, _CONVENTIONS, per-feature docs
+│   └── examples/sample-ticket-plan.md
+└── tool-adapters/ (same 7 files)
+
+agent-instructions-react/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         — compact index + context flow (UI-oriented)
+│   ├── architecture/                  — system-design, component-design,
+│   │                                    state-management, styling, patterns,
+│   │                                    error-handling, data-flow, accessibility, glossary
+│   ├── infrastructure/                — environment, dependencies, tooling,
+│   │                                    deployment, security
 │   ├── workflow/                      — context-router, planning, execution,
 │   │                                    implementation, testing, maintenance,
 │   │                                    ticket-access, ticketing-systems, prompts

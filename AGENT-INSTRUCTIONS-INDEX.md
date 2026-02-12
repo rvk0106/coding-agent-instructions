@@ -86,7 +86,7 @@ All frameworks follow the same workflow:
 
 ## 🧩 Repository Structure
 
-### Standard Structure (springboot, django, express, react, python-lib, node-lib)
+### Standard Structure (springboot, django, express, python-lib, node-lib)
 ```
 agent-instructions-{framework}/
 ├── README.md                    # Framework-specific documentation
@@ -112,7 +112,7 @@ agent-instructions-{framework}/
     └── chatgpt.md                    # ChatGPT setup
 ```
 
-### Advanced Structure (rails-api, ruby-gem)
+### Advanced Structure (rails-api, ruby-gem, react)
 ```
 agent-instructions-{framework}/
 ├── README.md, LICENSE, install.sh
@@ -120,9 +120,11 @@ agent-instructions-{framework}/
 │   ├── master-instructions.md         # Compact index + context flow
 │   ├── architecture/                  # Technical design (system-design, patterns,
 │   │                                  #   error-handling, data-flow, glossary, +
-│   │                                  #   api-design/database [Rails] or public-api [Ruby Gem])
+│   │                                  #   api-design/database [Rails] or public-api [Ruby Gem]
+│   │                                  #   or component-design/state-management/styling/
+│   │                                  #   accessibility [React])
 │   ├── infrastructure/                # Environment & setup (environment, dependencies,
-│   │                                  #   tooling, security, + deployment [Rails] or
+│   │                                  #   tooling, security, + deployment [Rails/React] or
 │   │                                  #   publishing [Ruby Gem])
 │   ├── workflow/                      # Process docs (context-router, planning, execution,
 │   │                                  #   implementation, testing, maintenance, reviewer,
