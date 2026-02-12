@@ -24,7 +24,7 @@ copy_if_missing() {
   local dest="$2"
 
   mkdir -p "$(dirname "$dest")"
-  
+
   if [[ -e "$dest" ]]; then
     # Compare files and only copy if different
     if cmp -s "$src" "$dest"; then
@@ -51,7 +51,7 @@ copy_agent_dir() {
   fi
 
   mkdir -p "$dest_root"
-  
+
   echo "Copying agent directory structure from $src_root to $dest_root..."
 
   local file_count=0
@@ -60,7 +60,7 @@ copy_agent_dir() {
     copy_if_missing "$file" "$dest_root/$rel"
     ((file_count++))
   done < <(find "$src_root" -type f -print0)
-  
+
   if [[ $file_count -eq 0 ]]; then
     echo "WARNING: No files found in $src_root"
   else
@@ -74,7 +74,7 @@ append_block_if_missing() {
 
   mkdir -p "$(dirname "$file_path")"
   if [[ -f "$file_path" ]] && grep -q "$MARKER_START" "$file_path"; then
-    echo "Markers already present: $file_path"
+    echo "  ⊘ Skip (markers present): $file_path"
     return 0
   fi
 
@@ -84,18 +84,34 @@ append_block_if_missing() {
     echo "$MARKER_END"
   } >> "$file_path"
 
-  echo "Appended markers to: $file_path"
+  echo "  ✓ Appended markers: $file_path"
 }
 
+# ─────────────────────────────────────────────────────────
+# Step 1: Copy agent directory (4-category structure)
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Step 1: Copying agent instruction files..."
 copy_agent_dir
 
+# ─────────────────────────────────────────────────────────
+# Step 2: Create support directories
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Step 2: Creating support directories..."
+
 mkdir -p "$TARGET_DIR/docs"
-echo "Created docs/ directory for plans"
+echo "  ✓ Created docs/ directory for plans"
 
 mkdir -p "$TARGET_DIR/tickets"
-echo "Created tickets/ directory for manual ticket files"
+echo "  ✓ Created tickets/ directory for manual ticket files"
 
-# Create agent-config.md template if it doesn't exist
+# ─────────────────────────────────────────────────────────
+# Step 3: Create agent-config.md template
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Step 3: Creating agent-config.md..."
+
 AGENT_CONFIG="$TARGET_DIR/agent-config.md"
 if [[ ! -f "$AGENT_CONFIG" ]]; then
   cat > "$AGENT_CONFIG" <<'AGENTCONFIG'
@@ -148,24 +164,37 @@ Choose one of the following:
 # GITHUB_TOKEN=your_token_here
 # GITHUB_REPO=owner/repo
 AGENTCONFIG
-  echo "Created agent-config.md template"
+  echo "  ✓ Created agent-config.md template"
 else
-  echo "Skip existing: agent-config.md"
+  echo "  ⊘ Skip existing: agent-config.md"
 fi
 
-# Create ticket fetching utility script
+# ─────────────────────────────────────────────────────────
+# Step 4: Create fetch-ticket.sh utility
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Step 4: Creating fetch-ticket.sh..."
+
 FETCH_SCRIPT="$TARGET_DIR/agent/fetch-ticket.sh"
-mkdir -p "$(dirname "$FETCH_SCRIPT")"
-cat > "$FETCH_SCRIPT" <<'FETCHSCRIPT'
+if [[ -f "$FETCH_SCRIPT" ]]; then
+  echo "  ⊘ Skip existing: agent/fetch-ticket.sh"
+else
+  mkdir -p "$(dirname "$FETCH_SCRIPT")"
+  cat > "$FETCH_SCRIPT" <<'FETCHSCRIPT'
 #!/usr/bin/env bash
 # Ticket Fetching Utility
 # Sources configuration from agent-config.md and fetches tickets from various systems
 
-# Load configuration from agent-config.md
+# Load configuration from agent-config.md (safe parsing, no eval)
 load_config() {
   if [[ -f "agent-config.md" ]]; then
-    # Extract uncommented environment variables
-    eval "$(grep -E '^[A-Z_]+=' agent-config.md)"
+    while IFS='=' read -r key value; do
+      key="$(echo "$key" | xargs)"
+      value="$(echo "$value" | xargs)"
+      if [[ "$key" =~ ^[A-Z_]+$ ]] && [[ -n "$value" ]]; then
+        export "$key=$value"
+      fi
+    done < <(grep -E '^[A-Z_]+=.' agent-config.md)
   fi
 }
 
@@ -173,12 +202,12 @@ load_config() {
 fetch_linear() {
   local issue_id="$1"
   local token="${LINEAR_API_TOKEN:-}"
-  
+
   if [[ -z "$token" ]]; then
     echo "Error: LINEAR_API_TOKEN not configured in agent-config.md"
     return 1
   fi
-  
+
   curl -s https://api.linear.app/graphql \
     -H "Content-Type: application/json" \
     -H "Authorization: $token" \
@@ -194,12 +223,12 @@ fetch_jira() {
   local issue_key="$1"
   local token="${JIRA_API_TOKEN:-}"
   local url="${JIRA_URL:-}"
-  
+
   if [[ -z "$token" ]] || [[ -z "$url" ]]; then
     echo "Error: JIRA_API_TOKEN and JIRA_URL must be configured in agent-config.md"
     return 1
   fi
-  
+
   curl -s "$url/rest/api/3/issue/$issue_key" \
     -H "Authorization: Bearer $token" \
     -H "Content-Type: application/json" | \
@@ -211,12 +240,12 @@ fetch_github() {
   local issue_number="$1"
   local token="${GITHUB_TOKEN:-}"
   local repo="${GITHUB_REPO:-}"
-  
+
   if [[ -z "$token" ]] || [[ -z "$repo" ]]; then
     echo "Error: GITHUB_TOKEN and GITHUB_REPO must be configured in agent-config.md"
     return 1
   fi
-  
+
   curl -s "https://api.github.com/repos/$repo/issues/$issue_number" \
     -H "Authorization: token $token" \
     -H "Accept: application/vnd.github.v3+json" | \
@@ -226,14 +255,14 @@ fetch_github() {
 # Main function
 fetch_ticket() {
   load_config
-  
+
   local ticket_id="$1"
-  
+
   if [[ -z "$ticket_id" ]]; then
     echo "Usage: fetch_ticket TICKET-ID"
     return 1
   fi
-  
+
   # Determine which system to use based on configuration
   if [[ -n "${LINEAR_API_TOKEN:-}" ]]; then
     echo "Fetching from Linear..."
@@ -254,10 +283,16 @@ fetch_ticket() {
 # Export function for use
 export -f fetch_ticket
 FETCHSCRIPT
-chmod +x "$FETCH_SCRIPT"
-echo "Created agent/fetch-ticket.sh utility"
+  chmod +x "$FETCH_SCRIPT"
+  echo "  ✓ Created agent/fetch-ticket.sh utility"
+fi
 
-# Create example ticket template
+# ─────────────────────────────────────────────────────────
+# Step 5: Create ticket template
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Step 5: Creating ticket template..."
+
 TICKET_TEMPLATE="$TARGET_DIR/tickets/_TEMPLATE.md"
 if [[ ! -f "$TICKET_TEMPLATE" ]]; then
   cat > "$TICKET_TEMPLATE" <<'TICKETTEMPLATE'
@@ -291,10 +326,16 @@ Detailed description of what needs to be done.
 - Spec: [link]
 - Related tickets: [links]
 TICKETTEMPLATE
-  echo "Created tickets/_TEMPLATE.md"
+  echo "  ✓ Created tickets/_TEMPLATE.md"
 else
-  echo "Skip existing: tickets/_TEMPLATE.md"
+  echo "  ⊘ Skip existing: tickets/_TEMPLATE.md"
 fi
+
+# ─────────────────────────────────────────────────────────
+# Step 6: Write agent instructions to config files
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Step 6: Writing agent instructions to config files..."
 
 AGENT_INSTRUCTIONS="Read and follow agent/master-instructions.md as the primary instruction set for Django development.
 
@@ -306,18 +347,22 @@ AGENT_INSTRUCTIONS="Read and follow agent/master-instructions.md as the primary 
 
 ## Rules
 - Planning and execution are separate phases - never write code during planning
-- Read agent/principles-and-standards.md for coding conventions
-- Read agent/testing-instructions.md for verification commands
+- Read agent/workflow/context-router.md to determine which files to load for each task
+- Read agent/workflow/implementation.md for Django coding conventions
+- Read agent/workflow/testing.md for verification commands
 - Save plans to docs/TICKET-ID-plan.md
 - Read tickets from tickets/TICKET-ID.md or fetch via agent/fetch-ticket.sh
 
 ## Key Files
-- agent/master-instructions.md - Main instructions and workflow
-- agent/principles-and-standards.md - Django coding standards
-- agent/planner-instructions.md - Planning rules
-- agent/execution-contract.md - Execution discipline
-- agent/implementer-instructions.md - Implementation patterns
-- agent/testing-instructions.md - Verification commands"
+- agent/master-instructions.md - Main instructions, default loop, knowledge file index
+- agent/workflow/context-router.md - Maps task type to required context files
+- agent/workflow/planning.md - Planning rules and output format
+- agent/workflow/execution.md - Phase execution discipline
+- agent/workflow/implementation.md - Django coding conventions and file locations
+- agent/workflow/testing.md - Verification commands (pytest, flake8)
+- agent/architecture/ - System design, database, API design, patterns, errors, data flow
+- agent/infrastructure/ - Environment, dependencies, tooling, deployment, security
+- agent/features/ - Per-feature behavior documentation"
 
 append_block_if_missing "$TARGET_DIR/.github/copilot-instructions.md" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/.cursorrules" "$AGENT_INSTRUCTIONS"
@@ -326,61 +371,122 @@ append_block_if_missing "$TARGET_DIR/.windsurfrules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/.clinerules" "$AGENT_INSTRUCTIONS"
 append_block_if_missing "$TARGET_DIR/AGENTS.md" "$AGENT_INSTRUCTIONS"
 
-# Enable Copilot instruction files for this workspace (VS Code)
+# ─────────────────────────────────────────────────────────
+# Step 7: Configure VS Code / Copilot settings
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Step 7: Configuring VS Code settings..."
+
 ensure_vscode_copilot_settings() {
   local vsdir="$TARGET_DIR/.vscode"
   local settings="$vsdir/settings.json"
   mkdir -p "$vsdir"
+
   if [[ -f "$settings" ]]; then
     if grep -q '"github.copilot.chat.codeGeneration.useInstructionFiles"' "$settings" 2>/dev/null; then
-      echo "Skip existing: .vscode/settings.json (Copilot instruction settings already present)"
+      echo "  ⊘ Skip (already configured): .vscode/settings.json"
       return 0
     fi
+    # Merge into existing settings
     if command -v python3 &>/dev/null; then
       python3 -c "
-import json, os
-path = os.path.join('$TARGET_DIR', '.vscode', 'settings.json')
-with open(path) as f: data = json.load(f)
+import json
+path = '$settings'
+with open(path) as f:
+    data = json.load(f)
 data['github.copilot.chat.codeGeneration.useInstructionFiles'] = True
 data['chat.useAgentsMdFile'] = True
-with open(path, 'w') as f: json.dump(data, f, indent=2)
+with open(path, 'w') as f:
+    json.dump(data, f, indent=2)
+    f.write('\n')
 "
-      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+      echo "  ↻ Updated .vscode/settings.json: enabled Copilot instruction files"
     elif command -v jq &>/dev/null; then
       jq '. + {"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' "$settings" > "${settings}.tmp" && mv "${settings}.tmp" "$settings"
-      echo "Updated .vscode/settings.json: enabled Copilot instruction files for this workspace"
+      echo "  ↻ Updated .vscode/settings.json: enabled Copilot instruction files"
     else
-      echo "Note: add to .vscode/settings.json: github.copilot.chat.codeGeneration.useInstructionFiles = true"
+      echo "  ⊘ Note: manually add to .vscode/settings.json: github.copilot.chat.codeGeneration.useInstructionFiles = true"
       return 0
     fi
   else
-    echo '{"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' | python3 -m json.tool > "$settings" 2>/dev/null || printf '%s\n' '{"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' > "$settings"
-    echo "Created .vscode/settings.json: Copilot instruction files enabled for this workspace"
+    # Create new settings file
+    if command -v python3 &>/dev/null; then
+      python3 -c "
+import json
+data = {
+    'github.copilot.chat.codeGeneration.useInstructionFiles': True,
+    'chat.useAgentsMdFile': True
+}
+with open('$settings', 'w') as f:
+    json.dump(data, f, indent=2)
+    f.write('\n')
+"
+    else
+      printf '%s\n' '{"github.copilot.chat.codeGeneration.useInstructionFiles": true, "chat.useAgentsMdFile": true}' > "$settings"
+    fi
+    echo "  ✓ Created .vscode/settings.json: Copilot instruction files enabled"
   fi
 }
 ensure_vscode_copilot_settings
 
+# ─────────────────────────────────────────────────────────
+# Verification
+# ─────────────────────────────────────────────────────────
+echo ""
+echo "Verifying installation..."
+
+errors=0
+for subdir in architecture infrastructure workflow features examples; do
+  if [[ -d "$TARGET_DIR/agent/$subdir" ]]; then
+    echo "  ✓ agent/$subdir/"
+  else
+    echo "  ✗ MISSING: agent/$subdir/"
+    ((errors++))
+  fi
+done
+
+if [[ -f "$TARGET_DIR/agent/master-instructions.md" ]]; then
+  echo "  ✓ agent/master-instructions.md"
+else
+  echo "  ✗ MISSING: agent/master-instructions.md"
+  ((errors++))
+fi
+
+if [[ $errors -gt 0 ]]; then
+  echo ""
+  echo "WARNING: $errors verification issues found. Check the output above."
+fi
+
+# ─────────────────────────────────────────────────────────
+# Post-install message
+# ─────────────────────────────────────────────────────────
 cat <<EOF
 
-Installation complete! ✅
+Installation complete!
 
 Directory structure:
-- agent/ - instruction files
-- agent/fetch-ticket.sh - ticket fetching utility
-- docs/ - plans saved here (docs/TICKET-ID-plan.md)
-- tickets/ - manual ticket files (tickets/TICKET-ID.md)
-- agent-config.md - configuration file
+  agent/
+    master-instructions.md       - Main entry point and knowledge file index
+    architecture/                - System design, database, API, patterns, errors, data flow, glossary
+    infrastructure/              - Environment, dependencies, tooling, deployment, security
+    workflow/                    - Context router, planning, execution, implementation, testing, maintenance
+    features/                    - Per-feature behavior documentation
+    examples/                    - Sample ticket plan
+    fetch-ticket.sh              - Ticket fetching utility
+  docs/                          - Plans saved here (docs/TICKET-ID-plan.md)
+  tickets/                       - Manual ticket files (tickets/TICKET-ID.md)
+  agent-config.md                - Configuration file
 
 Next steps:
 
 1) Choose your workflow:
-   
-   📁 Option A: Manual Tickets (No setup needed!)
+
+   Option A: Manual Tickets (No setup needed!)
    - Create ticket files: tickets/TICKET-ID.md
    - Use template: tickets/_TEMPLATE.md
    - Start planning: "plan architecture for TICKET-ID"
-   
-   🔌 Option B: Ticketing Integration
+
+   Option B: Ticketing Integration
    - Edit agent-config.md
    - Uncomment and configure your system (Linear/Jira/GitHub)
    - Test: source agent/fetch-ticket.sh && fetch_ticket TICKET-ID
@@ -394,7 +500,7 @@ Next steps:
 3) Execution workflow:
    - Command: "execute plan 1 for TICKET-ID"
    - Runs Phase 1 from docs/TICKET-ID-plan.md
-   - Verify: python manage.py test && flake8
+   - Verify: pytest && flake8
    - Stop and review before Phase 2
 
 See WORKFLOW-GUIDE.md for detailed examples.
