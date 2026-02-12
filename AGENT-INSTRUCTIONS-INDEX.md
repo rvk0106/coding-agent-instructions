@@ -86,12 +86,11 @@ All frameworks follow the same workflow:
 
 ## 🧩 Repository Structure
 
-Each framework repository contains:
+### Standard Structure (springboot, django, express, react, python-lib, node-lib)
 ```
 agent-instructions-{framework}/
 ├── README.md                    # Framework-specific documentation
 ├── install.sh                   # Installation script
-├── quick-install.sh            # One-command install
 ├── LICENSE                      # GNU GPL v3.0
 ├── agent/
 │   ├── master-instructions.md        # Main entry point
@@ -111,6 +110,27 @@ agent-instructions-{framework}/
     ├── cline.md                      # Cline setup
     ├── codex.md                      # OpenAI Codex CLI setup
     └── chatgpt.md                    # ChatGPT setup
+```
+
+### Advanced Structure (rails-api, ruby-gem)
+```
+agent-instructions-{framework}/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         # Compact index + context flow
+│   ├── architecture/                  # Technical design (system-design, patterns,
+│   │                                  #   error-handling, data-flow, glossary, +
+│   │                                  #   api-design/database [Rails] or public-api [Ruby Gem])
+│   ├── infrastructure/                # Environment & setup (environment, dependencies,
+│   │                                  #   tooling, security, + deployment [Rails] or
+│   │                                  #   publishing [Ruby Gem])
+│   ├── workflow/                      # Process docs (context-router, planning, execution,
+│   │                                  #   implementation, testing, maintenance, reviewer,
+│   │                                  #   ticket-access, ticketing-systems, prompts, +
+│   │                                  #   initialise, context-retrieval)
+│   ├── features/                      # Per-feature behavior docs (_TEMPLATE, _CONVENTIONS)
+│   └── examples/sample-ticket-plan.md # Example plan
+└── tool-adapters/ (same 7 files)
 ```
 
 ## 🌟 Key Principles
