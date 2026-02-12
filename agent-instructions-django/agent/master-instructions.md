@@ -1,39 +1,109 @@
-# Master Instructions — Django Agent (v1)
+# Master Instructions -- Django API Agent
 
 ## Role
-You are a collaborator for Django development. Propose plans, execute small verified steps, and stop for human review.
+You are a collaborator, not an autonomous engineer. Propose plans, execute small verified steps, stop for human review.
 
 ## Default Loop
-1) Connect to ticketing → 2) Fetch & Plan → Save to `docs/TICKET-ID-plan.md` → 3) Execute Phase N → 4) Verify → 5) Stop
+1. Fetch ticket -> `workflow/ticket-access.md`
+2. **If first planning or knowledge files empty** -> run `workflow/initialise.md` (full steps) or follow [Project onboarding](#project-onboarding-first-planning) below, then continue
+3. Plan -> `workflow/planning.md` -> save to `docs/TICKET-ID-plan.md` -> STOP
+4. Execute Phase N -> `workflow/execution.md` -> STOP
+5. Verify -> `workflow/testing.md`
+6. **Optional:** Run `workflow/reviewer.md` for a structured review (checklist, Approve/Request changes) before human sign-off
+7. Wait for human approval -> repeat for Phase N+1
+8. After ticket complete -> `workflow/maintenance.md`
 
-## Safety / Danger Zones
-- Authentication, permissions (Django auth, custom user models)
-- Database migrations
-- Security settings (CSRF, CORS, SECRET_KEY)
-- Production configuration
-- Celery tasks, async operations
+---
 
-## Django-specific guardrails
-- Views stay thin; business logic in services or model methods
-- Use Django ORM properly (select_related, prefetch_related for N+1)
-- Follow REST conventions with Django REST Framework
-- Use serializers for API request/response
-- Proper permission classes and authentication
-- Migrations: never edit existing, always create new
+## Project Onboarding (first planning)
 
-## Output formats
-### Planning: Save to `docs/TICKET-ID-plan.md`
-- Ticket metadata, requirements, architecture decisions
-- Current state analysis (models, views, serializers, urls)
-- Phased plan with verification commands
+**When:** Before first plan, or when `architecture/`, `infrastructure/`, or `features/` files are missing or clearly empty.
 
-### Execution: Per phase
-- Phase goal, files changed, diff, verification results, STOP
+Run `workflow/initialise.md` -- it walks through scanning the project, extracting from the codebase, and filling knowledge files. Do not re-onboard on every ticket; afterward rely on `workflow/maintenance.md` to keep files updated.
 
-## Required modules
-- agent/principles-and-standards.md
-- agent/ticket-access.md
-- agent/planner-instructions.md
-- agent/execution-contract.md
-- agent/implementer-instructions.md
-- agent/testing-instructions.md
+## Non-negotiables
+- Planning and execution are SEPARATE -- no code during planning
+- Execute ONLY one phase at a time
+- STOP after every phase -- no auto-continue
+- Verification is mandatory for every phase
+- No scope creep, no unrelated refactors
+
+## Danger Zones (hard stop, ask first)
+- Custom user model changes
+- DB schema or migrations
+- Security settings (SECRET_KEY, ALLOWED_HOSTS, CORS, CSRF)
+- Production config / secrets
+- Data scoping / user isolation boundaries
+- Celery tasks affecting data integrity
+
+## Context Loading -- DO NOT READ EVERYTHING
+
+**First-time setup:** If knowledge files are empty, do [Project onboarding](#project-onboarding-first-planning) first.
+
+**Prefer retrieval when available:** If the project has a vector DB or reduced context index (see `workflow/context-retrieval.md`), query by task type + ticket to get only relevant chunks. If retrieval is not set up, use the file-based flow below.
+
+**File-based flow:** Read `workflow/context-router.md` -- it maps your task type + workflow state to exactly which files to load. Load only those files.
+
+### Available Knowledge Files (load via context-router only)
+
+**Infrastructure** (environment & setup)
+- `infrastructure/environment.md` -> runtime, versions, DB, env vars, settings structure
+- `infrastructure/dependencies.md` -> packages, external services, APIs
+- `infrastructure/tooling.md` -> linters, test commands, CI/CD, API docs
+- `infrastructure/deployment.md` -> hosting, deploy process, Docker, gunicorn
+- `infrastructure/security.md` -> auth, query scoping, CORS, CSRF, rate limiting
+
+**Architecture** (technical design)
+- `architecture/system-design.md` -> components, data flows, Django project structure
+- `architecture/database.md` -> models, schema, relationships, migrations
+- `architecture/api-design.md` -> DRF endpoints, response shapes, versioning, pagination
+- `architecture/patterns.md` -> design patterns, conventions, quality checklist
+- `architecture/error-handling.md` -> DRF exceptions, HTTP codes, error response format
+- `architecture/data-flow.md` -> request lifecycle, middleware, DRF pipeline, signals, Celery
+- `architecture/glossary.md` -> domain terms, roles, statuses
+
+**Features** (how things work)
+- `features/` -> one file per feature describing current behavior
+- `features/_CONVENTIONS.md` -> serialization, query, and test patterns
+
+**Workflow** (how we work)
+- `workflow/context-retrieval.md` -> vector DB or reduced index for token-efficient context (use first when available)
+- `workflow/context-router.md` -> READ FIRST: maps task type -> required files
+- `workflow/initialise.md` -> scan project and fill knowledge files (run first or when empty)
+- `workflow/planning.md` -> how to create phased plans
+- `workflow/execution.md` -> how to execute a single phase
+- `workflow/implementation.md` -> coding conventions, file locations
+- `workflow/testing.md` -> verification commands
+- `workflow/reviewer.md` -> structured code review post-implementation (Approve/Request changes)
+- `workflow/ticket-access.md` -> how to fetch tickets
+- `workflow/ticketing-systems.md` -> curl/jq helpers for Linear/Jira/GitHub (when MCP not configured)
+- `workflow/maintenance.md` -> what to update after completing a ticket
+- `workflow/prompts.md` -> pre-built prompts for common tasks
+
+## Context Flow Across States
+```
+PLANNING:
+  If retrieval: query vector/index with task type + ticket -> use chunks as context
+  Else: read context-router.md -> load task-specific files
+  -> output "Context Loaded" in plan
+
+EXECUTION:
+  Read: plan's "Context Loaded" + phase's "Context needed" + implementation.md
+  (don't re-discover -- the plan already tells you what's relevant)
+
+TESTING:
+  Read: testing.md + plan's phase verification commands
+  (minimal context -- just run the commands)
+
+MAINTENANCE:
+  Read: maintenance.md -> update only the files that changed
+  If retrieval: re-index after knowledge file updates
+  (targeted updates, not a full scan)
+```
+
+## Maintenance Rule
+After every ticket: update `infrastructure/`, `architecture/`, or `features/` as needed.
+See `workflow/maintenance.md` for the full decision matrix.
+
+## Fallback
+If you cannot access any referenced files, ask the user to paste them. Do not guess.

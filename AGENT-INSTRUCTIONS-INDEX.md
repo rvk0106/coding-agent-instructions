@@ -17,6 +17,7 @@ Drop-in, tool-agnostic instruction systems for using coding agents safely across
 - **[agent-instructions-python-lib](agent-instructions-python-lib/)** - Python library/package development
 - **[agent-instructions-node-lib](agent-instructions-node-lib/)** - Node.js library/package development
 - **[agent-instructions-ruby-gem](agent-instructions-ruby-gem/)** - Ruby gem development
+- **[agent-instructions-java-lib](agent-instructions-java-lib/)** - Java library development
 
 ## 🎯 What This Is
 
@@ -86,52 +87,59 @@ All frameworks follow the same workflow:
 
 ## 🧩 Repository Structure
 
-### Standard Structure (springboot, django, express, python-lib, node-lib)
-```
-agent-instructions-{framework}/
-├── README.md                    # Framework-specific documentation
-├── install.sh                   # Installation script
-├── LICENSE                      # GNU GPL v3.0
-├── agent/
-│   ├── master-instructions.md        # Main entry point
-│   ├── principles-and-standards.md   # Framework conventions
-│   ├── ticket-access.md              # How to fetch tickets
-│   ├── planner-instructions.md       # Planning workflow
-│   ├── execution-contract.md         # Execution rules
-│   ├── implementer-instructions.md   # Coding conventions
-│   ├── testing-instructions.md       # Verification steps
-│   └── examples/
-│       └── sample-ticket-plan.md     # Example plan
-└── tool-adapters/
-    ├── claude.md                     # Claude Code setup
-    ├── copilot.md                    # GitHub Copilot setup
-    ├── cursor.md                     # Cursor setup
-    ├── windsurf.md                   # Windsurf setup
-    ├── cline.md                      # Cline setup
-    ├── codex.md                      # OpenAI Codex CLI setup
-    └── chatgpt.md                    # ChatGPT setup
-```
+### Advanced Structure (all 9 frameworks)
 
-### Advanced Structure (rails-api, ruby-gem, react)
+All frameworks use the advanced 4-category subfolder structure:
+
+#### Backend API Frameworks (rails-api, springboot, django, express)
 ```
 agent-instructions-{framework}/
 ├── README.md, LICENSE, install.sh
 ├── agent/
 │   ├── master-instructions.md         # Compact index + context flow
-│   ├── architecture/                  # Technical design (system-design, patterns,
-│   │                                  #   error-handling, data-flow, glossary, +
-│   │                                  #   api-design/database [Rails] or public-api [Ruby Gem]
-│   │                                  #   or component-design/state-management/styling/
-│   │                                  #   accessibility [React])
-│   ├── infrastructure/                # Environment & setup (environment, dependencies,
-│   │                                  #   tooling, security, + deployment [Rails/React] or
-│   │                                  #   publishing [Ruby Gem])
-│   ├── workflow/                      # Process docs (context-router, planning, execution,
+│   ├── architecture/                  # system-design, database, api-design, patterns,
+│   │                                  #   error-handling, data-flow, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   deployment, security
+│   ├── workflow/                      # context-router, planning, execution,
 │   │                                  #   implementation, testing, maintenance, reviewer,
-│   │                                  #   ticket-access, ticketing-systems, prompts, +
-│   │                                  #   initialise, context-retrieval)
-│   ├── features/                      # Per-feature behavior docs (_TEMPLATE, _CONVENTIONS)
+│   │                                  #   ticket-access, ticketing-systems, prompts,
+│   │                                  #   initialise, context-retrieval
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS, per-feature docs
 │   └── examples/sample-ticket-plan.md # Example plan
+└── tool-adapters/ (same 7 files)
+```
+
+#### Frontend Framework (react — UI-oriented)
+```
+agent-instructions-react/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         # Compact index + context flow (UI-oriented)
+│   ├── architecture/                  # system-design, component-design,
+│   │                                  #   state-management, styling, patterns,
+│   │                                  #   error-handling, data-flow, accessibility, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   deployment, security
+│   ├── workflow/                      # (same as backend)
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS (UI-specific)
+│   └── examples/sample-ticket-plan.md
+└── tool-adapters/ (same 7 files)
+```
+
+#### Library Frameworks (ruby-gem, python-lib, node-lib, java-lib)
+```
+agent-instructions-{framework}/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         # Compact index + context flow
+│   ├── architecture/                  # system-design, public-api, patterns,
+│   │                                  #   error-handling, data-flow, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   publishing, security
+│   ├── workflow/                      # (same as backend)
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS
+│   └── examples/sample-ticket-plan.md
 └── tool-adapters/ (same 7 files)
 ```
 
@@ -176,7 +184,7 @@ agent-instructions-{framework}/
 - React Testing Library
 - Accessibility and responsive design
 
-### Python/Node/Ruby Libraries
+### Python/Node/Ruby/Java Libraries
 - Semantic versioning
 - Public API documentation
 - High test coverage
@@ -220,6 +228,7 @@ Contributions are welcome! For each repository:
 - [Python Library](https://github.com/rvk0106/agent-instructions-python-lib)
 - [Node.js Library](https://github.com/rvk0106/agent-instructions-node-lib)
 - [Ruby Gem](https://github.com/rvk0106/agent-instructions-ruby-gem)
+- [Java Library](https://github.com/rvk0106/agent-instructions-java-lib)
 
 ---
 
