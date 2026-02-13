@@ -20,6 +20,7 @@ Drop-in, tool-agnostic instruction systems for using coding agents safely across
 - **[agent-instructions-python-lib](agent-instructions-python-lib/)** - Python library/package development
 - **[agent-instructions-node-lib](agent-instructions-node-lib/)** - Node.js library/package development
 - **[agent-instructions-ruby-gem](agent-instructions-ruby-gem/)** - Ruby gem development
+- **[agent-instructions-java-lib](agent-instructions-java-lib/)** - Java library/package development
 
 ## 🎯 What This Is
 
@@ -85,6 +86,9 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 
 # Ruby Gem
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-ruby-gem/install.sh | bash -s .
+
+# Java Library
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-java-lib/install.sh | bash -s .
 ```
 
 Or clone and run locally:
@@ -155,45 +159,35 @@ All frameworks follow the same workflow:
 
 ## 🧩 Repository Structure
 
-### Standard Structure (7 frameworks)
-Used by: Spring Boot, Django, Express, React, Python-Lib, Node-Lib, Ruby-Gem
+All 10 frameworks use the same 4-category subfolder structure, organized for minimal token usage:
+
+### Backend API Frameworks (Rails API, Spring Boot, Django, Express)
 ```
 agent-instructions-{framework}/
 ├── README.md, install.sh, LICENSE
 ├── agent/
-│   ├── master-instructions.md        # Main entry point
-│   ├── principles-and-standards.md   # Coding conventions
-│   ├── planner-instructions.md       # Planning rules
-│   ├── execution-contract.md         # Execution discipline
-│   ├── implementer-instructions.md   # Implementation patterns
-│   ├── testing-instructions.md       # Verification commands
-│   ├── ticket-access.md              # Ticket fetching
-│   └── examples/sample-ticket-plan.md
-└── tool-adapters/                    # Per-agent setup guides
-    ├── claude.md, copilot.md, cursor.md, windsurf.md
-    ├── cline.md, codex.md, chatgpt.md
-```
-
-### Advanced Structure (Rails API — target for all frameworks)
-Organized into 4 knowledge categories for minimal token usage:
-```
-agent-instructions-rails-api/
-├── README.md, install.sh, LICENSE
-├── agent/
 │   ├── master-instructions.md        # Compact index + context router
-│   ├── architecture/                 # System design, DB, API, patterns,
-│   │                                   error handling, data flow, glossary
-│   ├── infrastructure/               # Environment, dependencies, tooling,
+│   ├── fetch-ticket.sh               # Ticket fetching utility (Linear/Jira/GitHub)
+│   ├── architecture/                 # system-design, database, api-design,
+│   │                                   patterns, error-handling, data-flow, glossary
+│   ├── infrastructure/               # environment, dependencies, tooling,
 │   │                                   deployment, security
-│   ├── workflow/                     # Context router, planning, execution,
+│   ├── workflow/                      # context-router, planning, execution,
 │   │                                   implementation, testing, maintenance,
-│   │                                   ticket access, pre-built prompts
-│   ├── features/                     # Template, conventions, per-feature docs
+│   │                                   ticket-access, ticketing-systems, prompts
+│   ├── features/                     # _TEMPLATE, _CONVENTIONS, per-feature docs
 │   └── examples/sample-ticket-plan.md
-└── tool-adapters/                    # Per-agent setup guides (same 7 files)
+└── tool-adapters/                    # Per-agent setup guides (7 files)
 ```
 
-> See [MIGRATION-TEMPLATE.md](MIGRATION-TEMPLATE.md) for how to migrate any framework from Standard to Advanced structure.
+### Full-Stack Framework (Rails)
+Same as backend API, plus `views.md` and `routing.md` in architecture/.
+
+### Frontend Framework (React)
+Same structure, with `component-design.md`, `state-management.md`, `styling.md`, and `accessibility.md` in architecture/.
+
+### Library Frameworks (Python Lib, Node Lib, Ruby Gem, Java Lib)
+Same structure, with `public-api.md` in architecture/ and `publishing.md` in infrastructure/.
 
 ## 🌟 Key Principles
 
@@ -242,7 +236,7 @@ agent-instructions-rails-api/
 - React Testing Library
 - Accessibility and responsive design
 
-### Python/Node/Ruby Libraries
+### Python/Node/Ruby/Java Libraries
 - Semantic versioning
 - Public API documentation
 - High test coverage
@@ -286,6 +280,7 @@ Contributions are welcome!
 - [Python Library](./agent-instructions-python-lib/)
 - [Node.js Library](./agent-instructions-node-lib/)
 - [Ruby Gem](./agent-instructions-ruby-gem/)
+- [Java Library](./agent-instructions-java-lib/)
 
 ---
 
