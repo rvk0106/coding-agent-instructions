@@ -1,7 +1,7 @@
 # Agent Instructions — Meta-Repo Shorthand
 
 ## What This Repo Is
-Template collection: 9 framework-specific agent instruction sets that get installed into target projects via `install.sh`. NOT an application — no runtime, no tests, no build.
+Template collection: 10 framework-specific agent instruction sets that get installed into target projects via `install.sh`. NOT an application — no runtime, no tests, no build.
 
 ## Repo Map
 ```
@@ -15,23 +15,42 @@ Root docs:
   docs/AGENT-COMPATIBILITY.md  — per-agent setup details + uninstall steps
   tool-adapters/               — root-level generic adapter docs (5 files)
 
-9 Framework dirs (all ADVANCED 4-category subfolder structure):
-  agent-instructions-rails-api/    ← ADVANCED: backend API (Ruby/Rails)
-  agent-instructions-springboot/   ← ADVANCED: backend API (Java/Spring)
-  agent-instructions-django/       ← ADVANCED: backend API (Python/Django)
-  agent-instructions-express/      ← ADVANCED: backend API (Node.js/Express)
-  agent-instructions-react/        ← ADVANCED: frontend (React, UI-oriented)
-  agent-instructions-ruby-gem/     ← ADVANCED: library (Ruby/RubyGems)
-  agent-instructions-python-lib/   ← ADVANCED: library (Python/PyPI)
-  agent-instructions-node-lib/     ← ADVANCED: library (Node.js/npm)
-  agent-instructions-java-lib/     ← ADVANCED: library (Java/Maven Central)
+10 Framework dirs (all ADVANCED 4-category subfolder structure):
+  agent-instructions-rails/          ← ADVANCED: full-stack (Ruby/Rails + views/Turbo/Stimulus)
+  agent-instructions-rails-api/      ← ADVANCED: backend API (Ruby/Rails)
+  agent-instructions-springboot/     ← ADVANCED: backend API (Java/Spring)
+  agent-instructions-django/         ← ADVANCED: backend API (Python/Django)
+  agent-instructions-express/        ← ADVANCED: backend API (Node.js/Express)
+  agent-instructions-react/          ← ADVANCED: frontend (React, UI-oriented)
+  agent-instructions-ruby-gem/       ← ADVANCED: library (Ruby/RubyGems)
+  agent-instructions-python-lib/     ← ADVANCED: library (Python/PyPI)
+  agent-instructions-node-lib/       ← ADVANCED: library (Node.js/npm)
+  agent-instructions-java-lib/       ← ADVANCED: library (Java/Maven Central)
 ```
 
 ## Framework Directory Structures
 
-All 9 frameworks use the ADVANCED 4-category subfolder structure:
+All 10 frameworks use the ADVANCED 4-category subfolder structure:
 
-### Backend API Frameworks (Rails, Spring Boot, Django, Express)
+### Full-Stack Framework (Rails — views/Turbo/Stimulus)
+```
+agent-instructions-rails/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         — compact index + context flow
+│   ├── architecture/                  — system-design, database, views, routing,
+│   │                                    patterns, error-handling, data-flow, glossary
+│   ├── infrastructure/                — environment, dependencies, tooling,
+│   │                                    deployment, security
+│   ├── workflow/                      — context-router, planning, execution,
+│   │                                    implementation, testing, maintenance,
+│   │                                    ticket-access, ticketing-systems, prompts
+│   ├── features/                      — _TEMPLATE, _CONVENTIONS, per-feature docs
+│   └── examples/sample-ticket-plan.md
+└── tool-adapters/ (same 7 files)
+```
+
+### Backend API Frameworks (Rails API, Spring Boot, Django, Express)
 ```
 agent-instructions-{fw}/
 ├── README.md, LICENSE, install.sh
@@ -140,8 +159,8 @@ UPDATE: CLAUDE.md — add to framework list
 ### Update install.sh across all frameworks
 ```
 READ: Any one install.sh fully (e.g. agent-instructions-rails-api/install.sh)
-PATTERN: All 9 install.sh follow identical structure
-CHANGE: Apply same edit to all 9 files
+PATTERN: All 10 install.sh follow identical structure
+CHANGE: Apply same edit to all 10 files
 VERIFY: Check AGENT_INSTRUCTIONS var, append_block_if_missing calls
 ```
 
@@ -149,8 +168,8 @@ VERIFY: Check AGENT_INSTRUCTIONS var, append_block_if_missing calls
 ```
 READ: MULTI-AGENT-SUPPORT.md — current matrix
 READ: Any one install.sh — see AGENT_INSTRUCTIONS + config file writes
-CHANGE: Add new config file write to all 9 install.sh
-CHANGE: Add tool-adapters/{agent}.md to all 9 frameworks
+CHANGE: Add new config file write to all 10 install.sh
+CHANGE: Add tool-adapters/{agent}.md to all 10 frameworks
 UPDATE: MULTI-AGENT-SUPPORT.md — add to matrix
 ```
 
@@ -162,7 +181,7 @@ CROSS-CHECK: Other root docs for consistency
 ```
 
 ## Quality Checklist
-- [ ] All 9 frameworks stay in sync for structural changes
+- [ ] All 10 frameworks stay in sync for structural changes
 - [ ] install.sh uses correct framework name (not copy-paste errors)
 - [ ] AGENT_INSTRUCTIONS block is framework-specific
 - [ ] tool-adapters/ has all 7 agent files per framework

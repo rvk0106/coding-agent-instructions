@@ -1,0 +1,13 @@
+# Infrastructure
+
+Pre-indexed project environment knowledge. Update these files when infrastructure changes.
+
+| File | Covers |
+|------|--------|
+| [environment.md](environment.md) | Ruby/Rails versions, OS, runtime, asset pipeline |
+| [dependencies.md](dependencies.md) | Gems, external services, APIs |
+| [tooling.md](tooling.md) | Linters, test runners, CI/CD |
+| [deployment.md](deployment.md) | Hosting, deploy process, envs |
+| [security.md](security.md) | Auth, CSRF, XSS, query scoping, headers, rate limiting |
+
+> Update rule: Tag changes with ticket ID (e.g. `[PROJ-123] Added Redis 7.x`)

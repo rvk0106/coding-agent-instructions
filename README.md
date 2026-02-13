@@ -4,7 +4,10 @@ Drop-in, tool-agnostic instruction systems for using coding agents safely across
 
 ## 📦 Available Frameworks
 
-### Backend Frameworks
+### Full-Stack Frameworks
+- **[agent-instructions-rails](agent-instructions-rails/)** - Ruby on Rails full-stack development (views, Turbo/Hotwire, Stimulus)
+
+### Backend API Frameworks
 - **[agent-instructions-rails-api](agent-instructions-rails-api/)** - Ruby on Rails API development
 - **[agent-instructions-springboot](agent-instructions-springboot/)** - Spring Boot Java applications
 - **[agent-instructions-django](agent-instructions-django/)** - Django Python web framework
@@ -56,6 +59,9 @@ Pick the directory matching your project type from the list above.
 **One command** from your project root — creates `agent/` instructions + config files for 6 agents (ChatGPT requires manual paste):
 
 ```bash
+# Rails (Full-Stack)
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/install.sh | bash -s .
+
 # Rails API
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/install.sh | bash -s .
 
@@ -200,7 +206,13 @@ agent-instructions-rails-api/
 
 ## 🛠️ Framework-Specific Features
 
-### Rails
+### Rails (Full-Stack)
+- Views with ERB/Haml, Turbo Drive/Frames/Streams, Stimulus
+- Controllers thin, business logic in services
+- System specs (Capybara) + request specs + model specs
+- Strong parameters, CSRF protection, XSS prevention
+
+### Rails API
 - Controllers thin, business logic in services
 - Strong parameters, consistent API responses
 - RSpec tests, RuboCop compliance
@@ -265,6 +277,7 @@ Contributions are welcome!
 
 ## 🔗 Direct Links to Frameworks
 
+- [Rails (Full-Stack)](./agent-instructions-rails/)
 - [Rails API](./agent-instructions-rails-api/)
 - [Spring Boot](./agent-instructions-springboot/)
 - [Django](./agent-instructions-django/)
