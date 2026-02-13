@@ -4,7 +4,10 @@ Drop-in, tool-agnostic instruction systems for using coding agents safely across
 
 ## 📦 Available Frameworks
 
-### Backend Frameworks
+### Full-Stack Frameworks
+- **[agent-instructions-rails](agent-instructions-rails/)** - Ruby on Rails full-stack development (views, Turbo/Hotwire, Stimulus)
+
+### Backend API Frameworks
 - **[agent-instructions-rails-api](agent-instructions-rails-api/)** - Ruby on Rails API development
 - **[agent-instructions-springboot](agent-instructions-springboot/)** - Spring Boot Java applications
 - **[agent-instructions-django](agent-instructions-django/)** - Django Python web framework
@@ -87,9 +90,28 @@ All frameworks follow the same workflow:
 
 ## 🧩 Repository Structure
 
-### Advanced Structure (all 9 frameworks)
+### Advanced Structure (all 10 frameworks)
 
 All frameworks use the advanced 4-category subfolder structure:
+
+#### Full-Stack Framework (rails — views/Turbo/Stimulus)
+```
+agent-instructions-rails/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         # Compact index + context flow
+│   ├── architecture/                  # system-design, database, views, routing,
+│   │                                  #   patterns, error-handling, data-flow, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   deployment, security
+│   ├── workflow/                      # context-router, planning, execution,
+│   │                                  #   implementation, testing, maintenance, reviewer,
+│   │                                  #   ticket-access, ticketing-systems, prompts,
+│   │                                  #   initialise, context-retrieval
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS, per-feature docs
+│   └── examples/sample-ticket-plan.md # Example plan
+└── tool-adapters/ (same 7 files)
+```
 
 #### Backend API Frameworks (rails-api, springboot, django, express)
 ```
@@ -154,7 +176,13 @@ agent-instructions-{framework}/
 
 ## 🛠️ Framework-Specific Features
 
-### Rails
+### Rails (Full-Stack)
+- Views with ERB/Haml, Turbo Drive/Frames/Streams, Stimulus
+- Controllers thin, business logic in services
+- System specs (Capybara) + request specs + model specs
+- Strong parameters, CSRF protection, XSS prevention
+
+### Rails API
 - Controllers thin, business logic in services
 - Strong parameters, consistent API responses
 - RSpec tests, RuboCop compliance
@@ -220,6 +248,7 @@ Contributions are welcome! For each repository:
 
 ## 🔗 Links
 
+- [Rails (Full-Stack)](https://github.com/rvk0106/agent-instructions-rails)
 - [Rails API](https://github.com/rvk0106/agent-instructions-rails-api)
 - [Spring Boot](https://github.com/rvk0106/agent-instructions-springboot)
 - [Django](https://github.com/rvk0106/agent-instructions-django)
