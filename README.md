@@ -20,6 +20,7 @@ Drop-in, tool-agnostic instruction systems for using coding agents safely across
 - **[agent-instructions-python-lib](agent-instructions-python-lib/)** - Python library/package development
 - **[agent-instructions-node-lib](agent-instructions-node-lib/)** - Node.js library/package development
 - **[agent-instructions-ruby-gem](agent-instructions-ruby-gem/)** - Ruby gem development
+- **[agent-instructions-java-lib](agent-instructions-java-lib/)** - Java library development
 
 ## 🎯 What This Is
 
@@ -85,6 +86,9 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 
 # Ruby Gem
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-ruby-gem/install.sh | bash -s .
+
+# Java Library
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-java-lib/install.sh | bash -s .
 ```
 
 Or clone and run locally:
@@ -155,45 +159,76 @@ All frameworks follow the same workflow:
 
 ## 🧩 Repository Structure
 
-### Standard Structure (7 frameworks)
-Used by: Spring Boot, Django, Express, React, Python-Lib, Node-Lib, Ruby-Gem
+All 10 frameworks use the advanced 4-category subfolder structure, organized for minimal token usage:
+
+### Full-Stack Framework (Rails — views/Turbo/Stimulus)
+```
+agent-instructions-rails/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         # Compact index + context flow
+│   ├── architecture/                  # system-design, database, views, routing,
+│   │                                  #   patterns, error-handling, data-flow, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   deployment, security
+│   ├── workflow/                      # context-router, planning, execution,
+│   │                                  #   implementation, testing, maintenance,
+│   │                                  #   ticket-access, ticketing-systems, prompts
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS, per-feature docs
+│   └── examples/sample-ticket-plan.md
+└── tool-adapters/ (same 7 files)
+```
+
+### Backend API Frameworks (Rails API, Spring Boot, Django, Express)
 ```
 agent-instructions-{framework}/
-├── README.md, install.sh, LICENSE
+├── README.md, LICENSE, install.sh
 ├── agent/
-│   ├── master-instructions.md        # Main entry point
-│   ├── principles-and-standards.md   # Coding conventions
-│   ├── planner-instructions.md       # Planning rules
-│   ├── execution-contract.md         # Execution discipline
-│   ├── implementer-instructions.md   # Implementation patterns
-│   ├── testing-instructions.md       # Verification commands
-│   ├── ticket-access.md              # Ticket fetching
+│   ├── master-instructions.md         # Compact index + context flow
+│   ├── architecture/                  # system-design, database, api-design, patterns,
+│   │                                  #   error-handling, data-flow, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   deployment, security
+│   ├── workflow/                      # context-router, planning, execution,
+│   │                                  #   implementation, testing, maintenance,
+│   │                                  #   ticket-access, ticketing-systems, prompts
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS, per-feature docs
 │   └── examples/sample-ticket-plan.md
-└── tool-adapters/                    # Per-agent setup guides
-    ├── claude.md, copilot.md, cursor.md, windsurf.md
-    ├── cline.md, codex.md, chatgpt.md
+└── tool-adapters/ (same 7 files)
 ```
 
-### Advanced Structure (Rails API — target for all frameworks)
-Organized into 4 knowledge categories for minimal token usage:
+### Frontend Framework (React — UI-oriented)
 ```
-agent-instructions-rails-api/
-├── README.md, install.sh, LICENSE
+agent-instructions-react/
+├── README.md, LICENSE, install.sh
 ├── agent/
-│   ├── master-instructions.md        # Compact index + context router
-│   ├── architecture/                 # System design, DB, API, patterns,
-│   │                                   error handling, data flow, glossary
-│   ├── infrastructure/               # Environment, dependencies, tooling,
-│   │                                   deployment, security
-│   ├── workflow/                     # Context router, planning, execution,
-│   │                                   implementation, testing, maintenance,
-│   │                                   ticket access, pre-built prompts
-│   ├── features/                     # Template, conventions, per-feature docs
+│   ├── master-instructions.md         # Compact index + context flow (UI-oriented)
+│   ├── architecture/                  # system-design, component-design,
+│   │                                  #   state-management, styling, patterns,
+│   │                                  #   error-handling, data-flow, accessibility, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   deployment, security
+│   ├── workflow/                      # (same as backend)
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS (UI-specific)
 │   └── examples/sample-ticket-plan.md
-└── tool-adapters/                    # Per-agent setup guides (same 7 files)
+└── tool-adapters/ (same 7 files)
 ```
 
-> See [MIGRATION-TEMPLATE.md](MIGRATION-TEMPLATE.md) for how to migrate any framework from Standard to Advanced structure.
+### Library Frameworks (Ruby Gem, Python Lib, Node Lib, Java Lib)
+```
+agent-instructions-{framework}/
+├── README.md, LICENSE, install.sh
+├── agent/
+│   ├── master-instructions.md         # Compact index + context flow
+│   ├── architecture/                  # system-design, public-api, patterns,
+│   │                                  #   error-handling, data-flow, glossary
+│   ├── infrastructure/                # environment, dependencies, tooling,
+│   │                                  #   publishing, security
+│   ├── workflow/                      # (same as backend)
+│   ├── features/                      # _TEMPLATE, _CONVENTIONS
+│   └── examples/sample-ticket-plan.md
+└── tool-adapters/ (same 7 files)
+```
 
 ## 🌟 Key Principles
 
@@ -242,7 +277,7 @@ agent-instructions-rails-api/
 - React Testing Library
 - Accessibility and responsive design
 
-### Python/Node/Ruby Libraries
+### Python/Node/Ruby/Java Libraries
 - Semantic versioning
 - Public API documentation
 - High test coverage
@@ -286,6 +321,7 @@ Contributions are welcome!
 - [Python Library](./agent-instructions-python-lib/)
 - [Node.js Library](./agent-instructions-node-lib/)
 - [Ruby Gem](./agent-instructions-ruby-gem/)
+- [Java Library](./agent-instructions-java-lib/)
 
 ---
 
