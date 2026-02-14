@@ -59,6 +59,51 @@ Pick the directory matching your project type from the list above.
 
 **One command** from your project root — creates `agent/` instructions + config files for 6 agents (ChatGPT requires manual paste):
 
+#### Quick Install (recommended)
+
+Clones only the framework you need, runs `install.sh`, and cleans up automatically:
+
+```bash
+# Rails (Full-Stack)
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/quick-install.sh | bash
+
+# Rails API
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails-api/quick-install.sh | bash
+
+# Spring Boot
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-springboot/quick-install.sh | bash
+
+# Django
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-django/quick-install.sh | bash
+
+# Express.js
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-express/quick-install.sh | bash
+
+# React
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-react/quick-install.sh | bash
+
+# Python Library
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-python-lib/quick-install.sh | bash
+
+# Node.js Library
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-node-lib/quick-install.sh | bash
+
+# Ruby Gem
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-ruby-gem/quick-install.sh | bash
+
+# Java Library
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-java-lib/quick-install.sh | bash
+```
+
+Install into a specific directory:
+```bash
+curl -fsSL https://raw.githubusercontent.com/.../quick-install.sh | bash -s /path/to/your/project
+```
+
+#### Direct Install (alternative)
+
+Runs `install.sh` directly — requires the repo to already be cloned or the script to be piped:
+
 ```bash
 # Rails (Full-Stack)
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-rails/install.sh | bash -s .
