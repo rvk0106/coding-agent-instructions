@@ -55,9 +55,31 @@ See [MULTI-AGENT-SUPPORT.md](MULTI-AGENT-SUPPORT.md) for the full compatibility 
 ### 1. Choose Your Framework
 Pick the directory matching your project type from the list above.
 
-### 2. Install
+### 2. Quick Install
 
-**One command** from your project root — creates `agent/` instructions + config files for 6 agents (ChatGPT requires manual paste):
+Run **one command** from your project root — replace `<framework>` with your choice from the table below:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-<framework>/install.sh | bash -s .
+```
+
+| `<framework>` value | Project type |
+|---------------------|--------------|
+| `rails` | Rails Full-Stack (views/Turbo/Stimulus) |
+| `rails-api` | Rails API |
+| `springboot` | Spring Boot |
+| `django` | Django |
+| `express` | Express.js |
+| `react` | React |
+| `python-lib` | Python Library |
+| `node-lib` | Node.js Library |
+| `ruby-gem` | Ruby Gem |
+| `java-lib` | Java Library |
+
+This creates `agent/` instructions + config files for 6 agents (ChatGPT requires manual paste).
+
+<details>
+<summary><strong>Full install commands (click to expand)</strong></summary>
 
 ```bash
 # Rails (Full-Stack)
@@ -91,10 +113,12 @@ curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/m
 curl -fsSL https://raw.githubusercontent.com/rvk0106/coding-agent-instructions/main/agent-instructions-java-lib/install.sh | bash -s .
 ```
 
+</details>
+
 Or clone and run locally:
 ```bash
 git clone https://github.com/rvk0106/coding-agent-instructions.git
-cd coding-agent-instructions/agent-instructions-rails-api  # or your framework
+cd coding-agent-instructions/agent-instructions-<framework>
 ./install.sh /path/to/your/project
 ```
 
